@@ -20,7 +20,7 @@ class TeleBrownClient extends TeleBrownClientAbstract
 			return "";
 		}
 
-		$message = "\n[" . date("d.m.Y H:i:s") . "] ==- Incoming Response Data -==" . json_decode($response, true) . PHP_EOL;
+		$message = "\n[" . date("d.m.Y H:i:s") . "] ==- Incoming Response Data -== " . print_r(json_decode($response, true), true) . PHP_EOL;
 		if (self::$debug) error_log($message);
 
 		return (string)$response ?? "";
