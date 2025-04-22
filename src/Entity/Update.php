@@ -198,12 +198,16 @@ class Update
 					 $this->getChatBoost(),
 					 $this->getRemovedChatBoost(),
 				 ] as $object) {
+			error_log("getChat() check for " . get_debug_type($object));
 			if (is_object($object) && method_exists($object, "getChat")) {
 				$chat = $object->getChat();
+				error_log("getChat() success: " . get_class($object));
+				error_log("Chat content: " . print_r($chat, true));
 				if (!empty($chat)) return $chat;
 			}
 		}
 
+		error_log("getChat() failed to find any valid chat");
 		return null;
 	}
 
