@@ -192,7 +192,7 @@ class Update
 				yield $this->getMessage();
 //				yield $this->getMessageReaction();
 //				yield $this->getMessageReactionCount();
-//				yield $this->getCallbackQuery()?->getMessage();
+				yield $this->getCallbackQuery()?->getMessage();
 //				yield $this->getMyChatMember();
 //				yield $this->getChatMember();
 //				yield $this->getChatJoinRequest();
