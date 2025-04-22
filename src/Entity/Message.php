@@ -32,6 +32,7 @@ class Message extends MaybeInaccessibleMessage
 	public function getType(): ?MessageTypesEnum
 	{
 		return match (true) {
+			!empty($this->getText()) => MessageTypesEnum::TEXT,
 			!empty($this->getAudio()) => MessageTypesEnum::AUDIO,
 			!empty($this->getDocument()) => MessageTypesEnum::DOCUMENT,
 			!empty($this->getAnimation()) => MessageTypesEnum::ANIMATION,
@@ -72,7 +73,6 @@ class Message extends MaybeInaccessibleMessage
 			!empty($this->getVideoChatStarted()) => MessageTypesEnum::VIDEO_CHAT_STARTED,
 			!empty($this->getVideoChatEnded()) => MessageTypesEnum::VIDEO_CHAT_ENDED,
 			!empty($this->getVideoChatParticipantsInvited()) => MessageTypesEnum::VIDEO_CHAT_PARTICIPANTS_INVITED,
-			!empty($this->getText()) => MessageTypesEnum::TEXT,
 			default => null
 		};
 	}
