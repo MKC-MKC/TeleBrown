@@ -213,4 +213,111 @@ class Update
 		return null;
 	}
 
+	/**
+	 * Метод возвращает актуальный объект пользователя.
+	 *
+	 * @return User|null
+	 */
+	public function getUser(): ?User
+	{
+		foreach (
+			(function (): Generator {
+				yield $this->getMessage();
+				yield $this->getEditedMessage();
+				yield $this->getChannelPost();
+				yield $this->getEditedChannelPost();
+				yield $this->getBusinessConnection();
+				yield $this->getBusinessMessage();
+				yield $this->getEditedBusinessMessage();
+				yield $this->getDeletedBusinessMessages();
+				yield $this->getMessageReaction();
+				yield $this->getMessageReactionCount();
+				yield $this->getInlineQuery();
+				yield $this->getChosenInlineResult();
+				yield $this->getCallbackQuery();
+				yield $this->getShippingQuery();
+				yield $this->getPreCheckoutQuery();
+				yield $this->getPurchasedPaidMedia();
+				yield $this->getPoll();
+				yield $this->getPollAnswer();
+				yield $this->getMyChatMember();
+				yield $this->getChatMember();
+				yield $this->getChatJoinRequest();
+				yield $this->getChatBoost();
+				yield $this->getRemovedChatBoost();
+			})
+			() as $object) {
+			foreach (["getFrom", "getUser"] as $method) {
+				if (is_object($object) && method_exists($object, $method)) {
+					$user = $object->$method();
+					if (!empty($user?->getAsArray())) return $user;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Метод возвращает актуальный объект сообщения.
+	 *
+	 * @return User|null
+	 */
+	public function getActualMessage(): ?Message
+	{
+		foreach (
+			(function (): Generator {
+				yield $this->getMessage();
+				yield $this->getEditedMessage();
+				yield $this->getChannelPost();
+				yield $this->getEditedChannelPost();
+				yield $this->getBusinessMessage();
+				yield $this->getEditedBusinessMessage();
+				yield $this->getCallbackQuery()?->getMessage();
+			})
+			() as $message) {
+			if (!empty($message?->getAsArray())) {
+				return $message;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Метод возвращает актуальное время запроса в (int)UNIX-формате.
+	 *
+	 * @return int|null
+	 */
+	public function getDate(): ?int
+	{
+		foreach (
+			(function (): Generator {
+				yield $this->getMessage();
+				yield $this->getEditedMessage();
+				yield $this->getChannelPost();
+				yield $this->getEditedChannelPost();
+				yield $this->getBusinessConnection();
+				yield $this->getBusinessMessage();
+				yield $this->getEditedBusinessMessage();
+				yield $this->getMessageReaction();
+				yield $this->getMessageReactionCount();
+				yield $this->getMyChatMember();
+				yield $this->getChatMember();
+				yield $this->getChatJoinRequest();
+			})
+			() as $object) {
+			foreach (["getDate", "getEditDate", "getEditDateTime"] as $method) {
+				if (is_object($object) && method_exists($object, $method)) {
+					$value = $object->$method();
+					if (!empty($value)) {
+						return (int)$value;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
 }
