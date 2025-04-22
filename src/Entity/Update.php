@@ -250,7 +250,7 @@ class Update
 			foreach (["getFrom", "getUser"] as $method) {
 				if (is_object($object) && method_exists($object, $method)) {
 					$user = $object->$method();
-					if (!empty($user?->getAsArray())) return $user;
+					if (!empty($user->getId())) return $user;
 				}
 			}
 		}
@@ -276,9 +276,7 @@ class Update
 				yield $this->getCallbackQuery()?->getMessage();
 			})
 			() as $message) {
-			if (!empty($message?->getAsArray())) {
-				return $message;
-			}
+			if (!empty($message->getId())) return $message;
 		}
 
 		return null;
@@ -310,9 +308,7 @@ class Update
 			foreach (["getDate", "getEditDate", "getEditDateTime"] as $method) {
 				if (is_object($object) && method_exists($object, $method)) {
 					$value = $object->$method();
-					if (!empty($value)) {
-						return (int)$value;
-					}
+					if (!empty($value)) return (int)$value;
 				}
 			}
 		}
