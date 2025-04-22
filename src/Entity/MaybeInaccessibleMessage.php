@@ -13,7 +13,9 @@ abstract class MaybeInaccessibleMessage
 
 	public static function getMessage(array $response): self
 	{
-		return $response["date"] === 0 ? new InaccessibleMessage($response) : new Message($response);
+		return isset($response["date"]) && $response["date"] !== 0
+			? new Message($response)
+			: new InaccessibleMessage($response);
 	}
 
 }
