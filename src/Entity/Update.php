@@ -185,7 +185,7 @@ class Update
 		foreach (
 			(function (): Generator {
 				yield $this->getChannelPost();
-//				yield $this->getEditedChannelPost();
+				yield $this->getEditedChannelPost();
 //				yield $this->getBusinessMessage();
 //				yield $this->getEditedBusinessMessage();
 //				yield $this->getDeletedBusinessMessages();
