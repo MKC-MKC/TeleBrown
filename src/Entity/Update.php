@@ -181,34 +181,21 @@ class Update
 
 	public function getChat(): ?Chat
 	{
-		foreach ([
-					 $this->getMessage(),
-					 $this->getEditedMessage(),
-					 $this->getChannelPost(),
-					 $this->getEditedChannelPost(),
-					 $this->getBusinessMessage(),
-					 $this->getEditedBusinessMessage(),
-					 $this->getDeletedBusinessMessages(),
-					 $this->getMessageReaction(),
-					 $this->getMessageReactionCount(),
-					 $this->getCallbackQuery()?->getMessage(),
-					 $this->getMyChatMember(),
-					 $this->getChatMember(),
-					 $this->getChatJoinRequest(),
-					 $this->getChatBoost(),
-					 $this->getRemovedChatBoost(),
-				 ] as $object) {
-			error_log("getChat() check for " . get_debug_type($object));
-			if (is_object($object) && method_exists($object, "getChat")) {
-				$chat = $object->getChat();
-				error_log("getChat() success: " . get_class($object));
-				error_log("Chat content: " . print_r($chat, true));
-				if (!empty($chat)) return $chat;
-			}
-		}
-
-		error_log("getChat() failed to find any valid chat");
-		return null;
+		return $this->getMessage()?->getChat()
+			?? $this->getEditedMessage()?->getChat()
+			?? $this->getChannelPost()?->getChat()
+			?? $this->getEditedChannelPost()?->getChat()
+			?? $this->getBusinessMessage()?->getChat()
+			?? $this->getEditedBusinessMessage()?->getChat()
+//			?? $this->getDeletedBusinessMessages()?->getChat()
+//			?? $this->getMessageReaction()?->getChat()
+//			?? $this->getMessageReactionCount()?->getChat()
+			?? $this->getCallbackQuery()?->getMessage()?->getChat();
+//			?? $this->getMyChatMember()?->getChat()
+//			?? $this->getChatMember()?->getChat()
+//			?? $this->getChatJoinRequest()?->getChat()
+//			?? $this->getChatBoost()?->getChat()
+//			?? $this->getRemovedChatBoost()?->getChat();
 	}
 
 }
