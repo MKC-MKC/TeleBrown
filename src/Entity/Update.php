@@ -186,8 +186,8 @@ class Update
 			(function (): Generator {
 				yield $this->getChannelPost();
 				yield $this->getEditedChannelPost();
-//				yield $this->getBusinessMessage();
-//				yield $this->getEditedBusinessMessage();
+				yield $this->getBusinessMessage();
+				yield $this->getEditedBusinessMessage();
 //				yield $this->getDeletedBusinessMessages();
 				yield $this->getMessage();
 //				yield $this->getMessageReaction();
