@@ -185,14 +185,14 @@ class Update
 		foreach (
 			(function (): Generator {
 				yield $this->getChannelPost();
-				yield $this->getEditedChannelPost();
-				yield $this->getBusinessMessage();
-				yield $this->getEditedBusinessMessage();
+//				yield $this->getEditedChannelPost();
+//				yield $this->getBusinessMessage();
+//				yield $this->getEditedBusinessMessage();
 //				yield $this->getDeletedBusinessMessages();
 				yield $this->getMessage();
 //				yield $this->getMessageReaction();
 //				yield $this->getMessageReactionCount();
-				yield $this->getCallbackQuery()?->getMessage();
+//				yield $this->getCallbackQuery()?->getMessage();
 //				yield $this->getMyChatMember();
 //				yield $this->getChatMember();
 //				yield $this->getChatJoinRequest();
