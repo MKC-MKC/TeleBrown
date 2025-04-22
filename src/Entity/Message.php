@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Haikiri\TeleBrown\Entity;
 
 use DateTimeImmutable;
+use Haikiri\TeleBrown\Enums\MessageTypesEnum;
 
 /**
  * Message – This object represents a message.
@@ -34,6 +35,59 @@ class Message extends MaybeInaccessibleMessage
 	{
 		$data = $this->getAsArray();
 		return array_key_exists($key, $data) ? $data[$key] : null;
+	}
+
+	/**
+	 * Метод возвращает тип сообщения.
+	 *
+	 * @return MessageTypesEnum|null
+	 */
+	public function getType(): ?MessageTypesEnum
+	{
+		return match (true) {
+			!empty($this->getAudio()) => MessageTypesEnum::AUDIO,
+			!empty($this->getDocument()) => MessageTypesEnum::DOCUMENT,
+			!empty($this->getAnimation()) => MessageTypesEnum::ANIMATION,
+			!empty($this->getGame()) => MessageTypesEnum::GAME,
+			!empty($this->getPhoto()) => MessageTypesEnum::PHOTO,
+			!empty($this->getSticker()) => MessageTypesEnum::STICKER,
+			!empty($this->getVideo()) => MessageTypesEnum::VIDEO,
+			!empty($this->getVoice()) => MessageTypesEnum::VOICE,
+			!empty($this->getVideoNote()) => MessageTypesEnum::VIDEO_NOTE,
+			!empty($this->getContact()) => MessageTypesEnum::CONTACT,
+			!empty($this->getLocation()) => MessageTypesEnum::LOCATION,
+			!empty($this->getVenue()) => MessageTypesEnum::VENUE,
+			!empty($this->getPoll()) => MessageTypesEnum::POLL,
+			!empty($this->getDice()) => MessageTypesEnum::DICE,
+			!empty($this->getNewChatMembers()) => MessageTypesEnum::NEW_CHAT_MEMBERS,
+			!empty($this->getLeftChatMember()) => MessageTypesEnum::LEFT_CHAT_MEMBER,
+			!empty($this->getNewChatTitle()) => MessageTypesEnum::NEW_CHAT_TITLE,
+			!empty($this->getNewChatPhoto()) => MessageTypesEnum::NEW_CHAT_PHOTO,
+			!empty($this->getMessageAutoDeleteTimerChanged()) => MessageTypesEnum::AUTO_DELETE_TIMER_CHANGED,
+			!empty($this->getPinnedMessage()) => MessageTypesEnum::PINNED_MESSAGE,
+			!empty($this->getInvoice()) => MessageTypesEnum::INVOICE,
+			!empty($this->getSuccessfulPayment()) => MessageTypesEnum::SUCCESSFUL_PAYMENT,
+			!empty($this->getUsersShared()) => MessageTypesEnum::USERS_SHARED,
+			!empty($this->getChatShared()) => MessageTypesEnum::CHAT_SHARED,
+			!empty($this->getConnectedWebsite()) => MessageTypesEnum::CONNECTED_WEBSITE,
+			!empty($this->getWriteAccessAllowed()) => MessageTypesEnum::WRITE_ACCESS_ALLOWED,
+			!empty($this->getPassportData()) => MessageTypesEnum::PASSPORT_DATA,
+			!empty($this->getProximityAlertTriggered()) => MessageTypesEnum::PROXIMITY_ALERT_TRIGGERED,
+			!empty($this->getForumTopicCreated()) => MessageTypesEnum::FORUM_TOPIC_CREATED,
+			!empty($this->getForumTopicEdited()) => MessageTypesEnum::FORUM_TOPIC_EDITED,
+			!empty($this->getForumTopicClosed()) => MessageTypesEnum::FORUM_TOPIC_CLOSED,
+			!empty($this->getForumTopicReopened()) => MessageTypesEnum::FORUM_TOPIC_REOPENED,
+			!empty($this->getGeneralForumTopicHidden()) => MessageTypesEnum::GENERAL_FORUM_TOPIC_HIDDEN,
+			!empty($this->getGeneralForumTopicUnhidden()) => MessageTypesEnum::GENERAL_FORUM_TOPIC_UNHIDDEN,
+			!empty($this->getGiveaway()) => MessageTypesEnum::GIVEAWAY,
+			!empty($this->getGiveawayWinners()) => MessageTypesEnum::GIVEAWAY_WINNERS,
+			!empty($this->getVideoChatScheduled()) => MessageTypesEnum::VIDEO_CHAT_SCHEDULED,
+			!empty($this->getVideoChatStarted()) => MessageTypesEnum::VIDEO_CHAT_STARTED,
+			!empty($this->getVideoChatEnded()) => MessageTypesEnum::VIDEO_CHAT_ENDED,
+			!empty($this->getVideoChatParticipantsInvited()) => MessageTypesEnum::VIDEO_CHAT_PARTICIPANTS_INVITED,
+			!empty($this->getText()) => MessageTypesEnum::TEXT,
+			default => null
+		};
 	}
 
 	/**
