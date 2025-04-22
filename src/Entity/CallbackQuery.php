@@ -42,7 +42,7 @@ class CallbackQuery
 	 */
 	public function getMessage(): MaybeInaccessibleMessage
 	{
-		return MaybeInaccessibleMessage::getMessage($this->getAsArray()["message"] ?? []);
+		return MaybeInaccessibleMessage::getMessage($this->getAsArray() ?? []);
 	}
 
 	public function getInlineMessageId(): ?string
