@@ -25,6 +25,18 @@ class Message extends MaybeInaccessibleMessage
 	}
 
 	/**
+	 * Извлечение и фильтрация данных.
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getData(string $key): mixed
+	{
+		$data = $this->getAsArray();
+		return array_key_exists($key, $data) ? $data[$key] : null;
+	}
+
+	/**
 	 * Unique message identifier inside this chat.
 	 * In specific instances (e.g., message containing a video sent to a big chat),
 	 * the server might automatically schedule a message instead of sending it immediately.
@@ -34,7 +46,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getId(): int
 	{
-		return (int)$this->getAsArray()["message_id"] ?? 0;
+		return (int)$this->getData("message_id") ?? 0;
 	}
 
 	/**
@@ -44,7 +56,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getThreadId(): int
 	{
-		return (int)$this->getAsArray()["message_thread_id"] ?? 0;
+		return (int)$this->getData("message_thread_id") ?? 0;
 	}
 
 	/**
@@ -54,7 +66,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getFrom(): User
 	{
-		return new User($this->getAsArray()["from"] ?? []);
+		return new User($this->getData("from") ?? []);
 	}
 
 	/**
@@ -68,7 +80,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getSenderChat(): Chat
 	{
-		return new Chat($this->getAsArray()["sender_chat"] ?? []);
+		return new Chat($this->getData("sender_chat") ?? []);
 	}
 
 	/**
@@ -78,7 +90,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getSenderBoostCount(): int
 	{
-		return (int)$this->getAsArray()["sender_boost_count"] ?? 0;
+		return (int)$this->getData("sender_boost_count") ?? 0;
 	}
 
 	/**
@@ -89,7 +101,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getSenderBusinessBot(): User
 	{
-		return new User($this->getAsArray()["sender_business_bot"] ?? []);
+		return new User($this->getData("sender_business_bot") ?? []);
 	}
 
 	/**
@@ -100,7 +112,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getDate(): int
 	{
-		return (int)$this->getAsArray()["date"] ?? 0;
+		return (int)$this->getData("date") ?? 0;
 	}
 
 	/**
@@ -111,7 +123,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 //	public function getDateTime(): ?DateTimeImmutable
 //	{
-//		$dateString = $this->getAsArray()["date"] ?? null;
+//		$dateString = $this->getData("date") ?? null;
 //		if (empty($dateString)) return null;
 //
 //		return DateTimeImmutable::createFromFormat(format: "Y-m-d H:i:s", datetime: $dateString) ?: null;
@@ -126,7 +138,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getBusinessConnectionId(): string
 	{
-		return (string)$this->getAsArray()["business_connection_id"] ?? "";
+		return (string)$this->getData("business_connection_id") ?? "";
 	}
 
 	/**
@@ -136,7 +148,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getChat(): Chat
 	{
-		return new Chat($this->getAsArray()["chat"] ?? []);
+		return new Chat($this->getData("chat") ?? []);
 	}
 
 	/**
@@ -146,7 +158,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getForwardOrigin(): array
 	{
-		return (array)$this->getAsArray()["forward_origin"] ?? [];
+		return (array)$this->getData("forward_origin") ?? [];
 	}
 
 	/**
@@ -156,7 +168,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function isTopicMessage(): bool
 	{
-		return ($this->getAsArray()["is_topic_message"] ?? false);
+		return ($this->getData("is_topic_message") ?? false);
 	}
 
 	/**
@@ -166,7 +178,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function isAutomaticForward(): bool
 	{
-		return ($this->getAsArray()["is_automatic_forward"] ?? false);
+		return ($this->getData("is_automatic_forward") ?? false);
 	}
 
 	/**
@@ -177,7 +189,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getReplyToMessage(): Message
 	{
-		return new Message($this->getAsArray()["reply_to_message"] ?? []);
+		return new Message($this->getData("reply_to_message") ?? []);
 	}
 
 	/**
@@ -187,7 +199,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getExternalReply(): array
 	{
-		return (array)$this->getAsArray()["external_reply"] ?? [];
+		return (array)$this->getData("external_reply") ?? [];
 	}
 
 	/**
@@ -197,7 +209,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getQuote(): array
 	{
-		return (array)$this->getAsArray()["quote"] ?? [];
+		return (array)$this->getData("quote") ?? [];
 	}
 
 	/**
@@ -207,7 +219,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getReplyToStory(): array
 	{
-		return (array)$this->getAsArray()["reply_to_story"] ?? [];
+		return (array)$this->getData("reply_to_story") ?? [];
 	}
 
 	/**
@@ -217,7 +229,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getViaBot(): User
 	{
-		return new User($this->getAsArray()["via_bot"] ?? []);
+		return new User($this->getData("via_bot") ?? []);
 	}
 
 	/**
@@ -227,7 +239,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getEditDate(): int
 	{
-		return (int)$this->getAsArray()["edit_date"] ?? 0;
+		return (int)$this->getData("edit_date") ?? 0;
 	}
 
 	/**
@@ -237,7 +249,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getEditDateTime(): ?DateTimeImmutable
 	{
-		$dateString = $this->getAsArray()["edit_date"] ?? null;
+		$dateString = $this->getData("edit_date") ?? null;
 		if (empty($dateString)) return null;
 
 		return DateTimeImmutable::createFromFormat(format: "Y-m-d H:i:s", datetime: $dateString) ?: null;
@@ -248,7 +260,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function hasProtectedContent(): bool
 	{
-		return ($this->getAsArray()["has_protected_content"] ?? false);
+		return ($this->getData("has_protected_content") ?? false);
 	}
 
 	/**
@@ -259,7 +271,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function isFromOffline(): bool
 	{
-		return ($this->getAsArray()["is_from_offline"] ?? false);
+		return ($this->getData("is_from_offline") ?? false);
 	}
 
 	/**
@@ -269,7 +281,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getMediaGroupId(): string
 	{
-		return (string)$this->getAsArray()["media_group_id"] ?? "";
+		return (string)$this->getData("media_group_id") ?? "";
 	}
 
 	/**
@@ -279,7 +291,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getAuthorSignature(): string
 	{
-		return (string)$this->getAsArray()["author_signature"] ?? "";
+		return (string)$this->getData("author_signature") ?? "";
 	}
 
 	/**
@@ -289,7 +301,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getPaidStarCount(): int
 	{
-		return (int)$this->getAsArray()["paid_star_count"] ?? 0;
+		return (int)$this->getData("paid_star_count") ?? 0;
 	}
 
 	/**
@@ -299,7 +311,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getText(): string
 	{
-		return (string)$this->getAsArray()["text"] ?? "";
+		return (string)$this->getData("text") ?? "";
 	}
 
 	/**
@@ -309,7 +321,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getEntities(): array
 	{
-		return (array)$this->getAsArray()["entities"] ?? [];
+		return (array)$this->getData("entities") ?? [];
 	}
 
 	/**
@@ -319,7 +331,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getLinkPreviewOptions(): array
 	{
-		return (array)$this->getAsArray()["link_preview_options"] ?? [];
+		return (array)$this->getData("link_preview_options") ?? [];
 	}
 
 	/**
@@ -329,7 +341,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getEffectId(): string
 	{
-		return (string)$this->getAsArray()["effect_id"] ?? "";
+		return (string)$this->getData("effect_id") ?? "";
 	}
 
 	/**
@@ -340,7 +352,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getAnimation(): array
 	{
-		return (array)$this->getAsArray()["animation"] ?? [];
+		return (array)$this->getData("animation") ?? [];
 	}
 
 	/**
@@ -350,7 +362,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getAudio(): array
 	{
-		return (array)$this->getAsArray()["audio"] ?? [];
+		return (array)$this->getData("audio") ?? [];
 	}
 
 	/**
@@ -360,7 +372,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getDocument(): array
 	{
-		return (array)$this->getAsArray()["document"] ?? [];
+		return (array)$this->getData("document") ?? [];
 	}
 
 	/**
@@ -370,7 +382,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getPaidMedia(): array
 	{
-		return (array)$this->getAsArray()["paid_media"] ?? [];
+		return (array)$this->getData("paid_media") ?? [];
 	}
 
 	/**
@@ -380,7 +392,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getPhoto(): array
 	{
-		return (array)$this->getAsArray()["photo"] ?? [];
+		return (array)$this->getData("photo") ?? [];
 	}
 
 	/**
@@ -390,7 +402,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getSticker(): array
 	{
-		return (array)$this->getAsArray()["sticker"] ?? [];
+		return (array)$this->getData("sticker") ?? [];
 	}
 
 	/**
@@ -400,7 +412,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getStory(): array
 	{
-		return (array)$this->getAsArray()["story"] ?? [];
+		return (array)$this->getData("story") ?? [];
 	}
 
 	/**
@@ -410,7 +422,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getVideo(): array
 	{
-		return (array)$this->getAsArray()["video"] ?? [];
+		return (array)$this->getData("video") ?? [];
 	}
 
 	/**
@@ -420,7 +432,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getVideoNote(): array
 	{
-		return (array)$this->getAsArray()["video_note"] ?? [];
+		return (array)$this->getData("video_note") ?? [];
 	}
 
 	/**
@@ -430,7 +442,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getVoice(): array
 	{
-		return (array)$this->getAsArray()["voice"] ?? [];
+		return (array)$this->getData("voice") ?? [];
 	}
 
 	/**
@@ -440,7 +452,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getCaption(): string
 	{
-		return (string)$this->getAsArray()["caption"] ?? "";
+		return (string)$this->getData("caption") ?? "";
 	}
 
 	/**
@@ -450,7 +462,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getCaptionEntities(): array
 	{
-		return (array)$this->getAsArray()["caption_entities"] ?? [];
+		return (array)$this->getData("caption_entities") ?? [];
 	}
 
 	/**
@@ -460,7 +472,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function showCaptionAboveMedia(): bool
 	{
-		return ($this->getAsArray()["show_caption_above_media"] ?? false);
+		return ($this->getData("show_caption_above_media") ?? false);
 	}
 
 	/**
@@ -470,7 +482,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function hasMediaSpoiler(): bool
 	{
-		return ($this->getAsArray()["has_media_spoiler"] ?? false);
+		return ($this->getData("has_media_spoiler") ?? false);
 	}
 
 	/**
@@ -480,7 +492,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getContact(): Contact
 	{
-		return new Contact($this->getAsArray()["contact"] ?? []);
+		return new Contact($this->getData("contact") ?? []);
 	}
 
 	/**
@@ -490,7 +502,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getDice(): array
 	{
-		return (array)$this->getAsArray()["dice"] ?? [];
+		return (array)$this->getData("dice") ?? [];
 	}
 
 	/**
@@ -500,7 +512,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getGame(): array
 	{
-		return (array)$this->getAsArray()["game"] ?? [];
+		return (array)$this->getData("game") ?? [];
 	}
 
 	/**
@@ -510,7 +522,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getPoll(): array
 	{
-		return (array)$this->getAsArray()["poll"] ?? [];
+		return (array)$this->getData("poll") ?? [];
 	}
 
 	/**
@@ -521,7 +533,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getVenue(): array
 	{
-		return (array)$this->getAsArray()["venue"] ?? [];
+		return (array)$this->getData("venue") ?? [];
 	}
 
 	/**
@@ -531,7 +543,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getLocation(): array
 	{
-		return (array)$this->getAsArray()["location"] ?? [];
+		return (array)$this->getData("location") ?? [];
 	}
 
 	/**
@@ -541,7 +553,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getNewChatMembers(): array
 	{
-		return (array)$this->getAsArray()["new_chat_members"] ?? [];
+		return (array)$this->getData("new_chat_members") ?? [];
 	}
 
 	/**
@@ -551,7 +563,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getLeftChatMember(): User
 	{
-		return new User($this->getAsArray()["left_chat_member"] ?? []);
+		return new User($this->getData("left_chat_member") ?? []);
 	}
 
 	/**
@@ -561,7 +573,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getNewChatTitle(): string
 	{
-		return (string)$this->getAsArray()["new_chat_title"] ?? "";
+		return (string)$this->getData("new_chat_title") ?? "";
 	}
 
 	/**
@@ -571,7 +583,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getNewChatPhoto(): array
 	{
-		return (array)$this->getAsArray()["new_chat_photo"] ?? [];
+		return (array)$this->getData("new_chat_photo") ?? [];
 	}
 
 	/**
@@ -581,7 +593,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function deleteChatPhoto(): bool
 	{
-		return ($this->getAsArray()["delete_chat_photo"] ?? false);
+		return ($this->getData("delete_chat_photo") ?? false);
 	}
 
 	/**
@@ -591,7 +603,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function isGroupChatCreated(): bool
 	{
-		return ($this->getAsArray()["group_chat_created"] ?? false);
+		return ($this->getData("group_chat_created") ?? false);
 	}
 
 	/**
@@ -603,7 +615,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function isSupergroupChatCreated(): bool
 	{
-		return ($this->getAsArray()["supergroup_chat_created"] ?? false);
+		return ($this->getData("supergroup_chat_created") ?? false);
 	}
 
 	/**
@@ -615,7 +627,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function isChannelChatCreated(): bool
 	{
-		return ($this->getAsArray()["channel_chat_created"] ?? false);
+		return ($this->getData("channel_chat_created") ?? false);
 	}
 
 	/**
@@ -625,7 +637,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getMessageAutoDeleteTimerChanged(): array
 	{
-		return (array)$this->getAsArray()["message_auto_delete_timer_changed"] ?? [];
+		return (array)$this->getData("message_auto_delete_timer_changed") ?? [];
 	}
 
 	/**
@@ -637,7 +649,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getMigrateToChatId(): int
 	{
-		return (int)$this->getAsArray()["migrate_to_chat_id"] ?? 0;
+		return (int)$this->getData("migrate_to_chat_id") ?? 0;
 	}
 
 	/**
@@ -649,7 +661,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getMigrateFromChatId(): int
 	{
-		return (int)$this->getAsArray()["migrate_from_chat_id"] ?? 0;
+		return (int)$this->getData("migrate_from_chat_id") ?? 0;
 	}
 
 	/**
@@ -660,7 +672,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getPinnedMessage(): array
 	{
-		return (array)$this->getAsArray()["pinned_message"] ?? [];
+		return (array)$this->getData("pinned_message") ?? [];
 	}
 
 	/**
@@ -670,7 +682,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getInvoice(): array
 	{
-		return (array)$this->getAsArray()["invoice"] ?? [];
+		return (array)$this->getData("invoice") ?? [];
 	}
 
 	/**
@@ -680,7 +692,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getSuccessfulPayment(): array
 	{
-		return (array)$this->getAsArray()["successful_payment"] ?? [];
+		return (array)$this->getData("successful_payment") ?? [];
 	}
 
 	/**
@@ -690,7 +702,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getRefundedPayment(): array
 	{
-		return (array)$this->getAsArray()["refunded_payment"] ?? [];
+		return (array)$this->getData("refunded_payment") ?? [];
 	}
 
 	/**
@@ -700,7 +712,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getUsersShared(): array
 	{
-		return (array)$this->getAsArray()["users_shared"] ?? [];
+		return (array)$this->getData("users_shared") ?? [];
 	}
 
 	/**
@@ -710,7 +722,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getChatShared(): array
 	{
-		return (array)$this->getAsArray()["chat_shared"] ?? [];
+		return (array)$this->getData("chat_shared") ?? [];
 	}
 
 	/**
@@ -720,7 +732,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getGift(): array
 	{
-		return (array)$this->getAsArray()["gift"] ?? [];
+		return (array)$this->getData("gift") ?? [];
 	}
 
 	/**
@@ -730,7 +742,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getUniqueGift(): array
 	{
-		return (array)$this->getAsArray()["unique_gift"] ?? [];
+		return (array)$this->getData("unique_gift") ?? [];
 	}
 
 	/**
@@ -740,7 +752,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getConnectedWebsite(): string
 	{
-		return (string)$this->getAsArray()["connected_website"] ?? "";
+		return (string)$this->getData("connected_website") ?? "";
 	}
 
 	/**
@@ -751,7 +763,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getWriteAccessAllowed(): array
 	{
-		return (array)$this->getAsArray()["write_access_allowed"] ?? [];
+		return (array)$this->getData("write_access_allowed") ?? [];
 	}
 
 	/**
@@ -761,7 +773,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getPassportData(): array
 	{
-		return (array)$this->getAsArray()["passport_data"] ?? [];
+		return (array)$this->getData("passport_data") ?? [];
 	}
 
 	/**
@@ -771,7 +783,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getProximityAlertTriggered(): array
 	{
-		return (array)$this->getAsArray()["proximity_alert_triggered"] ?? [];
+		return (array)$this->getData("proximity_alert_triggered") ?? [];
 	}
 
 	/**
@@ -781,7 +793,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getBoostAdded(): array
 	{
-		return (array)$this->getAsArray()["boost_added"] ?? [];
+		return (array)$this->getData("boost_added") ?? [];
 	}
 
 	/**
@@ -791,7 +803,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getChatBackgroundSet(): array
 	{
-		return (array)$this->getAsArray()["chat_background_set"] ?? [];
+		return (array)$this->getData("chat_background_set") ?? [];
 	}
 
 	/**
@@ -801,7 +813,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getForumTopicCreated(): array
 	{
-		return (array)$this->getAsArray()["forum_topic_created"] ?? [];
+		return (array)$this->getData("forum_topic_created") ?? [];
 	}
 
 	/**
@@ -811,7 +823,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getForumTopicEdited(): array
 	{
-		return (array)$this->getAsArray()["forum_topic_edited"] ?? [];
+		return (array)$this->getData("forum_topic_edited") ?? [];
 	}
 
 	/**
@@ -821,7 +833,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getForumTopicClosed(): array
 	{
-		return (array)$this->getAsArray()["forum_topic_closed"] ?? [];
+		return (array)$this->getData("forum_topic_closed") ?? [];
 	}
 
 	/**
@@ -831,7 +843,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getForumTopicReopened(): array
 	{
-		return (array)$this->getAsArray()["forum_topic_reopened"] ?? [];
+		return (array)$this->getData("forum_topic_reopened") ?? [];
 	}
 
 	/**
@@ -841,7 +853,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getGeneralForumTopicHidden(): array
 	{
-		return (array)$this->getAsArray()["general_forum_topic_hidden"] ?? [];
+		return (array)$this->getData("general_forum_topic_hidden") ?? [];
 	}
 
 	/**
@@ -851,7 +863,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getGeneralForumTopicUnhidden(): array
 	{
-		return (array)$this->getAsArray()["general_forum_topic_unhidden"] ?? [];
+		return (array)$this->getData("general_forum_topic_unhidden") ?? [];
 	}
 
 	/**
@@ -861,7 +873,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getGiveawayCreated(): array
 	{
-		return (array)$this->getAsArray()["giveaway_created"] ?? [];
+		return (array)$this->getData("giveaway_created") ?? [];
 	}
 
 	/**
@@ -871,7 +883,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getGiveaway(): array
 	{
-		return (array)$this->getAsArray()["giveaway"] ?? [];
+		return (array)$this->getData("giveaway") ?? [];
 	}
 
 	/**
@@ -881,7 +893,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getGiveawayWinners(): array
 	{
-		return (array)$this->getAsArray()["giveaway_winners"] ?? [];
+		return (array)$this->getData("giveaway_winners") ?? [];
 	}
 
 	/**
@@ -891,7 +903,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getGiveawayCompleted(): array
 	{
-		return (array)$this->getAsArray()["giveaway_completed"] ?? [];
+		return (array)$this->getData("giveaway_completed") ?? [];
 	}
 
 	/**
@@ -901,7 +913,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getPaidMessagePriceChanged(): array
 	{
-		return (array)$this->getAsArray()["paid_message_price_changed"] ?? [];
+		return (array)$this->getData("paid_message_price_changed") ?? [];
 	}
 
 	/**
@@ -911,7 +923,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getVideoChatScheduled(): array
 	{
-		return (array)$this->getAsArray()["video_chat_scheduled"] ?? [];
+		return (array)$this->getData("video_chat_scheduled") ?? [];
 	}
 
 	/**
@@ -921,7 +933,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getVideoChatStarted(): array
 	{
-		return (array)$this->getAsArray()["video_chat_started"] ?? [];
+		return (array)$this->getData("video_chat_started") ?? [];
 	}
 
 	/**
@@ -931,7 +943,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getVideoChatEnded(): array
 	{
-		return (array)$this->getAsArray()["video_chat_ended"] ?? [];
+		return (array)$this->getData("video_chat_ended") ?? [];
 	}
 
 	/**
@@ -941,7 +953,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getVideoChatParticipantsInvited(): array
 	{
-		return (array)$this->getAsArray()["video_chat_participants_invited"] ?? [];
+		return (array)$this->getData("video_chat_participants_invited") ?? [];
 	}
 
 	/**
@@ -951,7 +963,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getWebAppData(): array
 	{
-		return (array)$this->getAsArray()["web_app_data"] ?? [];
+		return (array)$this->getData("web_app_data") ?? [];
 	}
 
 	/**
@@ -961,7 +973,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getReplyMarkup(): array
 	{
-		return (array)$this->getAsArray()["reply_markup"] ?? [];
+		return (array)$this->getData("reply_markup") ?? [];
 	}
 
 }

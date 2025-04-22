@@ -23,6 +23,18 @@ class Chat
 	}
 
 	/**
+	 * Извлечение и фильтрация данных.
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getData(string $key): mixed
+	{
+		$data = $this->getAsArray();
+		return array_key_exists($key, $data) ? $data[$key] : null;
+	}
+
+	/**
 	 * Unique identifier for this chat.
 	 * This number may have more than 32 significant bits
 	 * and some programming languages may have difficulty/silent defects in interpreting it.
@@ -33,7 +45,7 @@ class Chat
 	 */
 	public function getId(): int
 	{
-		return (int)$this->getAsArray()["id"] ?? 0;
+		return (int)$this->getData("id") ?? 0;
 	}
 
 	/**
@@ -43,7 +55,7 @@ class Chat
 	 */
 	public function getType(): string
 	{
-		return (string)$this->getAsArray()["type"] ?? "";
+		return (string)$this->getData("type") ?? "";
 	}
 
 	/**
@@ -53,7 +65,7 @@ class Chat
 	 */
 	public function getTitle(): string
 	{
-		return (string)$this->getAsArray()["title"] ?? "";
+		return (string)$this->getData("title") ?? "";
 	}
 
 	/**
@@ -63,7 +75,7 @@ class Chat
 	 */
 	public function getUsername(): string
 	{
-		return (string)$this->getAsArray()["username"] ?? "";
+		return (string)$this->getData("username") ?? "";
 	}
 
 	/**
@@ -73,7 +85,7 @@ class Chat
 	 */
 	public function getFirstName(): string
 	{
-		return (string)$this->getAsArray()["first_name"] ?? "";
+		return (string)$this->getData("first_name") ?? "";
 	}
 
 	/**
@@ -83,7 +95,7 @@ class Chat
 	 */
 	public function getLastName(): string
 	{
-		return (string)$this->getAsArray()["last_name"] ?? "";
+		return (string)$this->getData("last_name") ?? "";
 	}
 
 	/**
@@ -93,7 +105,7 @@ class Chat
 	 */
 	public function isForum(): bool
 	{
-		return ($this->getAsArray()["is_forum"] ?? false);
+		return ($this->getData("is_forum") ?? false);
 	}
 
 }
