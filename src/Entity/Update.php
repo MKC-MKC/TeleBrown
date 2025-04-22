@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Generator;
 use Haikiri\TeleBrown\Enums\UpdateEnum;
 
 /**
@@ -182,27 +181,26 @@ class Update
 
 	public function getChat(): ?Chat
 	{
-		foreach (
-			(function (): Generator {
-				yield $this->getMessage();
-				yield $this->getEditedMessage();
-				yield $this->getChannelPost();
-				yield $this->getEditedChannelPost();
-				yield $this->getBusinessMessage();
-				yield $this->getEditedBusinessMessage();
-				yield $this->getDeletedBusinessMessages();
-				yield $this->getMessageReaction();
-				yield $this->getMessageReactionCount();
-				yield $this->getCallbackQuery()?->getMessage();
-				yield $this->getMyChatMember();
-				yield $this->getChatMember();
-				yield $this->getChatJoinRequest();
-				yield $this->getChatBoost();
-				yield $this->getRemovedChatBoost();
-			})
-			() as $object) {
-			if (!empty($object->getChat())) {
-				return $object->getChat();
+		foreach ([
+					 $this->getMessage(),
+					 $this->getEditedMessage(),
+					 $this->getChannelPost(),
+					 $this->getEditedChannelPost(),
+					 $this->getBusinessMessage(),
+					 $this->getEditedBusinessMessage(),
+					 $this->getDeletedBusinessMessages(),
+					 $this->getMessageReaction(),
+					 $this->getMessageReactionCount(),
+					 $this->getCallbackQuery()?->getMessage(),
+					 $this->getMyChatMember(),
+					 $this->getChatMember(),
+					 $this->getChatJoinRequest(),
+					 $this->getChatBoost(),
+					 $this->getRemovedChatBoost(),
+				 ] as $object) {
+			if (is_object($object) && method_exists($object, "getChat")) {
+				$chat = $object->getChat();
+				if (!empty($chat)) return $chat;
 			}
 		}
 
