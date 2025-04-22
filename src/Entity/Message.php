@@ -120,7 +120,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getFrom(): User
 	{
-		return new User($this->getData("from") ?? []);
+		return new User($this->getData("from"));
 	}
 
 	/**
@@ -134,7 +134,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getSenderChat(): Chat
 	{
-		return new Chat($this->getData("sender_chat") ?? []);
+		return new Chat($this->getData("sender_chat"));
 	}
 
 	/**
@@ -155,7 +155,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getSenderBusinessBot(): User
 	{
-		return new User($this->getData("sender_business_bot") ?? []);
+		return new User($this->getData("sender_business_bot"));
 	}
 
 	/**
@@ -202,7 +202,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getChat(): Chat
 	{
-		return new Chat($this->getData("chat") ?? []);
+		return new Chat($this->getData("chat"));
 	}
 
 	/**
@@ -243,7 +243,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getReplyToMessage(): Message
 	{
-		return new Message($this->getData("reply_to_message") ?? []);
+		return new Message($this->getData("reply_to_message"));
 	}
 
 	/**
@@ -283,7 +283,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getViaBot(): User
 	{
-		return new User($this->getData("via_bot") ?? []);
+		return new User($this->getData("via_bot"));
 	}
 
 	/**
@@ -546,7 +546,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getContact(): Contact
 	{
-		return new Contact($this->getData("contact") ?? []);
+		return new Contact($this->getData("contact"));
 	}
 
 	/**
@@ -617,7 +617,7 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getLeftChatMember(): User
 	{
-		return new User($this->getData("left_chat_member") ?? []);
+		return new User($this->getData("left_chat_member"));
 	}
 
 	/**
