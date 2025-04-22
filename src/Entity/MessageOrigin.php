@@ -11,7 +11,7 @@ use Haikiri\TeleBrown\Enums\MessageOriginEnum;
  * MessageOrigin – This object describes the origin of a message.
  * @see https://core.telegram.org/bots/api#messageorigin
  */
-abstract class MessageOrigin
+class MessageOrigin
 {
 
 	public static function getOrigin(array $response): self
