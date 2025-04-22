@@ -117,7 +117,7 @@ class Message extends MaybeInaccessibleMessage
 	 * For backward compatibility, if the message was sent on behalf of a chat,
 	 * the field from contains a fake sender user in non-channel chats.
 	 *
-	 * @return Chat
+	 * @return Chat|null
 	 */
 	public function getSenderChat(): ?Chat
 	{
