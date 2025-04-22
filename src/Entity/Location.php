@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * Location – This object represents a point on the map.
  * @see https://core.telegram.org/bots/api#location
  */
-class Location
+class Location extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	/**
@@ -30,7 +31,7 @@ class Location
 	 */
 	public function getLatitude(): float
 	{
-		return (float)$this->getAsArray()["latitude"] ?? 0.0;
+		return (float)$this->getData("latitude") ?? 0.0;
 	}
 
 	/**
@@ -41,7 +42,7 @@ class Location
 	 */
 	public function getLongitude(): float
 	{
-		return (float)$this->getAsArray()["longitude"] ?? 0.0;
+		return (float)$this->getData("longitude") ?? 0.0;
 	}
 
 	/**
@@ -52,7 +53,7 @@ class Location
 	 */
 	public function getHorizontalAccuracy(): float
 	{
-		return (float)$this->getAsArray()["horizontal_accuracy"] ?? 0.0;
+		return (float)$this->getData("horizontal_accuracy") ?? 0.0;
 	}
 
 	/**
@@ -63,7 +64,7 @@ class Location
 	 */
 	public function getLivePeriod(): int
 	{
-		return (int)$this->getAsArray()["live_period"] ?? 0;
+		return (int)$this->getData("live_period") ?? 0;
 	}
 
 	/**
@@ -74,7 +75,7 @@ class Location
 	 */
 	public function getHeading(): int
 	{
-		return (int)$this->getAsArray()["heading"] ?? 0;
+		return (int)$this->getData("heading") ?? 0;
 	}
 
 	/**
@@ -85,7 +86,7 @@ class Location
 	 */
 	public function getProximityAlertRadius(): int
 	{
-		return (int)$this->getAsArray()["proximity_alert_radius"] ?? 0;
+		return (int)$this->getData("proximity_alert_radius") ?? 0;
 	}
 
 }

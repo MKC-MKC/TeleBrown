@@ -14,16 +14,10 @@ use Haikiri\TeleBrown\Entity\ChatMember;
 class ChatMemberBanned extends ChatMember
 {
 	protected static string $status = "kicked";
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
-	}
-
-	public function getAsArray(): array
-	{
-		return $this->response ?? [];
 	}
 
 	public static function getStatus(): string
@@ -33,12 +27,12 @@ class ChatMemberBanned extends ChatMember
 
 	public function getUser(): User
 	{
-		return new User($this->getAsArray()["user"] ?? []);
+		return new User($this->getData("user"));
 	}
 
 	public function getUntilDate(): int
 	{
-		return (int)$this->getAsArray()["until_date"] ?? 0;
+		return (int)$this->getData("until_date") ?? 0;
 	}
 
 }

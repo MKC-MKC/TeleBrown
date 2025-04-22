@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * InlineKeyboardButton – This object represents one button of an inline keyboard. Exactly one of the optional fields must be used to specify type of the button.
  * @see https://core.telegram.org/bots/api#inlinekeyboardbutton
@@ -27,73 +29,72 @@ namespace Haikiri\TeleBrown\Entity;
  *
  * NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages.
  */
-class InlineKeyboardButton
+class InlineKeyboardButton extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	public function getText(): ?string
 	{
-		return (string)$this->getAsArray()["text"] ?? null;
+		return (string)$this->getData("text") ?? null;
 	}
 
 	public function getUrl(): ?string
 	{
-		return (string)$this->getAsArray()["url"] ?? null;
+		return (string)$this->getData("url") ?? null;
 	}
 
 	public function getCallbackData(): ?string
 	{
-		return (string)$this->getAsArray()["callback_data"] ?? null;
+		return (string)$this->getData("callback_data") ?? null;
 	}
 
 	public function getWebApp(): ?WebAppInfo
 	{
-		return new WebAppInfo($this->getAsArray()["web_app"] ?? null);
+		return new WebAppInfo($this->getData("web_app") ?? null);
 	}
 
 	public function getLoginUrl(): ?LoginUrl
 	{
-		return new LoginUrl($this->getAsArray()["login_url"] ?? null);
+		return new LoginUrl($this->getData("login_url") ?? null);
 	}
 
 	public function getSwitchInlineQuery(): ?string
 	{
-		return (string)$this->getAsArray()["switch_inline_query"] ?? null;
+		return (string)$this->getData("switch_inline_query") ?? null;
 	}
 
 	public function getSwitchInlineQueryCurrentChat(): ?string
 	{
-		return (string)$this->getAsArray()["switch_inline_query_current_chat"] ?? null;
+		return (string)$this->getData("switch_inline_query_current_chat") ?? null;
 	}
 
 	public function getSwitchInlineQueryChosenChat(): ?SwitchInlineQueryChosenChat
 	{
-		return new SwitchInlineQueryChosenChat($this->getAsArray()["switch_inline_query_chosen_chat"] ?? null);
+		return new SwitchInlineQueryChosenChat($this->getData("switch_inline_query_chosen_chat") ?? null);
 	}
 
 	public function getCopyText(): ?CopyTextButton
 	{
-		return new CopyTextButton($this->getAsArray()["copy_text"] ?? null);
+		return new CopyTextButton($this->getData("copy_text") ?? null);
 	}
 
 	public function getCallbackGame(): array
 	{
-		return $this->getAsArray()["callback_game"] ?? [];
+		return $this->getData("callback_game") ?? [];
 	}
 
 	public function isPay(): ?bool
 	{
-		return (bool)$this->getAsArray()["pay"] ?? null;
+		return (bool)$this->getData("pay") ?? null;
 	}
 
 }

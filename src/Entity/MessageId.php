@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * MessageId – This object represents a unique message identifier.
  * @see https://core.telegram.org/bots/api#messageid
  */
-class MessageId
+class MessageId extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	/**
@@ -32,7 +33,7 @@ class MessageId
 	 */
 	public function getId(): int
 	{
-		return (int)$this->getAsArray()["message_id"] ?? 0;
+		return (int)$this->getData("message_id") ?? 0;
 	}
 
 }

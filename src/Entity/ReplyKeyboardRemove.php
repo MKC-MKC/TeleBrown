@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * ReplyKeyboardRemove – Upon receiving a message with this object, Telegram clients will remove the current custom keyboard and display the default letter-keyboard.
  * By default, custom keyboards are displayed until a new keyboard is sent by a bot.
@@ -11,28 +13,27 @@ namespace Haikiri\TeleBrown\Entity;
  * Not supported in channels and for messages sent on behalf of a Telegram Business account.
  * @see https://core.telegram.org/bots/api#replykeyboardremove
  */
-class ReplyKeyboardRemove
+class ReplyKeyboardRemove extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	public function isRemoveKeyboard(): bool
 	{
-		return (bool)$this->getAsArray()["remove_keyboard"] ?? false;
+		return (bool)$this->getData("remove_keyboard") ?? false;
 	}
 
 	public function isSelective(): ?bool
 	{
-		return ($this->getAsArray()["selective"] ?? false) ?? null;
+		return ($this->getData("selective") ?? false) ?? null;
 	}
 
 }

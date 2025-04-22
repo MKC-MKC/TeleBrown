@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * MessageEntity – This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  * @see https://core.telegram.org/bots/api#messageentity
  */
-class MessageEntity
+class MessageEntity extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	/**
@@ -36,7 +37,7 @@ class MessageEntity
 	 */
 	public function getType(): string
 	{
-		return (string)$this->getAsArray()["type"] ?? "";
+		return (string)$this->getData("type") ?? "";
 	}
 
 	/**
@@ -46,7 +47,7 @@ class MessageEntity
 	 */
 	public function getOffset(): int
 	{
-		return (int)$this->getAsArray()["offset"] ?? 0;
+		return (int)$this->getData("offset") ?? 0;
 	}
 
 	/**
@@ -56,7 +57,7 @@ class MessageEntity
 	 */
 	public function getLength(): int
 	{
-		return (int)$this->getAsArray()["length"] ?? 0;
+		return (int)$this->getData("length") ?? 0;
 	}
 
 	/**
@@ -66,7 +67,7 @@ class MessageEntity
 	 */
 	public function getUrl(): string
 	{
-		return (string)$this->getAsArray()["url"] ?? "";
+		return (string)$this->getData("url") ?? "";
 	}
 
 	/**
@@ -76,7 +77,7 @@ class MessageEntity
 	 */
 	public function getUser(): User
 	{
-		return new User($this->getAsArray()["user"] ?? []);
+		return new User($this->getData("user"));
 	}
 
 	/**
@@ -86,7 +87,7 @@ class MessageEntity
 	 */
 	public function getLanguage(): string
 	{
-		return (string)$this->getAsArray()["language"] ?? "";
+		return (string)$this->getData("language") ?? "";
 	}
 
 	/**
@@ -97,7 +98,7 @@ class MessageEntity
 	 */
 	public function getCustomEmojiId(): string
 	{
-		return (string)$this->getAsArray()["custom_emoji_id"] ?? "";
+		return (string)$this->getData("custom_emoji_id") ?? "";
 	}
 
 }

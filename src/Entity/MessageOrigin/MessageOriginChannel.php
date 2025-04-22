@@ -14,16 +14,10 @@ use Haikiri\TeleBrown\Entity\MessageOrigin;
 class MessageOriginChannel extends MessageOrigin
 {
 	protected static string $type = "channel";
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
-	}
-
-	public function getAsArray(): array
-	{
-		return $this->response ?? [];
 	}
 
 	public static function getType(): string
@@ -33,22 +27,22 @@ class MessageOriginChannel extends MessageOrigin
 
 	public function getDate(): int
 	{
-		return (int)$this->getAsArray()["date"] ?? 0;
+		return (int)$this->getData("date") ?? 0;
 	}
 
 	public function getSenderUser(): Chat
 	{
-		return new Chat($this->getAsArray()["sender_chat"] ?? []);
+		return new Chat($this->getData("sender_chat"));
 	}
 
 	public function getMessageId(): int
 	{
-		return (int)$this->getAsArray()["message_id"] ?? 0;
+		return (int)$this->getData("message_id") ?? 0;
 	}
 
 	public function getAuthorSignature(): string
 	{
-		return (string)$this->getAsArray()["author_signature"] ?? "";
+		return (string)$this->getData("author_signature") ?? "";
 	}
 
 }

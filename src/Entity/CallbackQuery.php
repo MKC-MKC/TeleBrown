@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * CallbackQuery – This object represents an incoming callback query from a callback button in an inline keyboard.
  * If the button that originated the query was attached to a message sent by the bot, the field message will be present.
@@ -11,28 +13,27 @@ namespace Haikiri\TeleBrown\Entity;
  * Exactly one of the fields data or game_short_name will be present.
  * @see https://core.telegram.org/bots/api#callbackquery
  */
-class CallbackQuery
+class CallbackQuery extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	public function getId(): string
 	{
-		return (string)$this->getAsArray()["id"] ?? "";
+		return (string)$this->getData("id") ?? "";
 	}
 
 	public function getFrom(): User
 	{
-		return new User($this->getAsArray()["from"] ?? []);
+		return new User($this->getData("from"));
 	}
 
 	/**
@@ -42,27 +43,27 @@ class CallbackQuery
 	 */
 	public function getMessage(): MaybeInaccessibleMessage
 	{
-		return MaybeInaccessibleMessage::getMessage($this->getAsArray() ?? []);
+		return MaybeInaccessibleMessage::getMessage($this->getAsArray());
 	}
 
 	public function getInlineMessageId(): ?string
 	{
-		return (string)$this->getAsArray()["inline_message_id"] ?? null;
+		return (string)$this->getData("inline_message_id") ?? null;
 	}
 
 	public function getChatInstance(): string
 	{
-		return (string)$this->getAsArray()["chat_instance"] ?? "";
+		return (string)$this->getData("chat_instance") ?? "";
 	}
 
-	public function getData(): ?string
+	public function getCallbackData(): ?string
 	{
-		return (string)$this->getAsArray()["data"] ?? null;
+		return (string)$this->getData("data") ?? null;
 	}
 
 	public function getGameShortName(): ?string
 	{
-		return (string)$this->getAsArray()["game_short_name"] ?? null;
+		return (string)$this->getData("game_short_name") ?? null;
 	}
 
 }

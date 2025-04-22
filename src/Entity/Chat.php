@@ -4,34 +4,23 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * Chat – This object represents a chat.
  * @see https://core.telegram.org/bots/api#chat
  */
-class Chat
+class Chat extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
-	}
-
-	/**
-	 * Извлечение и фильтрация данных.
-	 *
-	 * @param string $key
-	 * @return mixed
-	 */
-	public function getData(string $key): mixed
-	{
-		$data = $this->getAsArray();
-		return array_key_exists($key, $data) ? $data[$key] : null;
+		return $this->response ?? null;
 	}
 
 	/**

@@ -3,18 +3,20 @@
 declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
-class ShippingQuery
-{
-	private array $response;
 
-	public function __construct(array $response)
+use Haikiri\TeleBrown\Type;
+
+class ShippingQuery extends Type
+{
+
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 }

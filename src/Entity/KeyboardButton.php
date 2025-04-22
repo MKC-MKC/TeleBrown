@@ -4,59 +4,60 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * KeyboardButton – This object represents one button of the reply keyboard.
  * At most one of the optional fields must be used to specify type of the button.
  * For simple text buttons, String can be used instead of this object to specify the button text.
  * @see https://core.telegram.org/bots/api#keyboardbutton
  */
-class KeyboardButton
+class KeyboardButton extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	public function getText(): string
 	{
-		return (string)$this->getAsArray()["text"] ?? "";
+		return (string)$this->getData("text") ?? "";
 	}
 
 	public function getRequestUser(): KeyboardButtonRequestUsers
 	{
-		return new KeyboardButtonRequestUsers($this->getAsArray()["request_user"] ?? []);
+		return new KeyboardButtonRequestUsers($this->getData("request_user"));
 	}
 
 	public function getRequestChat(): KeyboardButtonRequestChat
 	{
-		return new KeyboardButtonRequestChat($this->getAsArray()["request_chat"] ?? []);
+		return new KeyboardButtonRequestChat($this->getData("request_chat"));
 	}
 
 	public function isRequestContact(): bool
 	{
-		return ($this->getAsArray()["request_contact"] ?? false);
+		return ($this->getData("request_contact") ?? false);
 	}
 
 	public function isRequestLocation(): bool
 	{
-		return ($this->getAsArray()["request_location"] ?? false);
+		return ($this->getData("request_location") ?? false);
 	}
 
 	public function getRequestPoll(): array
 	{
-		return $this->getAsArray()["request_poll"] ?? [];
+		return $this->getData("request_poll") ?? [];
 	}
 
 	public function getWebApp(): array
 	{
-		return $this->getAsArray()["web_app"] ?? [];
+		return $this->getData("web_app") ?? [];
 	}
 
 }

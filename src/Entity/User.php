@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * User – This object represents a Telegram user or bot.
  * @see https://core.telegram.org/bots/api#user
  */
-class User
+class User extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	/**
@@ -33,7 +34,7 @@ class User
 	 */
 	public function getId(): int
 	{
-		return (int)$this->getAsArray()["id"] ?? 0;
+		return (int)$this->getData("id") ?? 0;
 	}
 
 	/**
@@ -43,7 +44,7 @@ class User
 	 */
 	public function isBot(): bool
 	{
-		return ($this->getAsArray()["is_bot"] ?? false);
+		return ($this->getData("is_bot") ?? false);
 	}
 
 	/**
@@ -53,7 +54,7 @@ class User
 	 */
 	public function getFirstName(): string
 	{
-		return (string)$this->getAsArray()["first_name"] ?? "";
+		return (string)$this->getData("first_name") ?? "";
 	}
 
 	/**
@@ -63,7 +64,7 @@ class User
 	 */
 	public function getLastName(): string
 	{
-		return (string)$this->getAsArray()["last_name"] ?? "";
+		return (string)$this->getData("last_name") ?? "";
 	}
 
 	/**
@@ -73,7 +74,7 @@ class User
 	 */
 	public function getUsername(): string
 	{
-		return (string)$this->getAsArray()["username"] ?? "";
+		return (string)$this->getData("username") ?? "";
 	}
 
 	/**
@@ -83,7 +84,7 @@ class User
 	 */
 	public function getLanguageCode(): string
 	{
-		return (string)$this->getAsArray()["language_code"] ?? "";
+		return (string)$this->getData("language_code") ?? "";
 	}
 
 	/**
@@ -93,7 +94,7 @@ class User
 	 */
 	public function isPremium(): bool
 	{
-		return ($this->getAsArray()["is_premium"] ?? false);
+		return ($this->getData("is_premium") ?? false);
 	}
 
 	/**
@@ -103,7 +104,7 @@ class User
 	 */
 	public function isAddedToAttachmentMenu(): bool
 	{
-		return ($this->getAsArray()["added_to_attachment_menu"] ?? false);
+		return ($this->getData("added_to_attachment_menu") ?? false);
 	}
 
 	/**
@@ -114,7 +115,7 @@ class User
 	 */
 	public function canJoinGroups(): bool
 	{
-		return ($this->getAsArray()["can_join_groups"] ?? false);
+		return ($this->getData("can_join_groups") ?? false);
 	}
 
 	/**
@@ -125,7 +126,7 @@ class User
 	 */
 	public function canReadAllGroupMessages(): bool
 	{
-		return ($this->getAsArray()["can_read_all_group_messages"] ?? false);
+		return ($this->getData("can_read_all_group_messages") ?? false);
 	}
 
 	/**
@@ -136,7 +137,7 @@ class User
 	 */
 	public function supportsInlineQueries(): bool
 	{
-		return ($this->getAsArray()["supports_inline_queries"] ?? false);
+		return ($this->getData("supports_inline_queries") ?? false);
 	}
 
 	/**
@@ -147,7 +148,7 @@ class User
 	 */
 	public function canConnectToBusiness(): bool
 	{
-		return ($this->getAsArray()["can_connect_to_business"] ?? false);
+		return ($this->getData("can_connect_to_business") ?? false);
 	}
 
 	/**
@@ -158,7 +159,7 @@ class User
 	 */
 	public function hasMainWebApp(): bool
 	{
-		return ($this->getAsArray()["has_main_web_app"] ?? false);
+		return ($this->getData("has_main_web_app") ?? false);
 	}
 
 }

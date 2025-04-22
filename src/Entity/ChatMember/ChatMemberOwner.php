@@ -14,16 +14,10 @@ use Haikiri\TeleBrown\Entity\ChatMember;
 class ChatMemberOwner extends ChatMember
 {
 	protected static string $status = "creator";
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
-	}
-
-	public function getAsArray(): array
-	{
-		return $this->response ?? [];
 	}
 
 	public static function getStatus(): string
@@ -33,17 +27,17 @@ class ChatMemberOwner extends ChatMember
 
 	public function getUser(): User
 	{
-		return new User($this->getAsArray()["user"] ?? []);
+		return new User($this->getData("user"));
 	}
 
 	public function isAnonymous(): bool
 	{
-		return ($this->getAsArray()["is_anonymous"] ?? false);
+		return ($this->getData("is_anonymous") ?? false);
 	}
 
 	public function getCustomTitle(): string
 	{
-		return (string)$this->getAsArray()["custom_title"] ?? "";
+		return (string)$this->getData("custom_title") ?? "";
 	}
 
 }

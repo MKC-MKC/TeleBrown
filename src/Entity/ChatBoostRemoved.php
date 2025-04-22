@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-class ChatBoostRemoved
-{
-	private array $response;
+use Haikiri\TeleBrown\Type;
 
-	public function __construct(array $response)
+class ChatBoostRemoved extends Type
+{
+
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 }

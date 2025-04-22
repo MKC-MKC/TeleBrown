@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * InlineKeyboardMarkup – This object represents an inline keyboard that appears right next to the message it belongs to.
  * @see https://core.telegram.org/bots/api#inlinekeyboardmarkup
  */
-class InlineKeyboardMarkup
+class InlineKeyboardMarkup extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	/**
@@ -29,7 +30,7 @@ class InlineKeyboardMarkup
 	 */
 	public function getInlineKeyboard(): array
 	{
-		return $this->getAsArray()["inline_keyboard"] ?? [];
+		return $this->getData("inline_keyboard") ?? [];
 	}
 
 }

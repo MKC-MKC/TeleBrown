@@ -14,16 +14,10 @@ use Haikiri\TeleBrown\Entity\ChatMember;
 class ChatMemberAdministrator extends ChatMember
 {
 	protected static string $status = "administrator";
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
-	}
-
-	public function getAsArray(): array
-	{
-		return $this->response ?? [];
 	}
 
 	public static function getStatus(): string
@@ -33,92 +27,92 @@ class ChatMemberAdministrator extends ChatMember
 
 	public function getUser(): User
 	{
-		return new User($this->getAsArray()["user"] ?? []);
+		return new User($this->getData("user"));
 	}
 
 	public function getCustomTitle(): string
 	{
-		return (string)$this->getAsArray()["custom_title"] ?? "";
+		return (string)$this->getData("custom_title") ?? "";
 	}
 
 	public function isAnonymous(): bool
 	{
-		return ($this->getAsArray()["is_anonymous"] ?? false);
+		return ($this->getData("is_anonymous") ?? false);
 	}
 
 	public function canBeEdited(): bool
 	{
-		return ($this->getAsArray()["can_be_edited"] ?? false);
+		return ($this->getData("can_be_edited") ?? false);
 	}
 
 	public function canManageChat(): bool
 	{
-		return ($this->getAsArray()["can_manage_chat"] ?? false);
+		return ($this->getData("can_manage_chat") ?? false);
 	}
 
 	public function canDeleteMessages(): bool
 	{
-		return ($this->getAsArray()["can_delete_messages"] ?? false);
+		return ($this->getData("can_delete_messages") ?? false);
 	}
 
 	public function canManageVideoChats(): bool
 	{
-		return ($this->getAsArray()["can_manage_video_chats"] ?? false);
+		return ($this->getData("can_manage_video_chats") ?? false);
 	}
 
 	public function canRestrictMembers(): bool
 	{
-		return ($this->getAsArray()["can_restrict_members"] ?? false);
+		return ($this->getData("can_restrict_members") ?? false);
 	}
 
 	public function canPromoteMembers(): bool
 	{
-		return ($this->getAsArray()["can_promote_members"] ?? false);
+		return ($this->getData("can_promote_members") ?? false);
 	}
 
 	public function canChangeInfo(): bool
 	{
-		return ($this->getAsArray()["can_change_info"] ?? false);
+		return ($this->getData("can_change_info") ?? false);
 	}
 
 	public function canInviteUsers(): bool
 	{
-		return ($this->getAsArray()["can_invite_users"] ?? false);
+		return ($this->getData("can_invite_users") ?? false);
 	}
 
 	public function canPostStories(): bool
 	{
-		return ($this->getAsArray()["can_post_stories"] ?? false);
+		return ($this->getData("can_post_stories") ?? false);
 	}
 
 	public function canEditStories(): bool
 	{
-		return ($this->getAsArray()["can_edit_stories"] ?? false);
+		return ($this->getData("can_edit_stories") ?? false);
 	}
 
 	public function canDeleteStories(): bool
 	{
-		return ($this->getAsArray()["can_delete_stories"] ?? false);
+		return ($this->getData("can_delete_stories") ?? false);
 	}
 
 	public function canPostMessages(): bool
 	{
-		return ($this->getAsArray()["can_post_messages"] ?? false);
+		return ($this->getData("can_post_messages") ?? false);
 	}
 
 	public function canEditMessages(): bool
 	{
-		return ($this->getAsArray()["can_edit_messages"] ?? false);
+		return ($this->getData("can_edit_messages") ?? false);
 	}
 
 	public function canPinMessages(): bool
 	{
-		return ($this->getAsArray()["can_pin_messages"] ?? false);
+		return ($this->getData("can_pin_messages") ?? false);
 	}
 
 	public function canManageTopics(): bool
 	{
-		return ($this->getAsArray()["can_manage_topics"] ?? false);
+		return ($this->getData("can_manage_topics") ?? false);
 	}
 
 }

@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * ReplyParameters – Describes reply parameters for the message that is being sent.
  * @see https://core.telegram.org/bots/api#replyparameters
  */
-class ReplyParameters
+class ReplyParameters extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	/**
@@ -29,7 +30,7 @@ class ReplyParameters
 	 */
 	public function getMessageId(): int
 	{
-		return (int)($this->getAsArray()["message_id"] ?? 0);
+		return (int)($this->getData("message_id") ?? 0);
 	}
 
 	/**
@@ -41,7 +42,7 @@ class ReplyParameters
 	 */
 	public function getChatId(): int|string
 	{
-		return $this->getAsArray()["chat_id"] ?? 0;
+		return $this->getData("chat_id") ?? 0;
 	}
 
 	/**
@@ -53,7 +54,7 @@ class ReplyParameters
 	 */
 	public function isAllowSendingWithoutReply(): bool
 	{
-		return ($this->getAsArray()["allow_sending_without_reply"] ?? false);
+		return ($this->getData("allow_sending_without_reply") ?? false);
 	}
 
 	/**
@@ -66,7 +67,7 @@ class ReplyParameters
 	 */
 	public function getQuote(): string
 	{
-		return (string)($this->getAsArray()["quote"] ?? "");
+		return (string)($this->getData("quote") ?? "");
 	}
 
 	/**
@@ -76,7 +77,7 @@ class ReplyParameters
 	 */
 	public function getQuoteParseMode(): string
 	{
-		return (string)($this->getAsArray()["quote_parse_mode"] ?? "");
+		return (string)($this->getData("quote_parse_mode") ?? "");
 	}
 
 	/**
@@ -87,7 +88,7 @@ class ReplyParameters
 	 */
 	public function getQuoteEntities(): array
 	{
-		return (array)$this->getAsArray()["quote_entities"] ?? [];
+		return (array)$this->getData("quote_entities") ?? [];
 	}
 
 	/**
@@ -97,7 +98,7 @@ class ReplyParameters
 	 */
 	public function getQuotePosition(): int
 	{
-		return (int)($this->getAsArray()["quote_position"] ?? 0);
+		return (int)($this->getData("quote_position") ?? 0);
 	}
 
 }

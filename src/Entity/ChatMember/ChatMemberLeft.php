@@ -13,21 +13,21 @@ use Haikiri\TeleBrown\Entity\ChatMember;
  */
 class ChatMemberLeft extends ChatMember
 {
-	protected array $response = [];
+	protected static string $status = "left";
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public static function getStatus(): string
 	{
-		return $this->response ?? [];
+		return self::$status;
 	}
 
 	public function getUser(): User
 	{
-		return new User($this->getAsArray()["user"] ?? []);
+		return new User($this->getData("user"));
 	}
 
 }

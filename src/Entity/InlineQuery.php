@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
 use Haikiri\TeleBrown\Enums\InlineQueryChatEnum;
 
 /**
  * InlineQuery – This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
  * @see https://core.telegram.org/bots/api#inlinequery
  */
-class InlineQuery
+class InlineQuery extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	/**
@@ -32,7 +32,7 @@ class InlineQuery
 	 */
 	public function getId(): string
 	{
-		return (string)$this->getAsArray()["id"] ?? "";
+		return (string)$this->getData("id") ?? "";
 	}
 
 	/**
@@ -43,7 +43,7 @@ class InlineQuery
 	 */
 	public function getFrom(): User
 	{
-		return new User($this->getAsArray()["from"] ?? null);
+		return new User($this->getData("from") ?? null);
 	}
 
 	/**
@@ -54,7 +54,7 @@ class InlineQuery
 	 */
 	public function getQuery(): string
 	{
-		return (string)$this->getAsArray()["query"] ?? "";
+		return (string)$this->getData("query") ?? "";
 	}
 
 	/**
@@ -65,7 +65,7 @@ class InlineQuery
 	 */
 	public function getOffset(): string
 	{
-		return (string)$this->getAsArray()["offset"] ?? "";
+		return (string)$this->getData("offset") ?? "";
 	}
 
 	/**
@@ -83,7 +83,7 @@ class InlineQuery
 	 */
 	public function getChatType(): InlineQueryChatEnum|null
 	{
-		return InlineQueryChatEnum::tryFrom($this->getAsArray()["chat_type"]) ?? null;
+		return InlineQueryChatEnum::tryFrom($this->getData("chat_type")) ?? null;
 	}
 
 	/**
@@ -94,7 +94,7 @@ class InlineQuery
 	 */
 	public function getLocation(): Location
 	{
-		return new Location($this->getAsArray()["location"] ?? []);
+		return new Location($this->getData("location"));
 	}
 
 }

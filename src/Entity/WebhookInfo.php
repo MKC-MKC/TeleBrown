@@ -4,67 +4,68 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Type;
+
 /**
  * WebhookInfo – Describes the current status of a webhook.
  * @see https://core.telegram.org/bots/api#webhookinfo
  */
-class WebhookInfo
+class WebhookInfo extends Type
 {
-	private array $response;
 
-	public function __construct(array $response)
+	public function __construct(array|null $response)
 	{
 		$this->response = $response;
 	}
 
-	public function getAsArray(): array
+	public function getAsArray(): array|null
 	{
-		return $this->response ?? [];
+		return $this->response ?? null;
 	}
 
 	public function getUrl(): string
 	{
-		return (string)$this->getAsArray()["url"] ?? "";
+		return (string)$this->getData("url") ?? "";
 	}
 
 	public function hasCustomCertificate(): bool
 	{
-		return ($this->getAsArray()["has_custom_certificate"] ?? false);
+		return ($this->getData("has_custom_certificate") ?? false);
 	}
 
 	public function getPendingUpdateCount(): int
 	{
-		return (int)($this->getAsArray()["pending_update_count"] ?? 0);
+		return (int)($this->getData("pending_update_count") ?? 0);
 	}
 
 	public function getIpAddress(): ?string
 	{
-		return $this->getAsArray()["ip_address"] ?? null;
+		return $this->getData("ip_address") ?? null;
 	}
 
 	public function getLastErrorDate(): ?int
 	{
-		return $this->getAsArray()["last_error_date"] ?? null;
+		return $this->getData("last_error_date") ?? null;
 	}
 
 	public function getLastErrorMessage(): ?string
 	{
-		return $this->getAsArray()["last_error_message"] ?? null;
+		return $this->getData("last_error_message") ?? null;
 	}
 
 	public function getLastSynchronizationErrorDate(): ?int
 	{
-		return $this->getAsArray()["last_synchronization_error_date"] ?? null;
+		return $this->getData("last_synchronization_error_date") ?? null;
 	}
 
 	public function getMaxConnections(): ?int
 	{
-		return $this->getAsArray()["max_connections"] ?? null;
+		return $this->getData("max_connections") ?? null;
 	}
 
 	public function getAllowedUpdates(): ?array
 	{
-		return $this->getAsArray()["allowed_updates"] ?? null;
+		return $this->getData("allowed_updates") ?? null;
 	}
 
 }
