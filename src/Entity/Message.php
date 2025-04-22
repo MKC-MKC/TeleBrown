@@ -112,7 +112,6 @@ class Message extends MaybeInaccessibleMessage
 	 */
 	public function getDate(): int
 	{
-		error_log("WHICH DATE???");
 		return (int)$this->getData("date") ?? 0;
 	}
 
