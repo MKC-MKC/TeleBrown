@@ -135,8 +135,11 @@ try {
 				break;
 			default:
 				$server->sendMessage(
-					chatId: $chatId,
-					text: "Неизвестный тип обновления: `$type?->value`",
+					chatId: $client->getUpdate()->getChat()->getId(), # Получаем актуальный ID из объекта чата.
+					text: "Неизвестный тип обновления: <code>`$type?->value`</code>",
+					replyParameters: new Entity\ReplyParameters([
+						"message_id" => $client->getUpdate()->getActualMessage()->getId(), # Получаем ID сообщения на которое отвечаем.
+					]),
 				);
 		}
 	}
