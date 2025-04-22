@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Generator;
 use Haikiri\TeleBrown\Enums\UpdateEnum;
 
 /**
@@ -181,21 +182,31 @@ class Update
 
 	public function getChat(): ?Chat
 	{
-		return $this->getMessage()?->getChat()
-			?? $this->getEditedMessage()?->getChat()
-			?? $this->getChannelPost()?->getChat()
-			?? $this->getEditedChannelPost()?->getChat()
-			?? $this->getBusinessMessage()?->getChat()
-			?? $this->getEditedBusinessMessage()?->getChat()
-//			?? $this->getDeletedBusinessMessages()?->getChat()
-//			?? $this->getMessageReaction()?->getChat()
-//			?? $this->getMessageReactionCount()?->getChat()
-			?? $this->getCallbackQuery()?->getMessage()?->getChat();
-//			?? $this->getMyChatMember()?->getChat()
-//			?? $this->getChatMember()?->getChat()
-//			?? $this->getChatJoinRequest()?->getChat()
-//			?? $this->getChatBoost()?->getChat()
-//			?? $this->getRemovedChatBoost()?->getChat();
+		foreach (
+			(function (): Generator {
+				yield $this->getMessage();
+				yield $this->getEditedMessage();
+//				yield $this->getChannelPost();
+//				yield $this->getEditedChannelPost();
+//				yield $this->getBusinessMessage();
+//				yield $this->getEditedBusinessMessage();
+//				yield $this->getDeletedBusinessMessages();
+//				yield $this->getMessageReaction();
+//				yield $this->getMessageReactionCount();
+//				yield $this->getCallbackQuery()?->getMessage();
+//				yield $this->getMyChatMember();
+//				yield $this->getChatMember();
+//				yield $this->getChatJoinRequest();
+//				yield $this->getChatBoost();
+//				yield $this->getRemovedChatBoost();
+			})
+			() as $object) {
+			if (!empty($object->getChat()->getId())) {
+				return $object->getChat();
+			}
+		}
+
+		return null;
 	}
 
 }
