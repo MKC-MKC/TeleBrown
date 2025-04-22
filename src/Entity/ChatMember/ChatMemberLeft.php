@@ -25,7 +25,7 @@ class ChatMemberLeft extends ChatMember
 		return self::$status;
 	}
 
-	public function getUser(): User
+	public function getUser(): ?User
 	{
 		return ($data = $this->getData("user")) && is_array($data) ? new User($data) : null;
 	}

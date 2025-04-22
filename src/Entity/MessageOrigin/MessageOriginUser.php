@@ -30,7 +30,7 @@ class MessageOriginUser extends MessageOrigin
 		return (int)$this->getData("date") ?? 0;
 	}
 
-	public function getSenderUser(): User
+	public function getSenderUser(): ?User
 	{
 		return ($data = $this->getData("sender_user")) && is_array($data) ? new User($data) : null;
 	}
