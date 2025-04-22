@@ -107,7 +107,9 @@ try {
 	if (0) {
 		echo "<br><code>Working...</code><br>";
 
-		switch ($client->getUpdateType()) {
+		$client->setUpdates();
+		$type = $client->getUpdate()->getType();
+		switch ($type) {
 			case Enums\UpdateEnum::MESSAGE:
 				echo "<h3>Получено сообщение</h3>";
 				$message = $client->getUpdate()->getMessage();
@@ -134,7 +136,7 @@ try {
 			default:
 				$server->sendMessage(
 					chatId: $chatId,
-					text: "Неизвестный тип обновления: `{$client->getUpdateType()?->value}`",
+					text: "Неизвестный тип обновления: `$type?->value`",
 				);
 		}
 	}
