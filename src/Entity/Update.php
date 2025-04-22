@@ -207,7 +207,7 @@ class Update
 			})
 			() as $object) {
 			if (!is_object($object) || !method_exists(object_or_class: $object, method: __FUNCTION__)) continue;
-			if (!empty($object->getChat()->getId())) return $object->getChat();
+			if (!empty($object->getChat())) return $object->getChat();
 		}
 
 		return null;
