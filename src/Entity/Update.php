@@ -21,7 +21,6 @@ class Update
 
 	public function getAsArray(): array
 	{
-		error_log("Update::getAsArray: " . print_r($this->response, true));
 		return $this->response ?? [];
 	}
 
@@ -182,7 +181,6 @@ class Update
 
 	public function getChat(): ?Chat
 	{
-		error_log("Update::getChat() start");
 		foreach ([
 					 $this->getMessage(),
 					 $this->getEditedMessage(),
