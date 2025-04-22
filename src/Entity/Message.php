@@ -496,7 +496,7 @@ class Message extends MaybeInaccessibleMessage
 	}
 
 	/**
-	 * Optional. Message is a dice with random value
+	 * Optional. Message is a 'dice' with random value
 	 *
 	 * @return array
 	 */
