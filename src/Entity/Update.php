@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Generator;
 use Haikiri\TeleBrown\Enums\UpdateEnum;
 
 /**
@@ -177,6 +178,35 @@ class Update
 			!empty($this->getRemovedChatBoost()->getAsArray()) => UpdateEnum::REMOVED_CHAT_BOOST,
 			default => null,
 		};
+	}
+
+	public function getChat(): ?Chat
+	{
+		foreach (
+			(function (): Generator {
+				yield $this->getMessage();
+				yield $this->getEditedMessage();
+				yield $this->getChannelPost();
+				yield $this->getEditedChannelPost();
+				yield $this->getBusinessMessage();
+				yield $this->getEditedBusinessMessage();
+				yield $this->getDeletedBusinessMessages();
+				yield $this->getMessageReaction();
+				yield $this->getMessageReactionCount();
+				yield $this->getCallbackQuery()?->getMessage();
+				yield $this->getMyChatMember();
+				yield $this->getChatMember();
+				yield $this->getChatJoinRequest();
+				yield $this->getChatBoost();
+				yield $this->getRemovedChatBoost();
+			})
+			() as $object) {
+			if (!empty($object->getChat())) {
+				return $object->getChat();
+			}
+		}
+
+		return null;
 	}
 
 }
