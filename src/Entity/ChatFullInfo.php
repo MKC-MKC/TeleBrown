@@ -68,9 +68,9 @@ class ChatFullInfo extends Type
 		return (int)$this->getData("max_reaction_count") ?? 0;
 	}
 
-	public function getPhoto(): ChatPhoto
+	public function getPhoto(): ?ChatPhoto
 	{
-		return new ChatPhoto($this->getData("photo"));
+		return ($data = $this->getData("photo")) && is_array($data) ? new ChatPhoto($data) : null;
 	}
 
 	public function getActiveUsernames(): array
@@ -98,9 +98,9 @@ class ChatFullInfo extends Type
 		return $this->getData("business_opening_hours") ?? [];
 	}
 
-	public function getPersonalChat(): Chat
+	public function getPersonalChat(): ?Chat
 	{
-		return new Chat($this->getData("personal_chat"));
+		return ($data = $this->getData("personal_chat")) && is_array($data) ? new Chat($data) : null;
 	}
 
 	public function getAvailableReactions(): array
@@ -168,19 +168,19 @@ class ChatFullInfo extends Type
 		return (string)$this->getData("invite_link") ?? "";
 	}
 
-	public function getPinnedMessage(): Message
+	public function getPinnedMessage(): ?Message
 	{
-		return new Message($this->getData("pinned_message"));
+		return ($data = $this->getData("pinned_message")) && is_array($data) ? new Message($data) : null;
 	}
 
-	public function getPermissions(): ChatPermissions
+	public function getPermissions(): ?ChatPermissions
 	{
-		return new ChatPermissions($this->getData("permissions"));
+		return ($data = $this->getData("permissions")) && is_array($data) ? new ChatPermissions($data) : null;
 	}
 
-	public function getAcceptedGiftTypes(): AcceptedGiftTypes
+	public function getAcceptedGiftTypes(): ?AcceptedGiftTypes
 	{
-		return new AcceptedGiftTypes($this->getData("accepted_gift_types"));
+		return ($data = $this->getData("accepted_gift_types")) && is_array($data) ? new AcceptedGiftTypes($data) : null;
 	}
 
 	public function canSendPaidMedia(): bool
@@ -243,9 +243,9 @@ class ChatFullInfo extends Type
 		return (int)$this->getData("linked_chat_id") ?? 0;
 	}
 
-	public function getLocation(): ChatLocation
+	public function getLocation(): ?ChatLocation
 	{
-		return new ChatLocation($this->getData("location"));
+		return ($data = $this->getData("location")) && is_array($data) ? new ChatLocation($data) : null;
 	}
 
 }

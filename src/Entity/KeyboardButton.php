@@ -30,14 +30,14 @@ class KeyboardButton extends Type
 		return (string)$this->getData("text") ?? "";
 	}
 
-	public function getRequestUser(): KeyboardButtonRequestUsers
+	public function getRequestUser(): ?KeyboardButtonRequestUsers
 	{
-		return new KeyboardButtonRequestUsers($this->getData("request_user"));
+		return ($data = $this->getData("request_user")) && is_array($data) ? new KeyboardButtonRequestUsers($data) : null;
 	}
 
-	public function getRequestChat(): KeyboardButtonRequestChat
+	public function getRequestChat(): ?KeyboardButtonRequestChat
 	{
-		return new KeyboardButtonRequestChat($this->getData("request_chat"));
+		return ($data = $this->getData("request_chat")) && is_array($data) ? new KeyboardButtonRequestChat($data) : null;
 	}
 
 	public function isRequestContact(): bool

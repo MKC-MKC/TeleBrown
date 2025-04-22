@@ -73,11 +73,11 @@ class MessageEntity extends Type
 	/**
 	 * Optional. For “text_mention” only, the mentioned user
 	 *
-	 * @return User
+	 * @return User|null
 	 */
-	public function getUser(): User
+	public function getUser(): ?User
 	{
-		return new User($this->getData("user"));
+		return ($data = $this->getData("user")) && is_array($data) ? new User($data) : null;
 	}
 
 	/**

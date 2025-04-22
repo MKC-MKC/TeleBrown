@@ -50,14 +50,14 @@ class KeyboardButtonRequestChat extends Type
 		return ($this->getData("chat_is_created") ?? false);
 	}
 
-	public function getUserAdministratorRights(): ChatAdministratorRights
+	public function getUserAdministratorRights(): ?ChatAdministratorRights
 	{
-		return new ChatAdministratorRights($this->getData("user_administrator_rights"));
+		return ($data = $this->getData("user_administrator_rights")) && is_array($data) ? new ChatAdministratorRights($data) : null;
 	}
 
-	public function getBotAdministratorRights(): ChatAdministratorRights
+	public function getBotAdministratorRights(): ?ChatAdministratorRights
 	{
-		return new ChatAdministratorRights($this->getData("bot_administrator_rights"));
+		return ($data = $this->getData("bot_administrator_rights")) && is_array($data) ? new ChatAdministratorRights($data) : null;
 	}
 
 	public function isBotMemberRequested(): bool

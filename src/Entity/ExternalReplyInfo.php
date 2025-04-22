@@ -26,9 +26,9 @@ class ExternalReplyInfo extends Type
 	/**
 	 * Origin of the message replied to by the given message
 	 *
-	 * @return MessageOrigin
+	 * @return MessageOrigin|null
 	 */
-	public function getOrigin(): MessageOrigin
+	public function getOrigin(): ?MessageOrigin
 	{
 		return new MessageOrigin();
 	}

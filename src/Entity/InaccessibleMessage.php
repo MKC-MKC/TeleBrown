@@ -24,11 +24,11 @@ class InaccessibleMessage extends MaybeInaccessibleMessage
 	/**
 	 * Chat the message belonged to
 	 *
-	 * @return Chat
+	 * @return Chat|null
 	 */
-	public function getChat(): Chat
+	public function getChat(): ?Chat
 	{
-		return new Chat($this->getData("chat"));
+		return ($data = $this->getData("chat")) && is_array($data) ? new Chat($data) : null;
 	}
 
 	/**

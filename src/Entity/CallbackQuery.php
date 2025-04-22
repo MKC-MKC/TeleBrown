@@ -31,9 +31,9 @@ class CallbackQuery extends Type
 		return (string)$this->getData("id") ?? "";
 	}
 
-	public function getFrom(): User
+	public function getFrom(): ?User
 	{
-		return new User($this->getData("from"));
+		return ($data = $this->getData("from")) && is_array($data) ? new User($data) : null;
 	}
 
 	/**

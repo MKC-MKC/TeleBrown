@@ -27,7 +27,7 @@ class ChatMemberOwner extends ChatMember
 
 	public function getUser(): User
 	{
-		return new User($this->getData("user"));
+		return ($data = $this->getData("user")) && is_array($data) ? new User($data) : null;
 	}
 
 	public function isAnonymous(): bool

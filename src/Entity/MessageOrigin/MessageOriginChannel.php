@@ -32,7 +32,7 @@ class MessageOriginChannel extends MessageOrigin
 
 	public function getSenderUser(): Chat
 	{
-		return new Chat($this->getData("sender_chat"));
+		return ($data = $this->getData("sender_chat")) && is_array($data) ? new Chat($data) : null;
 	}
 
 	public function getMessageId(): int

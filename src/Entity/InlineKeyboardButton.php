@@ -40,12 +40,12 @@ class InlineKeyboardButton extends Type
 
 	public function getWebApp(): ?WebAppInfo
 	{
-		return new WebAppInfo($this->getData("web_app") ?? null);
+		return ($data = $this->getData("web_app")) && is_array($data) ? new WebAppInfo($data) : null;
 	}
 
 	public function getLoginUrl(): ?LoginUrl
 	{
-		return new LoginUrl($this->getData("login_url") ?? null);
+		return ($data = $this->getData("login_url")) && is_array($data) ? new LoginUrl($data) : null;
 	}
 
 	public function getSwitchInlineQuery(): ?string
@@ -60,12 +60,12 @@ class InlineKeyboardButton extends Type
 
 	public function getSwitchInlineQueryChosenChat(): ?SwitchInlineQueryChosenChat
 	{
-		return new SwitchInlineQueryChosenChat($this->getData("switch_inline_query_chosen_chat") ?? null);
+		return ($data = $this->getData("switch_inline_query_chosen_chat")) && is_array($data) ? new SwitchInlineQueryChosenChat($data) : null;
 	}
 
 	public function getCopyText(): ?CopyTextButton
 	{
-		return new CopyTextButton($this->getData("copy_text") ?? null);
+		return ($data = $this->getData("copy_text")) && is_array($data) ? new CopyTextButton($data) : null;
 	}
 
 	public function getCallbackGame(): array

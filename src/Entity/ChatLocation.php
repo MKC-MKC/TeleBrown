@@ -23,9 +23,9 @@ class ChatLocation extends Type
 		return $this->response ?? null;
 	}
 
-	public function getLocation(): Location
+	public function getLocation(): ?Location
 	{
-		return new Location($this->getData("location"));
+		return ($data = $this->getData("location")) && is_array($data) ? new Location($data) : null;
 	}
 
 	public function getAddress(): string

@@ -103,11 +103,11 @@ class Message extends MaybeInaccessibleMessage
 	/**
 	 * Type of the chat, can be either “private”, “group”, “supergroup” or “channel”
 	 *
-	 * @return User
+	 * @return User|null
 	 */
-	public function getFrom(): User
+	public function getFrom(): ?User
 	{
-		return new User($this->getData("from"));
+		return ($data = $this->getData("from")) && is_array($data) ? new User($data) : null;
 	}
 
 	/**
@@ -119,9 +119,9 @@ class Message extends MaybeInaccessibleMessage
 	 *
 	 * @return Chat
 	 */
-	public function getSenderChat(): Chat
+	public function getSenderChat(): ?Chat
 	{
-		return new Chat($this->getData("sender_chat"));
+		return ($data = $this->getData("sender_chat")) && is_array($data) ? new Chat($data) : null;
 	}
 
 	/**
@@ -138,11 +138,11 @@ class Message extends MaybeInaccessibleMessage
 	 * Optional. The bot that actually sent the message on behalf of the business account.
 	 * Available only for outgoing messages sent on behalf of the connected business account.
 	 *
-	 * @return User
+	 * @return User|null
 	 */
-	public function getSenderBusinessBot(): User
+	public function getSenderBusinessBot(): ?User
 	{
-		return new User($this->getData("sender_business_bot"));
+		return ($data = $this->getData("sender_business_bot")) && is_array($data) ? new User($data) : null;
 	}
 
 	/**
@@ -185,11 +185,11 @@ class Message extends MaybeInaccessibleMessage
 	/**
 	 * Chat the message belongs to
 	 *
-	 * @return Chat
+	 * @return Chat|null
 	 */
-	public function getChat(): Chat
+	public function getChat(): ?Chat
 	{
-		return new Chat($this->getData("chat"));
+		return ($data = $this->getData("chat")) && is_array($data) ? new Chat($data) : null;
 	}
 
 	/**
@@ -226,11 +226,11 @@ class Message extends MaybeInaccessibleMessage
 	 * Optional. For replies in the same chat and message thread, the original message.
 	 * Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
 	 *
-	 * @return Message
+	 * @return Message|null
 	 */
-	public function getReplyToMessage(): Message
+	public function getReplyToMessage(): ?Message
 	{
-		return new Message($this->getData("reply_to_message"));
+		return ($data = $this->getData("reply_to_message")) && is_array($data) ? new Message($data) : null;
 	}
 
 	/**
@@ -266,11 +266,11 @@ class Message extends MaybeInaccessibleMessage
 	/**
 	 * Optional. Bot through which the message was sent
 	 *
-	 * @return User
+	 * @return User|null
 	 */
-	public function getViaBot(): User
+	public function getViaBot(): ?User
 	{
-		return new User($this->getData("via_bot"));
+		return ($data = $this->getData("via_bot")) && is_array($data) ? new User($data) : null;
 	}
 
 	/**
@@ -529,11 +529,11 @@ class Message extends MaybeInaccessibleMessage
 	/**
 	 * Optional. Message is a shared contact, information about the contact
 	 *
-	 * @return Contact
+	 * @return Contact|null
 	 */
-	public function getContact(): Contact
+	public function getContact(): ?Contact
 	{
-		return new Contact($this->getData("contact"));
+		return ($data = $this->getData("contact")) && is_array($data) ? new Contact($data) : null;
 	}
 
 	/**
@@ -600,11 +600,11 @@ class Message extends MaybeInaccessibleMessage
 	/**
 	 * Optional. A member was removed from the group, information about them (this member may be the bot itself)
 	 *
-	 * @return User
+	 * @return User|null
 	 */
-	public function getLeftChatMember(): User
+	public function getLeftChatMember(): ?User
 	{
-		return new User($this->getData("left_chat_member"));
+		return ($data = $this->getData("left_chat_member")) && is_array($data) ? new User($data) : null;
 	}
 
 	/**

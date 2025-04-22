@@ -39,11 +39,11 @@ class InlineQuery extends Type
 	 * Отправитель
 	 * Sender
 	 *
-	 * @return User
+	 * @return User|null
 	 */
-	public function getFrom(): User
+	public function getFrom(): ?User
 	{
-		return new User($this->getData("from") ?? null);
+		return ($data = $this->getData("from")) && is_array($data) ? new User($data) : null;
 	}
 
 	/**
@@ -90,11 +90,11 @@ class InlineQuery extends Type
 	 * Опционально. Расположение отправителя, только для ботов, которые запрашивают местоположение пользователя
 	 * Optional. Sender location, only for bots that request user location
 	 *
-	 * @return Location
+	 * @return Location|null
 	 */
-	public function getLocation(): Location
+	public function getLocation(): ?Location
 	{
-		return new Location($this->getData("location"));
+		return ($data = $this->getData("location")) && is_array($data) ? new Location($data) : null;
 	}
 
 }
