@@ -184,12 +184,13 @@ class Update
 	{
 		foreach (
 			(function (): Generator {
+				yield $this->getMessage();
+				yield $this->getEditedMessage();
 				yield $this->getChannelPost();
 				yield $this->getEditedChannelPost();
 				yield $this->getBusinessMessage();
 				yield $this->getEditedBusinessMessage();
 				yield $this->getDeletedBusinessMessages();
-				yield $this->getMessage();
 				yield $this->getMessageReaction();
 				yield $this->getMessageReactionCount();
 				yield $this->getCallbackQuery()?->getMessage();
@@ -198,7 +199,6 @@ class Update
 				yield $this->getChatJoinRequest();
 				yield $this->getChatBoost();
 				yield $this->getRemovedChatBoost();
-				yield $this->getEditedMessage();
 			})
 			() as $object) {
 			if (!is_object($object) || !method_exists(object_or_class: $object, method: __FUNCTION__)) continue;
