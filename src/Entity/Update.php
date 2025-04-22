@@ -180,6 +180,11 @@ class Update
 		};
 	}
 
+	/**
+	 * Метод возвращает актуальный объект чата.
+	 *
+	 * @return Chat|null
+	 */
 	public function getChat(): ?Chat
 	{
 		foreach (
