@@ -6,6 +6,7 @@ namespace Haikiri\TeleBrown;
 
 abstract class Type
 {
+	protected array|null $response = null;
 
 	abstract public function getAsArray();
 
@@ -17,7 +18,7 @@ abstract class Type
 	 */
 	protected function getData(string $key): mixed
 	{
-		$data = $this->getAsArray();
+		$data = $this->response;
 		return array_key_exists($key, $data) ? $data[$key] : null;
 	}
 
