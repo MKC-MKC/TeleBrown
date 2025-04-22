@@ -201,9 +201,8 @@ class Update
 				yield $this->getEditedMessage();
 			})
 			() as $object) {
-			if (!empty($object->getChat()->getId())) {
-				return $object->getChat();
-			}
+			if (!is_object($object) || !method_exists(object_or_class: $object, method: __FUNCTION__)) continue;
+			if (!empty($object->getChat()->getId())) return $object->getChat();
 		}
 
 		return null;
