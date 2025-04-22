@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
+use Haikiri\TeleBrown\Enums\UpdateEnum;
+
 /**
  * Update – This object represents an incoming update.
  * @see https:core.telegram.org/bots/api#update
@@ -140,6 +142,41 @@ class Update
 	public function getRemovedChatBoost(): ChatBoostRemoved
 	{
 		return new ChatBoostRemoved($this->getAsArray()["removed_chat_boost"] ?? []);
+	}
+
+	/**
+	 * Метод для получения типа обновления.
+	 *
+	 * @return UpdateEnum|null
+	 */
+	public function getType(): UpdateEnum|null
+	{
+		return match (true) {
+			!empty($this->getMessage()->getAsArray()) => UpdateEnum::MESSAGE,
+			!empty($this->getEditedMessage()->getAsArray()) => UpdateEnum::EDITED_MESSAGE,
+			!empty($this->getChannelPost()->getAsArray()) => UpdateEnum::CHANNEL_POST,
+			!empty($this->getEditedChannelPost()->getAsArray()) => UpdateEnum::EDITED_CHANNEL_POST,
+			!empty($this->getBusinessConnection()->getAsArray()) => UpdateEnum::BUSINESS_CONNECTION,
+			!empty($this->getBusinessMessage()->getAsArray()) => UpdateEnum::BUSINESS_MESSAGE,
+			!empty($this->getEditedBusinessMessage()->getAsArray()) => UpdateEnum::EDITED_BUSINESS_MESSAGE,
+			!empty($this->getDeletedBusinessMessages()->getAsArray()) => UpdateEnum::DELETED_BUSINESS_MESSAGES,
+			!empty($this->getMessageReaction()->getAsArray()) => UpdateEnum::MESSAGE_REACTION,
+			!empty($this->getMessageReactionCount()->getAsArray()) => UpdateEnum::MESSAGE_REACTION_COUNT,
+			!empty($this->getInlineQuery()->getAsArray()) => UpdateEnum::INLINE_QUERY,
+			!empty($this->getChosenInlineResult()->getAsArray()) => UpdateEnum::CHOSEN_INLINE_RESULT,
+			!empty($this->getCallbackQuery()->getAsArray()) => UpdateEnum::CALLBACK_QUERY,
+			!empty($this->getShippingQuery()->getAsArray()) => UpdateEnum::SHIPPING_QUERY,
+			!empty($this->getPreCheckoutQuery()->getAsArray()) => UpdateEnum::PRE_CHECKOUT_QUERY,
+			!empty($this->getPurchasedPaidMedia()->getAsArray()) => UpdateEnum::PURCHASED_PAID_MEDIA,
+			!empty($this->getPoll()->getAsArray()) => UpdateEnum::POLL,
+			!empty($this->getPollAnswer()->getAsArray()) => UpdateEnum::POLL_ANSWER,
+			!empty($this->getMyChatMember()->getAsArray()) => UpdateEnum::MY_CHAT_MEMBER,
+			!empty($this->getChatMember()->getAsArray()) => UpdateEnum::CHAT_MEMBER,
+			!empty($this->getChatJoinRequest()->getAsArray()) => UpdateEnum::CHAT_JOIN_REQUEST,
+			!empty($this->getChatBoost()->getAsArray()) => UpdateEnum::CHAT_BOOST,
+			!empty($this->getRemovedChatBoost()->getAsArray()) => UpdateEnum::REMOVED_CHAT_BOOST,
+			default => null,
+		};
 	}
 
 }
