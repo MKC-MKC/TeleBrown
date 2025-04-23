@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Haikiri\TeleBrown\Entity;
 
 use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\Enums\ChatEnum;
 
 /**
  * Chat – This object represents a chat.
@@ -40,11 +41,11 @@ class Chat extends Type
 	/**
 	 * Type of the chat, can be either “private”, “group”, “supergroup” or “channel”
 	 *
-	 * @return string
+	 * @return ChatEnum|null
 	 */
-	public function getType(): string
+	public function getType(): ChatEnum|null
 	{
-		return (string)$this->getData("type") ?? "";
+		return ChatEnum::tryFrom($this->getData("type")) ?? null;
 	}
 
 	/**
