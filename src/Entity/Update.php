@@ -278,7 +278,7 @@ class Update extends Type
 				yield $this->getCallbackQuery()?->getMessage();
 			})
 			() as $message) {
-			if (!empty($message->getId())) return $message;
+			if ($message !== null && method_exists($message, "getId") && !empty($message->getId())) return $message;
 		}
 
 		return null;
