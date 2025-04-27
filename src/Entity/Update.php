@@ -308,10 +308,8 @@ class Update extends Type
 			})
 			() as $object) {
 			foreach (["getDate", "getEditDate", "getEditDateTime"] as $method) {
-				if (is_object($object) && method_exists($object, $method)) {
-					$value = $object->$method();
-					if (!empty($value)) return (int)$value;
-				}
+				$value = $object?->$method();
+				if (isset($value) && is_numeric($value)) return (int)$value;
 			}
 		}
 
