@@ -206,8 +206,10 @@ class Update extends Type
 				yield $this->getRemovedChatBoost();
 			})
 			() as $object) {
-			if (!is_object($object) || !method_exists(object_or_class: $object, method: __FUNCTION__)) continue;
-			if (!empty($object->getChat()->getId())) return $object->getChat();
+			if (is_object($object) && method_exists($object, "getChat")) {
+				$chat = $object->getChat();
+				if ($chat !== null && method_exists($chat, "getId") && !empty($chat->getId())) return $chat;
+			}
 		}
 
 		return null;
