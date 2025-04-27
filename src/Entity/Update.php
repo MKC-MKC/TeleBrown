@@ -250,10 +250,8 @@ class Update extends Type
 			})
 			() as $object) {
 			foreach (["getFrom", "getUser"] as $method) {
-				if (is_object($object) && method_exists($object, $method)) {
-					$user = $object->$method();
-					if (!empty($user->getId())) return $user;
-				}
+				$user = $object?->$method();
+				if (isset($user) && $user->getId() !== null) return $user;
 			}
 		}
 
