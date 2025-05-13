@@ -12,6 +12,13 @@ abstract class TeleBrownServerAbstract
 	protected string $token = "";
 	protected static ?bool $debug = false;
 
+	public function __construct(string $url, string $token, $debug = false)
+	{
+		$this->url = $url !== "" ? $url : $this->url;
+		$this->token = $token;
+		self::$debug = $debug;
+	}
+
 	/**
 	 * Используй метод для установки URL-адреса API. Если не указать, используется основной сервер по умолчанию.
 	 *

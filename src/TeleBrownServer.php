@@ -14,13 +14,6 @@ class TeleBrownServer extends TeleBrownServerAbstract
 	public string $proxy_user = "";
 	public string $proxy_pass = "";
 
-	public function __construct(string $url, string $token, $debug = false)
-	{
-		$this->setUrl($url !== "" ? $url : $this->url);
-		$this->setToken($token);
-		self::$debug = $debug;
-	}
-
 	/**
 	 * Метод отправки POST запроса на сервер API.
 	 *
