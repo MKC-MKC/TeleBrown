@@ -16,7 +16,7 @@ abstract class TeleBrownServerAbstract
 	{
 		$this->url = $url !== "" ? $url : $this->url;
 		$this->token = $token;
-		self::$debug = $debug;
+		self::$debug = filter_var($debug, FILTER_VALIDATE_BOOLEAN);
 	}
 
 	/**
