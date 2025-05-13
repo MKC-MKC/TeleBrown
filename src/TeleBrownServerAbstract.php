@@ -10,7 +10,14 @@ abstract class TeleBrownServerAbstract
 	#	Brown
 	protected string $url = "https://api.telegram.org/bot";
 	protected string $token = "";
-	public static bool $debug = false;
+	protected static ?bool $debug = false;
+
+	public function __construct(string $url, string $token, $debug = false)
+	{
+		$this->url = $url !== "" ? $url : $this->url;
+		$this->token = $token;
+		self::$debug = $debug;
+	}
 
 	/**
 	 * Используй метод для установки URL-адреса API. Если не указать, используется основной сервер по умолчанию.
