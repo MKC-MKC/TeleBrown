@@ -807,7 +807,7 @@ abstract class TeleBrownServerAbstract
 		string                     $text,
 		?string                    $businessConnectionId = null,
 		?string                    $inlineMessageId = null,
-		?Enums\ParseModeEnum       $parseMode = null,
+		?Enums\ParseModeEnum       $parseMode = Enums\ParseModeEnum::HTML,
 		?array                     $entities = null,
 		?Entity\LinkPreviewOptions $linkPreviewOptions = null,
 		mixed                      $replyMarkup = null
