@@ -797,7 +797,7 @@ abstract class TeleBrownServerAbstract
 	 * @param Enums\ParseModeEnum|null $parseMode
 	 * @param array|null $entities
 	 * @param Entity\LinkPreviewOptions|null $linkPreviewOptions
-	 * @param mixed|null $replyMarkup # TODO: Реализовать InlineKeyboardMarkup
+	 * @param null|Entity\InlineKeyboardMarkup $replyMarkup
 	 * @return Entity\Message
 	 * @throws TelegramMainException
 	 */
