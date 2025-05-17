@@ -104,10 +104,10 @@ abstract class TeleBrownServerAbstract
 	 * @throws TelegramMainException
 	 */
 	public function getUpdates(
-		int|string $offset = null,
-		int        $limit = null,
-		int        $timeout = null,
-		array      $allowedUpdates = null,
+		int|string|null $offset = null,
+		int|null        $limit = null,
+		int|null        $timeout = null,
+		array|null      $allowedUpdates = null,
 	): array
 	{
 		$response = $this->sendRequest(
@@ -146,13 +146,13 @@ abstract class TeleBrownServerAbstract
 	 * @throws TelegramMainException
 	 */
 	public function setWebhook(
-		string  $url,
-		mixed   $certificate = null,
-		?string $ipAddress = null,
-		?int    $maxConnections = null,
-		array   $allowedUpdates = null,
-		?bool   $dropPendingUpdates = null,
-		?string $secretToken = null
+		string     $url,
+		mixed      $certificate = null,
+		?string    $ipAddress = null,
+		?int       $maxConnections = null,
+		array|null $allowedUpdates = null,
+		?bool      $dropPendingUpdates = null,
+		?string    $secretToken = null
 	): bool
 	{
 		return (boolean)$this->sendRequest(
