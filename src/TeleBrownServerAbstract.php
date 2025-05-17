@@ -790,7 +790,7 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#editmessagetext
 	 *
 	 * @param int|string $chatId
-	 * @param int $messageId
+	 * @param int|string $messageId
 	 * @param string $text
 	 * @param string|null $businessConnectionId
 	 * @param string|null $inlineMessageId
@@ -803,7 +803,7 @@ abstract class TeleBrownServerAbstract
 	 */
 	public function editMessageText(
 		int|string                 $chatId,
-		int                        $messageId,
+		int|string                 $messageId,
 		string                     $text,
 		?string                    $businessConnectionId = null,
 		?string                    $inlineMessageId = null,
