@@ -7,11 +7,11 @@ use Haikiri\TeleBrown\Enums;
 use Haikiri\TeleBrown\Entity;
 
 $client = new TeleBrown\TeleBrownClient();
-$server = new TeleBrown\TeleBrownServer();
-$client::$debug = false;
-$server::$debug = true;
-//$server->setUrl("https://telegram.example.com/bot");
-$server->setToken("6626819710:AAHuvytf9QbZHnxj8PKR7s3S0m82zmc27ac");
+$server = new TeleBrown\TeleBrownServer(
+	url: "https://telegram.example.com/bot",
+	token: "6626819710:AAHuvytf9QbZHnxj8PKR7s3S0m82zmc27ac",
+//	debug: true,
+);
 $thisFileUrl = (($_SERVER["HTTP_X_FORWARDED_PROTO"] ?? "") === "https" ? "https" : "http") . "://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 $chatId = "7174876173";
 
