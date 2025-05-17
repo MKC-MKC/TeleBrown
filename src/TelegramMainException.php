@@ -2,9 +2,9 @@
 
 namespace Haikiri\TeleBrown;
 
-use Exception;
+use LogicException;
 
-class TelegramMainException extends Exception
+class TelegramMainException extends LogicException
 {
 
 	public function __construct(string $message = "Unknown error", int $code = 0)
