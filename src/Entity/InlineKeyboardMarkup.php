@@ -18,6 +18,13 @@ class InlineKeyboardMarkup extends Type
 		$this->response = $response;
 	}
 
+	public static function buttons(array $buttons): self
+	{
+		return new self([
+			"inline_keyboard" => [$buttons],
+		]);
+	}
+
 	public function getAsArray(): array|null
 	{
 		return $this->response ?? null;
