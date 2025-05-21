@@ -393,7 +393,7 @@ abstract class TeleBrownServerAbstract
 					"allow_paid_broadcast" => $allowPaidBroadcast,
 					"message_effect_id" => $messageEffectId,
 					"reply_parameters" => $replyParameters?->getAsArray(),
-					"reply_markup" => $replyMarkup,
+					"reply_markup" => $replyMarkup?->getAsArray(),
 				]
 			)
 		);
@@ -825,7 +825,7 @@ abstract class TeleBrownServerAbstract
 					"parse_mode" => $parseMode?->value,
 					"entities" => $entities,
 					"link_preview_options" => $linkPreviewOptions?->getAsArray(),
-					"reply_markup" => $replyMarkup,
+					"reply_markup" => $replyMarkup?->getAsArray(),
 				]
 			)
 		);
