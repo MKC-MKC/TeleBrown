@@ -80,12 +80,12 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @see https://core.telegram.org/bots/api#getme
 	 *
-	 * @return Entity\User
+	 * @return Objects\User
 	 * @throws TelegramMainException
 	 */
-	public function getMe(): Entity\User
+	public function getMe(): Objects\User
 	{
-		return new Entity\User(
+		return new Objects\User(
 			$this->sendRequest(method: __FUNCTION__)->getData()
 		);
 	}
@@ -98,7 +98,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|null $limit
 	 * @param int|null $timeout
 	 * @param Enums\UpdateEnum[]|null $allowedUpdates
-	 * @return Entity\Update[]
+	 * @return Objects\Update[]
 	 * @throws TelegramMainException
 	 */
 	public function getUpdates(
@@ -118,7 +118,7 @@ abstract class TeleBrownServerAbstract
 			]
 		);
 
-		return array_map(fn(array $item): Entity\Update => new Entity\Update($item), $response->getData());
+		return array_map(fn(array $item): Objects\Update => new Objects\Update($item), $response->getData());
 	}
 
 	/**
@@ -193,9 +193,9 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#getwebhookinfo
 	 * @throws TelegramMainException
 	 */
-	public function getWebhookInfo(): Entity\WebhookInfo
+	public function getWebhookInfo(): Objects\WebhookInfo
 	{
-		return new Entity\WebhookInfo(
+		return new Objects\WebhookInfo(
 			$this->sendRequest(method: __FUNCTION__)->getData()
 		);
 	}
@@ -212,33 +212,33 @@ abstract class TeleBrownServerAbstract
 	 * @param Enums\ParseModeEnum|null $parseMode
 	 * @param int|null $messageThreadId
 	 * @param array|null $entities
-	 * @param Entity\LinkPreviewOptions|null $linkPreviewOptions
+	 * @param Objects\LinkPreviewOptions|null $linkPreviewOptions
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
 	 * @param bool|null $allowPaidBroadcast
 	 * @param string|null $messageEffectId
-	 * @param Entity\ReplyParameters|null $replyParameters
-	 * @param null|Entity\InlineKeyboardMarkup|Entity\ReplyKeyboardMarkup|Entity\ReplyKeyboardRemove|Entity\ForceReply $replyMarkup
-	 * @return Entity\Message
+	 * @param Objects\ReplyParameters|null $replyParameters
+	 * @param null|Objects\InlineKeyboardMarkup|Objects\ReplyKeyboardMarkup|Objects\ReplyKeyboardRemove|Objects\ForceReply $replyMarkup
+	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 */
 	public function sendMessage(
-		int|string                                                                                               $chatId,
-		string                                                                                                   $text,
-		?string                                                                                                  $businessConnectionId = null,
-		?Enums\ParseModeEnum                                                                                     $parseMode = Enums\ParseModeEnum::HTML,
-		?int                                                                                                     $messageThreadId = null,
-		?array                                                                                                   $entities = null,
-		?Entity\LinkPreviewOptions                                                                               $linkPreviewOptions = null,
-		?bool                                                                                                    $disableNotification = null,
-		?bool                                                                                                    $protectContent = null,
-		?bool                                                                                                    $allowPaidBroadcast = null,
-		?string                                                                                                  $messageEffectId = null,
-		?Entity\ReplyParameters                                                                                  $replyParameters = null,
-		null|Entity\InlineKeyboardMarkup|Entity\ReplyKeyboardMarkup|Entity\ReplyKeyboardRemove|Entity\ForceReply $replyMarkup = null,
-	): Entity\Message
+		int|string                                                                                                   $chatId,
+		string                                                                                                       $text,
+		?string                                                                                                      $businessConnectionId = null,
+		?Enums\ParseModeEnum                                                                                         $parseMode = Enums\ParseModeEnum::HTML,
+		?int                                                                                                         $messageThreadId = null,
+		?array                                                                                                       $entities = null,
+		?Objects\LinkPreviewOptions                                                                                  $linkPreviewOptions = null,
+		?bool                                                                                                        $disableNotification = null,
+		?bool                                                                                                        $protectContent = null,
+		?bool                                                                                                        $allowPaidBroadcast = null,
+		?string                                                                                                      $messageEffectId = null,
+		?Objects\ReplyParameters                                                                                     $replyParameters = null,
+		null|Objects\InlineKeyboardMarkup|Objects\ReplyKeyboardMarkup|Objects\ReplyKeyboardRemove|Objects\ForceReply $replyMarkup = null,
+	): Objects\Message
 	{
-		return new Entity\Message(
+		return new Objects\Message(
 			$this->sendRequest(
 				method: __FUNCTION__,
 				params: [
@@ -276,7 +276,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|null $videoStartTimestamp
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
-	 * @return Entity\Message
+	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 */
 	public function forwardMessage(
@@ -287,9 +287,9 @@ abstract class TeleBrownServerAbstract
 		?int       $videoStartTimestamp = null,
 		?bool      $disableNotification = null,
 		?bool      $protectContent = null,
-	): Entity\Message
+	): Objects\Message
 	{
-		return new Entity\Message(
+		return new Objects\Message(
 			$this->sendRequest(
 				method: __FUNCTION__,
 				params: [
@@ -324,7 +324,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|null $messageThreadId
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
-	 * @return Entity\MessageId[]
+	 * @return Objects\MessageId[]
 	 * @throws TelegramMainException
 	 */
 	public function forwardMessages(
@@ -348,7 +348,7 @@ abstract class TeleBrownServerAbstract
 			]
 		);
 
-		return array_map(fn(array $item): Entity\MessageId => new Entity\MessageId($item), $response->getData());
+		return array_map(fn(array $item): Objects\MessageId => new Objects\MessageId($item), $response->getData());
 	}
 
 	/**
@@ -365,27 +365,27 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $protectContent
 	 * @param bool|null $allowPaidBroadcast
 	 * @param string|null $messageEffectId
-	 * @param Entity\ReplyParameters|null $replyParameters
+	 * @param Objects\ReplyParameters|null $replyParameters
 	 * @param mixed|null $replyMarkup
-	 * @return Entity\Message
+	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 */
 	public function sendContact(
-		int|string              $chatId,
-		string                  $phoneNumber,
-		string                  $firstName,
-		?string                 $lastName = null,
-		?string                 $vcard = null,
-		?int                    $messageThreadId = null,
-		?bool                   $disableNotification = null,
-		?bool                   $protectContent = null,
-		?bool                   $allowPaidBroadcast = null,
-		?string                 $messageEffectId = null,
-		?Entity\ReplyParameters $replyParameters = null,
-		mixed                   $replyMarkup = null,
-	): Entity\Message
+		int|string               $chatId,
+		string                   $phoneNumber,
+		string                   $firstName,
+		?string                  $lastName = null,
+		?string                  $vcard = null,
+		?int                     $messageThreadId = null,
+		?bool                    $disableNotification = null,
+		?bool                    $protectContent = null,
+		?bool                    $allowPaidBroadcast = null,
+		?string                  $messageEffectId = null,
+		?Objects\ReplyParameters $replyParameters = null,
+		mixed                    $replyMarkup = null,
+	): Objects\Message
 	{
-		return new Entity\Message(
+		return new Objects\Message(
 			$this->sendRequest(
 				method: __FUNCTION__,
 				params: [
@@ -544,18 +544,18 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @param int|string $chatId
 	 * @param int $userId
-	 * @param Entity\ChatPermissions $permissions
+	 * @param Objects\ChatPermissions $permissions
 	 * @param bool|null $useIndependentChatPermissions
 	 * @param int|null $untilDate
 	 * @return bool
 	 * @throws TelegramMainException
 	 */
 	public function restrictChatMember(
-		int|string             $chatId,
-		int                    $userId,
-		Entity\ChatPermissions $permissions,
-		?bool                  $useIndependentChatPermissions = null,
-		?int                   $untilDate = null,
+		int|string              $chatId,
+		int                     $userId,
+		Objects\ChatPermissions $permissions,
+		?bool                   $useIndependentChatPermissions = null,
+		?int                    $untilDate = null,
 	): bool
 	{
 		return $this->sendRequest(
@@ -733,15 +733,15 @@ abstract class TeleBrownServerAbstract
 	 * The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members administrator rights.
 	 *
 	 * @param int|string $chatId
-	 * @param Entity\ChatPermissions $permissions
+	 * @param Objects\ChatPermissions $permissions
 	 * @param bool|null $useIndependentChatPermissions
 	 * @return bool
 	 * @throws TelegramMainException
 	 */
 	public function setChatPermissions(
-		int|string             $chatId,
-		Entity\ChatPermissions $permissions,
-		?bool                  $useIndependentChatPermissions = null,
+		int|string              $chatId,
+		Objects\ChatPermissions $permissions,
+		?bool                   $useIndependentChatPermissions = null,
 	): bool
 	{
 		return $this->sendRequest(
@@ -803,24 +803,24 @@ abstract class TeleBrownServerAbstract
 	 * @param string|null $inlineMessageId
 	 * @param Enums\ParseModeEnum|null $parseMode
 	 * @param array|null $entities
-	 * @param Entity\LinkPreviewOptions|null $linkPreviewOptions
-	 * @param null|Entity\InlineKeyboardMarkup $replyMarkup
-	 * @return Entity\Message
+	 * @param Objects\LinkPreviewOptions|null $linkPreviewOptions
+	 * @param null|Objects\InlineKeyboardMarkup $replyMarkup
+	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 */
 	public function editMessageText(
-		int|string                 $chatId,
-		int|string                 $messageId,
-		string                     $text,
-		?string                    $businessConnectionId = null,
-		?string                    $inlineMessageId = null,
-		?Enums\ParseModeEnum       $parseMode = Enums\ParseModeEnum::HTML,
-		?array                     $entities = null,
-		?Entity\LinkPreviewOptions $linkPreviewOptions = null,
-		mixed                      $replyMarkup = null
-	): Entity\Message
+		int|string                  $chatId,
+		int|string                  $messageId,
+		string                      $text,
+		?string                     $businessConnectionId = null,
+		?string                     $inlineMessageId = null,
+		?Enums\ParseModeEnum        $parseMode = Enums\ParseModeEnum::HTML,
+		?array                      $entities = null,
+		?Objects\LinkPreviewOptions $linkPreviewOptions = null,
+		mixed                       $replyMarkup = null
+	): Objects\Message
 	{
-		return new Entity\Message(
+		return new Objects\Message(
 			$this->sendRequest(
 				method: __FUNCTION__,
 				params: [

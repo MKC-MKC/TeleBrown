@@ -30,11 +30,11 @@ abstract class TeleBrownClientAbstract
 
 	/**
 	 * Метод возвращает объект обновления.
-	 * @return Entity\Update
+	 * @return Objects\Update
 	 */
 	public function getUpdate(): object
 	{
-		return new Entity\Update(response: $this->getUpdates());
+		return new Objects\Update(response: $this->getUpdates());
 	}
 
 }
