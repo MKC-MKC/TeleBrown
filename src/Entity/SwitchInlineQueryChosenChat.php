@@ -4,49 +4,39 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * SwitchInlineQueryChosenChat – This object represents an inline button that switches the current user
  * to inline mode in a chosen chat, with an optional default inline query.
  * @see https://core.telegram.org/bots/api#switchinlinequerychosenchat
  */
-class SwitchInlineQueryChosenChat extends Type
+class SwitchInlineQueryChosenChat extends ResponseWrapper
 {
 
-	public function __construct(array|null $response)
+	public function getQuery(): string
 	{
-		$this->response = $response;
+		return (string)$this->getData("query");
 	}
 
-	public function getAsArray(): array|null
+	public function isAllowUserChats(): bool
 	{
-		return $this->response ?? null;
+		return (bool)$this->getData("allow_user_chats");
 	}
 
-	public function getQuery(): ?string
+	public function isAllowBotChats(): bool
 	{
-		return (string)$this->getData("query") ?? null;
+		return (bool)$this->getData("allow_bot_chats");
 	}
 
-	public function isAllowUserChats(): ?bool
+	public function isAllowGroupChats(): bool
 	{
-		return (bool)$this->getData("allow_user_chats") ?? null;
+		return (bool)$this->getData("allow_group_chats");
 	}
 
-	public function isAllowBotChats(): ?bool
+	public function isAllowChannelChats(): bool
 	{
-		return (bool)$this->getData("allow_bot_chats") ?? null;
-	}
-
-	public function isAllowGroupChats(): ?bool
-	{
-		return (bool)$this->getData("allow_group_chats") ?? null;
-	}
-
-	public function isAllowChannelChats(): ?bool
-	{
-		return (bool)$this->getData("allow_channel_chats") ?? null;
+		return (bool)$this->getData("allow_channel_chats");
 	}
 
 }

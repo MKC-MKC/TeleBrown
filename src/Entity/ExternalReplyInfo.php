@@ -4,43 +4,35 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * TODO: ExternalReplyInfo – This object contains information about a message that is being replied to, which may come from another chat or forum topic.
  * @see https://core.telegram.org/bots/api#externalreplyinfo
  */
-class ExternalReplyInfo extends Type
+class ExternalReplyInfo extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Origin of the message replied to by the given message
 	 *
-	 * @return MessageOrigin|null
+	 * @return MessageOrigin
 	 */
-	public function getOrigin(): ?MessageOrigin
+	public function getOrigin(): MessageOrigin
 	{
-		return new MessageOrigin();
+		$data = (array)$this->getData("origin", []);
+		return new MessageOrigin($data);
 	}
 
 	/**
 	 * Optional. Chat the original message belongs to. Available only if the chat is a supergroup or a channel.
 	 *
-	 * @return Chat|null
+	 * @return Chat
 	 */
-	public function getChat(): ?Chat
+	public function getChat(): Chat
 	{
-		return new Chat($this->response) ?? null;
+		$data = (array)$this->getData("chat", []);
+		return new Chat($data);
 	}
 
 	/**
@@ -50,64 +42,75 @@ class ExternalReplyInfo extends Type
 	 */
 	public function getMessageId(): int
 	{
-		return (int)$this->getData("message_id") ?? 0;
+		return (int)$this->getData("message_id");
 	}
 
 	/**
 	 * Optional. Options used for link preview generation for the original message, if it is a text message
 	 *
-	 * @return LinkPreviewOptions|null
+	 * @return LinkPreviewOptions
 	 */
-	public function getLinksPreviewOptions(): ?LinkPreviewOptions
+	public function getLinksPreviewOptions(): LinkPreviewOptions
 	{
-		return null;
+		$data = (array)$this->getData("link_preview_options", []);
+		return new LinkPreviewOptions($data);
 	}
 
+	/** @deprecated */
 	public function getAnimation()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getAudio()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getDocument()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getPhoto()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getSticker()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getStory()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getVideo()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getVideoNote()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getVoice()
 	{
 
 	}
 
+	/** @deprecated */
 	public function hasMediaSpoiler()
 	{
 
@@ -116,28 +119,33 @@ class ExternalReplyInfo extends Type
 	/**
 	 * Optional. Message is a shared contact, information about the contact
 	 *
-	 * @return Contact|null
+	 * @return Contact
 	 */
-	public function getContact(): ?Contact
+	public function getContact(): Contact
 	{
-		return new Contact($this->response) ?? null;
+		$data = (array)$this->getData("contact", []);
+		return new Contact($data);
 	}
 
+	/** @deprecated */
 	public function getDice()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getGame()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getGiveaway()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getInvoice()
 	{
 
@@ -146,18 +154,21 @@ class ExternalReplyInfo extends Type
 	/**
 	 * Optional. Message is a shared location, information about the location
 	 *
-	 * @return Location|null
+	 * @return Location
 	 */
-	public function getLocation(): ?Location
+	public function getLocation(): Location
 	{
-		return new Location($this->response) ?? null;
+		$data = (array)$this->getData("location", []);
+		return new Location($data);
 	}
 
+	/** @deprecated */
 	public function getPool()
 	{
 
 	}
 
+	/** @deprecated */
 	public function getVenue()
 	{
 

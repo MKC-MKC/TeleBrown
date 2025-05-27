@@ -15,11 +15,6 @@ class MessageOriginChannel extends MessageOrigin
 {
 	protected static string $type = "channel";
 
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
 	public static function getType(): string
 	{
 		return self::$type;
@@ -27,22 +22,23 @@ class MessageOriginChannel extends MessageOrigin
 
 	public function getDate(): int
 	{
-		return (int)$this->getData("date") ?? 0;
+		return (int)$this->getData("date", 0);
 	}
 
-	public function getSenderUser(): ?Chat
+	public function getSenderUser(): Chat
 	{
-		return ($data = $this->getData("sender_chat")) && is_array($data) ? new Chat($data) : null;
+		$data = (array)$this->getData("sender_chat", []);
+		return new Chat($data);
 	}
 
 	public function getMessageId(): int
 	{
-		return (int)$this->getData("message_id") ?? 0;
+		return (int)$this->getData("message_id");
 	}
 
 	public function getAuthorSignature(): string
 	{
-		return (string)$this->getData("author_signature") ?? "";
+		return (string)$this->getData("author_signature", "");
 	}
 
 }

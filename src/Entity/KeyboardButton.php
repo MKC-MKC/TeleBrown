@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * KeyboardButton – This object represents one button of the reply keyboard.
@@ -12,52 +12,44 @@ use Haikiri\TeleBrown\Type;
  * For simple text buttons, String can be used instead of this object to specify the button text.
  * @see https://core.telegram.org/bots/api#keyboardbutton
  */
-class KeyboardButton extends Type
+class KeyboardButton extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function getText(): string
 	{
-		return (string)$this->getData("text") ?? "";
+		return (string)$this->getData("text");
 	}
 
-	public function getRequestUser(): ?KeyboardButtonRequestUsers
+	public function getRequestUser(): KeyboardButtonRequestUsers
 	{
-		return ($data = $this->getData("request_user")) && is_array($data) ? new KeyboardButtonRequestUsers($data) : null;
+		$data = (array)$this->getData("request_user", []);
+		return new KeyboardButtonRequestUsers($data);
 	}
 
-	public function getRequestChat(): ?KeyboardButtonRequestChat
+	public function getRequestChat(): KeyboardButtonRequestChat
 	{
-		return ($data = $this->getData("request_chat")) && is_array($data) ? new KeyboardButtonRequestChat($data) : null;
+		$data = (array)$this->getData("request_chat", []);
+		return new KeyboardButtonRequestChat($data);
 	}
 
 	public function isRequestContact(): bool
 	{
-		return ($this->getData("request_contact") ?? false);
+		return (bool)$this->getData("request_contact");
 	}
 
 	public function isRequestLocation(): bool
 	{
-		return ($this->getData("request_location") ?? false);
+		return (bool)$this->getData("request_location");
 	}
 
 	public function getRequestPoll(): array
 	{
-		return $this->getData("request_poll") ?? [];
+		return (array)$this->getData("request_poll");
 	}
 
 	public function getWebApp(): array
 	{
-		return $this->getData("web_app") ?? [];
+		return (array)$this->getData("web_app");
 	}
 
 }

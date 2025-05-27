@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * KeyboardButtonRequestChat – This object defines the criteria used to request a suitable chat.
@@ -12,72 +12,64 @@ use Haikiri\TeleBrown\Type;
  * The bot will be granted requested rights in the chat if appropriate.
  * @see https://core.telegram.org/bots/api#keyboardbuttonrequestchat
  */
-class KeyboardButtonRequestChat extends Type
+class KeyboardButtonRequestChat extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function getRequestId(): int
 	{
-		return (int)$this->getData("request_id") ?? 0;
+		return (int)$this->getData("request_id");
 	}
 
 	public function isChannelRequested(): bool
 	{
-		return ($this->getData("chat_is_channel") ?? false);
+		return (bool)$this->getData("chat_is_channel");
 	}
 
 	public function isForumRequested(): bool
 	{
-		return ($this->getData("chat_is_forum") ?? false);
+		return (bool)$this->getData("chat_is_forum");
 	}
 
 	public function hasUsernameRequested(): bool
 	{
-		return ($this->getData("chat_has_username") ?? false);
+		return (bool)$this->getData("chat_has_username");
 	}
 
 	public function isCreatedRequested(): bool
 	{
-		return ($this->getData("chat_is_created") ?? false);
+		return (bool)$this->getData("chat_is_created");
 	}
 
-	public function getUserAdministratorRights(): ?ChatAdministratorRights
+	public function getUserAdministratorRights(): ChatAdministratorRights
 	{
-		return ($data = $this->getData("user_administrator_rights")) && is_array($data) ? new ChatAdministratorRights($data) : null;
+		$data = (array)$this->getData("user_administrator_rights", []);
+		return new ChatAdministratorRights($data);
 	}
 
-	public function getBotAdministratorRights(): ?ChatAdministratorRights
+	public function getBotAdministratorRights(): ChatAdministratorRights
 	{
-		return ($data = $this->getData("bot_administrator_rights")) && is_array($data) ? new ChatAdministratorRights($data) : null;
+		$data = (array)$this->getData("bot_administrator_rights", []);
+		return new ChatAdministratorRights($data);
 	}
 
 	public function isBotMemberRequested(): bool
 	{
-		return ($this->getData("bot_is_member") ?? false);
+		return (bool)$this->getData("bot_is_member");
 	}
 
 	public function hasRequestTitle(): bool
 	{
-		return ($this->getData("request_title") ?? false);
+		return (bool)$this->getData("request_title");
 	}
 
 	public function hasRequestUsername(): bool
 	{
-		return ($this->getData("request_username") ?? false);
+		return (bool)$this->getData("request_username");
 	}
 
 	public function hasRequestPhoto(): bool
 	{
-		return ($this->getData("request_photo") ?? false);
+		return (bool)$this->getData("request_photo");
 	}
 
 }

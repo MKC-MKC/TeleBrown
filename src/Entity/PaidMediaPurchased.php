@@ -4,19 +4,9 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
-class PaidMediaPurchased extends Type
+class PaidMediaPurchased extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 }

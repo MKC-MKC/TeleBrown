@@ -15,24 +15,20 @@ class ChatMemberMember extends ChatMember
 {
 	protected static string $status = "member";
 
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
 	public static function getStatus(): string
 	{
 		return self::$status;
 	}
 
-	public function getUser(): ?User
+	public function getUser(): User
 	{
-		return ($data = $this->getData("user")) && is_array($data) ? new User($data) : null;
+		$data = (array)$this->getData("user", []);
+		return new User($data);
 	}
 
 	public function getUntilDate(): int
 	{
-		return (int)$this->getData("until_date") ?? 0;
+		return (int)$this->getData("until_date", 0);
 	}
 
 }

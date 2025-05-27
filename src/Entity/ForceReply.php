@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * ForceReply – Upon receiving a message with this object, Telegram clients will display a reply interface to the user
@@ -13,32 +13,22 @@ use Haikiri\TeleBrown\Type;
  * Not supported in channels and for messages sent on behalf of a Telegram Business account.
  * @see https://core.telegram.org/bots/api#forcereply
  */
-class ForceReply extends Type
+class ForceReply extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function isForceReply(): bool
 	{
-		return (bool)$this->getData("force_reply") ?? false;
+		return (bool)$this->getData("force_reply", false);
 	}
 
-	public function getInputFieldPlaceholder(): ?string
+	public function getInputFieldPlaceholder(): string
 	{
-		return (string)$this->getData("input_field_placeholder") ?? null;
+		return (string)$this->getData("input_field_placeholder");
 	}
 
-	public function isSelective(): ?bool
+	public function isSelective(): bool
 	{
-		return $this->getData("selective") ?? null;
+		return (bool)$this->getData("selective", false);
 	}
 
 }

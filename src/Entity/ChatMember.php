@@ -1,24 +1,17 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Haikiri\TeleBrown\Entity;
 
 use RuntimeException;
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 use Haikiri\TeleBrown\Enums\ChatMemberEnum;
 
 /**
  * ChatMember – This object contains information about one member of a chat.
  * @see https://core.telegram.org/bots/api#chatmember
  */
-abstract class ChatMember extends Type
+abstract class ChatMember extends ResponseWrapper
 {
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public static function getChatMember(array $response): self
 	{

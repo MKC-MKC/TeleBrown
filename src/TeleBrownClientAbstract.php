@@ -1,24 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Haikiri\TeleBrown;
 
 abstract class TeleBrownClientAbstract
 {
-	public static bool $debug = false;
+
 	public array $response = [];
+	protected static ?bool $debug = false;
+
+	public function __construct($debug = false)
+	{
+		self::$debug = filter_var($debug, FILTER_VALIDATE_BOOLEAN);
+	}
 
 	/**
 	 * Записываем ответ сервера.
-	 *
 	 * @return void
 	 */
 	abstract public function setUpdates(): void;
 
 	/**
 	 * Метод возвращает данные из входящего запроса.
-	 *
 	 * @return array
 	 */
 	public function getUpdates(): array
@@ -28,10 +30,9 @@ abstract class TeleBrownClientAbstract
 
 	/**
 	 * Метод возвращает объект обновления.
-	 *
 	 * @return Entity\Update
 	 */
-	public function getUpdate(): Entity\Update
+	public function getUpdate(): object
 	{
 		return new Entity\Update(response: $this->getUpdates());
 	}

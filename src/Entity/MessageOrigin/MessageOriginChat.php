@@ -15,11 +15,6 @@ class MessageOriginChat extends MessageOrigin
 {
 	protected static string $type = "chat";
 
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
 	public static function getType(): string
 	{
 		return self::$type;
@@ -27,17 +22,18 @@ class MessageOriginChat extends MessageOrigin
 
 	public function getDate(): int
 	{
-		return (int)$this->getData("date") ?? 0;
+		return (int)$this->getData("date");
 	}
 
-	public function getSenderUser(): ?Chat
+	public function getSenderChat(): Chat
 	{
-		return ($data = $this->getData("sender_chat")) && is_array($data) ? new Chat($data) : null;
+		$data = (array)$this->getData("sender_chat", []);
+		return new Chat($data);
 	}
 
 	public function getAuthorSignature(): string
 	{
-		return (string)$this->getData("author_signature") ?? "";
+		return (string)$this->getData("author_signature", "");
 	}
 
 }

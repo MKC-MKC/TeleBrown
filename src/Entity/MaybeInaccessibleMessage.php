@@ -2,13 +2,13 @@
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * MaybeInaccessibleMessage – This object describes a message that can be inaccessible to the bot.
  * @see https://core.telegram.org/bots/api#maybeinaccessiblemessage
  */
-abstract class MaybeInaccessibleMessage extends Type
+abstract class MaybeInaccessibleMessage extends ResponseWrapper
 {
 
 	public static function getMessage(array $response): self

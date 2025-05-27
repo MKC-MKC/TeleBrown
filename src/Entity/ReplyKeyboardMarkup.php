@@ -4,54 +4,44 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * ReplyKeyboardMarkup – This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
  * Not supported in channels and for messages sent on behalf of a Telegram Business account.
  * @see https://core.telegram.org/bots/api#replykeyboardmarkup
  */
-class ReplyKeyboardMarkup extends Type
+class ReplyKeyboardMarkup extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function getKeyboard(): array
 	{
-		return $this->getData("keyboard") ?? [];
+		return (array)$this->getData("keyboard");
 	}
 
 	public function isPersistent(): bool
 	{
-		return ($this->getData("is_persistent") ?? false);
+		return (bool)$this->getData("is_persistent");
 	}
 
 	public function isResizeKeyboard(): bool
 	{
-		return ($this->getData("resize_keyboard") ?? false);
+		return (bool)$this->getData("resize_keyboard");
 	}
 
 	public function isOneTimeKeyboard(): bool
 	{
-		return ($this->getData("one_time_keyboard") ?? false);
-	}
-
-	public function getInputFieldPlaceholder(): ?string
-	{
-		return (string)$this->getData("input_field_placeholder") ?? null;
+		return (bool)$this->getData("one_time_keyboard");
 	}
 
 	public function isSelective(): bool
 	{
-		return ($this->getData("selective") ?? false);
+		return (bool)$this->getData("selective");
+	}
+
+	public function getInputFieldPlaceholder(): string
+	{
+		return (string)$this->getData("input_field_placeholder");
 	}
 
 }

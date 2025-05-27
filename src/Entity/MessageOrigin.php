@@ -5,20 +5,15 @@ declare(strict_types=1);
 namespace Haikiri\TeleBrown\Entity;
 
 use RuntimeException;
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 use Haikiri\TeleBrown\Enums\MessageOriginEnum;
 
 /**
  * MessageOrigin – This object describes the origin of a message.
  * @see https://core.telegram.org/bots/api#messageorigin
  */
-class MessageOrigin extends Type
+class MessageOrigin extends ResponseWrapper
 {
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public static function getOrigin(array $response): self
 	{

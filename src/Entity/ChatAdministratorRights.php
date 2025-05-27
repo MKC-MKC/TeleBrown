@@ -4,98 +4,88 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * ChatAdministratorRights – Represents the rights of an administrator in a chat.
  * @see https://core.telegram.org/bots/api#chatadministratorrights
  */
-class ChatAdministratorRights extends Type
+class ChatAdministratorRights extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function isAnonymous(): bool
 	{
-		return ($this->getData("is_anonymous") ?? false);
+		return (bool)$this->getData("is_anonymous");
 	}
 
 	public function canManageChat(): bool
 	{
-		return ($this->getData("can_manage_chat") ?? false);
+		return (bool)$this->getData("can_manage_chat");
 	}
 
 	public function canDeleteMessages(): bool
 	{
-		return ($this->getData("can_delete_messages") ?? false);
+		return (bool)$this->getData("can_delete_messages");
 	}
 
 	public function canManageVideoChats(): bool
 	{
-		return ($this->getData("can_manage_video_chats") ?? false);
+		return (bool)$this->getData("can_manage_video_chats");
 	}
 
 	public function canRestrictMembers(): bool
 	{
-		return ($this->getData("can_restrict_members") ?? false);
+		return (bool)$this->getData("can_restrict_members");
 	}
 
 	public function canPromoteMembers(): bool
 	{
-		return ($this->getData("can_promote_members") ?? false);
+		return (bool)$this->getData("can_promote_members");
 	}
 
 	public function canChangeInfo(): bool
 	{
-		return ($this->getData("can_change_info") ?? false);
+		return (bool)$this->getData("can_change_info");
 	}
 
 	public function canInviteUsers(): bool
 	{
-		return ($this->getData("can_invite_users") ?? false);
+		return (bool)$this->getData("can_invite_users");
 	}
 
 	public function canPostStories(): bool
 	{
-		return ($this->getData("can_post_stories") ?? false);
+		return (bool)$this->getData("can_post_stories");
 	}
 
 	public function canEditStories(): bool
 	{
-		return ($this->getData("can_edit_stories") ?? false);
+		return (bool)$this->getData("can_edit_stories");
 	}
 
 	public function canDeleteStories(): bool
 	{
-		return ($this->getData("can_delete_stories") ?? false);
+		return (bool)$this->getData("can_delete_stories");
 	}
 
 	public function canPostMessages(): bool
 	{
-		return ($this->getData("can_post_messages") ?? false);
+		return (bool)$this->getData("can_post_messages");
 	}
 
 	public function canEditMessages(): bool
 	{
-		return ($this->getData("can_edit_messages") ?? false);
+		return (bool)$this->getData("can_edit_messages");
 	}
 
 	public function canPinMessages(): bool
 	{
-		return ($this->getData("can_pin_messages") ?? false);
+		return (bool)$this->getData("can_pin_messages");
 	}
 
 	public function canManageTopics(): bool
 	{
-		return ($this->getData("can_manage_topics") ?? false);
+		return (bool)$this->getData("can_manage_topics");
 	}
 
 }

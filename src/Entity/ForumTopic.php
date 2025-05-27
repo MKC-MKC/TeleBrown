@@ -4,24 +4,14 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * ForumTopic – This object represents a forum topic.
  * @see https://core.telegram.org/bots/api#forumtopic
  */
-class ForumTopic extends Type
+class ForumTopic extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Unique identifier of the forum topic
@@ -30,7 +20,7 @@ class ForumTopic extends Type
 	 */
 	public function getMessageThreadId(): int
 	{
-		return (int)$this->getData("message_thread_id") ?? 0;
+		return (int)$this->getData("message_thread_id");
 	}
 
 	/**
@@ -40,7 +30,7 @@ class ForumTopic extends Type
 	 */
 	public function getName(): string
 	{
-		return (string)$this->getData("name") ?? "";
+		return (string)$this->getData("name");
 	}
 
 	/**
@@ -50,7 +40,7 @@ class ForumTopic extends Type
 	 */
 	public function getIconColor(): int
 	{
-		return (int)$this->getData("icon_color") ?? 0;
+		return (int)$this->getData("icon_color");
 	}
 
 	/**
@@ -60,7 +50,7 @@ class ForumTopic extends Type
 	 */
 	public function getIconCustomEmojiId(): string
 	{
-		return (string)$this->getData("icon_custom_emoji_id") ?? "";
+		return (string)$this->getData("icon_custom_emoji_id");
 	}
 
 }

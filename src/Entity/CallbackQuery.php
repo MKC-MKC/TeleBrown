@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * CallbackQuery – This object represents an incoming callback query from a callback button in an inline keyboard.
@@ -13,27 +13,18 @@ use Haikiri\TeleBrown\Type;
  * Exactly one of the fields data or game_short_name will be present.
  * @see https://core.telegram.org/bots/api#callbackquery
  */
-class CallbackQuery extends Type
+class CallbackQuery extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function getId(): string
 	{
 		return (string)$this->getData("id") ?? "";
 	}
 
-	public function getFrom(): ?User
+	public function getFrom(): User
 	{
-		return ($data = $this->getData("from")) && is_array($data) ? new User($data) : null;
+		$data = (array)$this->getData("from", []);
+		return new User($data);
 	}
 
 	/**
@@ -46,24 +37,24 @@ class CallbackQuery extends Type
 		return MaybeInaccessibleMessage::getMessage($this->getAsArray());
 	}
 
-	public function getInlineMessageId(): ?string
+	public function getInlineMessageId(): string
 	{
-		return (string)$this->getData("inline_message_id") ?? null;
+		return (string)$this->getData("inline_message_id");
 	}
 
 	public function getChatInstance(): string
 	{
-		return (string)$this->getData("chat_instance") ?? "";
+		return (string)$this->getData("chat_instance");
 	}
 
-	public function getCallbackData(): ?string
+	public function getCallbackData(): string
 	{
-		return (string)$this->getData("data") ?? null;
+		return (string)$this->getData("data");
 	}
 
-	public function getGameShortName(): ?string
+	public function getGameShortName(): string
 	{
-		return (string)$this->getData("game_short_name") ?? null;
+		return (string)$this->getData("game_short_name");
 	}
 
 }

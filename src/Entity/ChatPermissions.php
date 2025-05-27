@@ -4,24 +4,14 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * ChatPermissions – Describes actions that a non-administrator user is allowed to take in a chat.
  * @see https://core.telegram.org/bots/api#chatpermissions
  */
-class ChatPermissions extends Type
+class ChatPermissions extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
@@ -30,7 +20,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendMessages(): bool
 	{
-		return ($this->getData("can_send_messages") ?? false);
+		return (bool)$this->getData("can_send_messages");
 	}
 
 	/**
@@ -40,7 +30,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendAudios(): bool
 	{
-		return ($this->getData("can_send_audios") ?? false);
+		return (bool)$this->getData("can_send_audios");
 	}
 
 	/**
@@ -50,7 +40,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendDocuments(): bool
 	{
-		return ($this->getData("can_send_documents") ?? false);
+		return (bool)$this->getData("can_send_documents");
 	}
 
 	/**
@@ -60,7 +50,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendPhotos(): bool
 	{
-		return ($this->getData("can_send_photos") ?? false);
+		return (bool)$this->getData("can_send_photos");
 	}
 
 	/**
@@ -70,7 +60,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendVideos(): bool
 	{
-		return ($this->getData("can_send_videos") ?? false);
+		return (bool)$this->getData("can_send_videos");
 	}
 
 	/**
@@ -80,7 +70,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendVideoNotes(): bool
 	{
-		return ($this->getData("can_send_video_notes") ?? false);
+		return (bool)$this->getData("can_send_video_notes");
 	}
 
 	/**
@@ -90,7 +80,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendVoiceNotes(): bool
 	{
-		return ($this->getData("can_send_voice_notes") ?? false);
+		return (bool)$this->getData("can_send_voice_notes");
 	}
 
 	/**
@@ -100,7 +90,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendPolls(): bool
 	{
-		return ($this->getData("can_send_polls") ?? false);
+		return (bool)$this->getData("can_send_polls");
 	}
 
 	/**
@@ -110,7 +100,7 @@ class ChatPermissions extends Type
 	 */
 	public function canSendOtherMessages(): bool
 	{
-		return ($this->getData("can_send_other_messages") ?? false);
+		return (bool)$this->getData("can_send_other_messages");
 	}
 
 	/**
@@ -120,7 +110,7 @@ class ChatPermissions extends Type
 	 */
 	public function canAddWebPagePreviews(): bool
 	{
-		return ($this->getData("can_add_web_page_previews") ?? false);
+		return (bool)$this->getData("can_add_web_page_previews");
 	}
 
 	/**
@@ -130,7 +120,7 @@ class ChatPermissions extends Type
 	 */
 	public function canChangeInfo(): bool
 	{
-		return ($this->getData("can_change_info") ?? false);
+		return (bool)$this->getData("can_change_info");
 	}
 
 	/**
@@ -140,7 +130,7 @@ class ChatPermissions extends Type
 	 */
 	public function canInviteUsers(): bool
 	{
-		return ($this->getData("can_invite_users") ?? false);
+		return (bool)$this->getData("can_invite_users");
 	}
 
 	/**
@@ -150,7 +140,7 @@ class ChatPermissions extends Type
 	 */
 	public function canPinMessages(): bool
 	{
-		return ($this->getData("can_pin_messages") ?? false);
+		return (bool)$this->getData("can_pin_messages");
 	}
 
 	/**
@@ -160,7 +150,7 @@ class ChatPermissions extends Type
 	 */
 	public function canManageTopics(): bool
 	{
-		return ($this->getData("can_manage_topics") ?? false);
+		return (bool)$this->getData("can_manage_topics");
 	}
 
 }

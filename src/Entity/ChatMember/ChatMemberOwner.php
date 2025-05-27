@@ -15,29 +15,25 @@ class ChatMemberOwner extends ChatMember
 {
 	protected static string $status = "creator";
 
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
 	public static function getStatus(): string
 	{
 		return self::$status;
 	}
 
-	public function getUser(): ?User
+	public function getUser(): User
 	{
-		return ($data = $this->getData("user")) && is_array($data) ? new User($data) : null;
+		$data = (array)$this->getData("user", []);
+		return new User($data);
 	}
 
 	public function isAnonymous(): bool
 	{
-		return ($this->getData("is_anonymous") ?? false);
+		return (bool)$this->getData("is_anonymous", false);
 	}
 
 	public function getCustomTitle(): string
 	{
-		return (string)$this->getData("custom_title") ?? "";
+		return (string)$this->getData("custom_title", "");
 	}
 
 }

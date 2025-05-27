@@ -4,33 +4,24 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * ChatLocation – Represents a location to which a chat is connected.
  * @see https://core.telegram.org/bots/api#chatlocation
  */
-class ChatLocation extends Type
+class ChatLocation extends ResponseWrapper
 {
 
-	public function __construct(array|null $response)
+	public function getLocation(): Location
 	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
-
-	public function getLocation(): ?Location
-	{
-		return ($data = $this->getData("location")) && is_array($data) ? new Location($data) : null;
+		$data = (array)$this->getData("location", []);
+		return new Location($data);
 	}
 
 	public function getAddress(): string
 	{
-		return (string)$this->getData("address") ?? "";
+		return (string)$this->getData("address");
 	}
 
 }

@@ -2,6 +2,8 @@
 
 namespace Haikiri\TeleBrown;
 
+use Haikiri\TeleBrown\Exceptions\TelegramMainException;
+
 class TeleBrownServer extends TeleBrownServerAbstract
 {
 
@@ -20,10 +22,10 @@ class TeleBrownServer extends TeleBrownServerAbstract
 	 * @param string $method
 	 * @param array $params
 	 * @param array $headers
-	 * @return mixed
+	 * @return Response
 	 * @throws TelegramMainException
 	 */
-	public function sendRequest(string $method, array $params = [], array $headers = ["Content-Type: application/json"]): mixed
+	public function sendRequest(string $method, array $params = [], array $headers = ["Content-Type: application/json"]): object
 	{
 		# Сериализация пустых параметров.
 		if ($params) {
@@ -65,7 +67,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 			throw new TelegramMainException(message: $validResponse["description"] ?? "Unknown error", code: $validResponse["error_code"] ?? 0);
 		}
 
-		return $validResponse["result"] ?? null;
+		return Response::fromResponse($validResponse);
 	}
 
 	/**

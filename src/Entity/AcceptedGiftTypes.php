@@ -4,43 +4,33 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * AcceptedGiftTypes – This object describes the types of gifts that can be gifted to a user or a chat.
  * @see https://core.telegram.org/bots/api#accepteddgifttypes
  */
-class AcceptedGiftTypes extends Type
+class AcceptedGiftTypes extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function isUnlimitedGifts(): bool
 	{
-		return ($this->getData("unlimited_gifts") ?? false);
+		return (bool)$this->getData("unlimited_gifts");
 	}
 
 	public function isLimitedGifts(): bool
 	{
-		return ($this->getData("limited_gifts") ?? false);
+		return (bool)$this->getData("limited_gifts");
 	}
 
 	public function isUniqueGifts(): bool
 	{
-		return ($this->getData("unique_gifts") ?? false);
+		return (bool)$this->getData("unique_gifts");
 	}
 
 	public function isPremiumSubscription(): bool
 	{
-		return ($this->getData("premium_subscription") ?? false);
+		return (bool)$this->getData("premium_subscription");
 	}
 
 }

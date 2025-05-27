@@ -4,25 +4,15 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 use Haikiri\TeleBrown\Enums\InlineQueryChatEnum;
 
 /**
  * InlineQuery – This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
  * @see https://core.telegram.org/bots/api#inlinequery
  */
-class InlineQuery extends Type
+class InlineQuery extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Уникальный идентификатор для этого запроса
@@ -32,18 +22,19 @@ class InlineQuery extends Type
 	 */
 	public function getId(): string
 	{
-		return (string)$this->getData("id") ?? "";
+		return (string)$this->getData("id");
 	}
 
 	/**
 	 * Отправитель
 	 * Sender
 	 *
-	 * @return User|null
+	 * @return User
 	 */
-	public function getFrom(): ?User
+	public function getFrom(): User
 	{
-		return ($data = $this->getData("from")) && is_array($data) ? new User($data) : null;
+		$data = (array)$this->getData("from", []);
+		return new User($data);
 	}
 
 	/**
@@ -54,7 +45,7 @@ class InlineQuery extends Type
 	 */
 	public function getQuery(): string
 	{
-		return (string)$this->getData("query") ?? "";
+		return (string)$this->getData("query");
 	}
 
 	/**
@@ -65,7 +56,7 @@ class InlineQuery extends Type
 	 */
 	public function getOffset(): string
 	{
-		return (string)$this->getData("offset") ?? "";
+		return (string)$this->getData("offset");
 	}
 
 	/**
@@ -90,11 +81,12 @@ class InlineQuery extends Type
 	 * Опционально. Расположение отправителя, только для ботов, которые запрашивают местоположение пользователя
 	 * Optional. Sender location, only for bots that request user location
 	 *
-	 * @return Location|null
+	 * @return Location
 	 */
-	public function getLocation(): ?Location
+	public function getLocation(): Location
 	{
-		return ($data = $this->getData("location")) && is_array($data) ? new Location($data) : null;
+		$data = (array)$this->getData("location", []);
+		return new Location($data);
 	}
 
 }

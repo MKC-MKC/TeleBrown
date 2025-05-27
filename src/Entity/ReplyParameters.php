@@ -4,24 +4,14 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * ReplyParameters – Describes reply parameters for the message that is being sent.
  * @see https://core.telegram.org/bots/api#replyparameters
  */
-class ReplyParameters extends Type
+class ReplyParameters extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Optional. Identifier of the message that will be replied to in the current chat, or in the chat chat_id if it is specified
@@ -30,7 +20,7 @@ class ReplyParameters extends Type
 	 */
 	public function getMessageId(): int
 	{
-		return (int)($this->getData("message_id") ?? 0);
+		return (int)$this->getData("message_id");
 	}
 
 	/**
@@ -42,7 +32,7 @@ class ReplyParameters extends Type
 	 */
 	public function getChatId(): int|string
 	{
-		return $this->getData("chat_id") ?? 0;
+		return $this->getData("chat_id") ?? "";
 	}
 
 	/**
@@ -54,7 +44,7 @@ class ReplyParameters extends Type
 	 */
 	public function isAllowSendingWithoutReply(): bool
 	{
-		return ($this->getData("allow_sending_without_reply") ?? false);
+		return (bool)$this->getData("allow_sending_without_reply", false);
 	}
 
 	/**
@@ -67,7 +57,7 @@ class ReplyParameters extends Type
 	 */
 	public function getQuote(): string
 	{
-		return (string)($this->getData("quote") ?? "");
+		return (string)$this->getData("quote");
 	}
 
 	/**
@@ -77,7 +67,7 @@ class ReplyParameters extends Type
 	 */
 	public function getQuoteParseMode(): string
 	{
-		return (string)($this->getData("quote_parse_mode") ?? "");
+		return (string)$this->getData("quote_parse_mode");
 	}
 
 	/**
@@ -88,7 +78,7 @@ class ReplyParameters extends Type
 	 */
 	public function getQuoteEntities(): array
 	{
-		return (array)$this->getData("quote_entities") ?? [];
+		return (array)$this->getData("quote_entities");
 	}
 
 	/**
@@ -98,7 +88,7 @@ class ReplyParameters extends Type
 	 */
 	public function getQuotePosition(): int
 	{
-		return (int)($this->getData("quote_position") ?? 0);
+		return (int)$this->getData("quote_position");
 	}
 
 }

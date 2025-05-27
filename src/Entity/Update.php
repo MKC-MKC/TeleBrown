@@ -5,144 +5,157 @@ declare(strict_types=1);
 namespace Haikiri\TeleBrown\Entity;
 
 use Generator;
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 use Haikiri\TeleBrown\Enums\UpdateEnum;
 
 /**
  * Update – This object represents an incoming update.
  * @see https:core.telegram.org/bots/api#update
  */
-class Update extends Type
+class Update extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function getId(): int
 	{
-		return (int)$this->getData("id") ?? 0;
+		return (int)$this->getData("id");
 	}
 
-	public function getMessage(): ?Message
+	public function getMessage(): Message
 	{
-		return ($data = $this->getData("message")) && is_array($data) ? new Message($data) : null;
+		$data = (array)$this->getData("message", []);
+		return new Message($data);
 	}
 
-	public function getEditedMessage(): ?Message
+	public function getEditedMessage(): Message
 	{
-		return ($data = $this->getData("edited_message")) && is_array($data) ? new Message($data) : null;
+		$data = (array)$this->getData("edited_message", []);
+		return new Message($data);
 	}
 
-	public function getChannelPost(): ?Message
+	public function getChannelPost(): Message
 	{
-		return ($data = $this->getData("channel_post")) && is_array($data) ? new Message($data) : null;
+		$data = (array)$this->getData("channel_post", []);
+		return new Message($data);
 	}
 
-	public function getEditedChannelPost(): ?Message
+	public function getEditedChannelPost(): Message
 	{
-		return ($data = $this->getData("edited_channel_post")) && is_array($data) ? new Message($data) : null;
+		$data = (array)$this->getData("edited_channel_post", []);
+		return new Message($data);
 	}
 
-	public function getBusinessConnection(): ?BusinessConnection
+	public function getBusinessConnection(): BusinessConnection
 	{
-		return ($data = $this->getData("business_connection")) && is_array($data) ? new BusinessConnection($data) : null;
+		$data = (array)$this->getData("business_connection", []);
+		return new BusinessConnection($data);
 	}
 
-	public function getBusinessMessage(): ?Message
+	public function getBusinessMessage(): Message
 	{
-		return ($data = $this->getData("business_message")) && is_array($data) ? new Message($data) : null;
+		$data = (array)$this->getData("business_message", []);
+		return new Message($data);
 	}
 
-	public function getEditedBusinessMessage(): ?Message
+	public function getEditedBusinessMessage(): Message
 	{
-		return ($data = $this->getData("edited_business_message")) && is_array($data) ? new Message($data) : null;
+		$data = (array)$this->getData("edited_business_message", []);
+		return new Message($data);
 	}
 
-	public function getDeletedBusinessMessages(): ?BusinessMessagesDeleted
+	public function getDeletedBusinessMessages(): BusinessMessagesDeleted
 	{
-		return ($data = $this->getData("deleted_business_messages")) && is_array($data) ? new BusinessMessagesDeleted($data) : null;
+		$data = (array)$this->getData("deleted_business_messages", []);
+		return new BusinessMessagesDeleted($data);
 	}
 
-	public function getMessageReaction(): ?MessageReactionUpdated
+	public function getMessageReaction(): MessageReactionUpdated
 	{
-		return ($data = $this->getData("message_reaction")) && is_array($data) ? new MessageReactionUpdated($data) : null;
+		$data = (array)$this->getData("message_reaction", []);
+		return new MessageReactionUpdated($data);
 	}
 
-	public function getMessageReactionCount(): ?MessageReactionCountUpdated
+	public function getMessageReactionCount(): MessageReactionCountUpdated
 	{
-		return ($data = $this->getData("message_reaction_count")) && is_array($data) ? new MessageReactionCountUpdated($data) : null;
+		$data = (array)$this->getData("message_reaction_count", []);
+		return new MessageReactionCountUpdated($data);
 	}
 
-	public function getInlineQuery(): ?InlineQuery
+	public function getInlineQuery(): InlineQuery
 	{
-		return ($data = $this->getData("inline_query")) && is_array($data) ? new InlineQuery($data) : null;
+		$data = (array)$this->getData("inline_query", []);
+		return new InlineQuery($data);
 	}
 
-	public function getChosenInlineResult(): ?ChosenInlineResult
+	public function getChosenInlineResult(): ChosenInlineResult
 	{
-		return ($data = $this->getData("chosen_inline_result")) && is_array($data) ? new ChosenInlineResult($data) : null;
+		$data = (array)$this->getData("chosen_inline_result", []);
+		return new ChosenInlineResult($data);
 	}
 
-	public function getCallbackQuery(): ?CallbackQuery
+	public function getCallbackQuery(): CallbackQuery
 	{
-		return ($data = $this->getData("callback_query")) && is_array($data) ? new CallbackQuery($data) : null;
+		$data = (array)$this->getData("callback_query", []);
+		return new CallbackQuery($data);
 	}
 
-	public function getShippingQuery(): ?ShippingQuery
+	public function getShippingQuery(): ShippingQuery
 	{
-		return ($data = $this->getData("shipping_query")) && is_array($data) ? new ShippingQuery($data) : null;
+		$data = (array)$this->getData("shipping_query", []);
+		return new ShippingQuery($data);
 	}
 
-	public function getPreCheckoutQuery(): ?PreCheckoutQuery
+	public function getPreCheckoutQuery(): PreCheckoutQuery
 	{
-		return ($data = $this->getData("pre_checkout_query")) && is_array($data) ? new PreCheckoutQuery($data) : null;
+		$data = (array)$this->getData("pre_checkout_query", []);
+		return new PreCheckoutQuery($data);
 	}
 
-	public function getPurchasedPaidMedia(): ?PaidMediaPurchased
+	public function getPurchasedPaidMedia(): PaidMediaPurchased
 	{
-		return ($data = $this->getData("purchased_paid_media")) && is_array($data) ? new PaidMediaPurchased($data) : null;
+		$data = (array)$this->getData("purchased_paid_media", []);
+		return new PaidMediaPurchased($data);
 	}
 
-	public function getPoll(): ?Poll
+	public function getPoll(): Poll
 	{
-		return ($data = $this->getData("poll")) && is_array($data) ? new Poll($data) : null;
+		$data = (array)$this->getData("poll", []);
+		return new Poll($data);
 	}
 
-	public function getPollAnswer(): ?PollAnswer
+	public function getPollAnswer(): PollAnswer
 	{
-		return ($data = $this->getData("poll_answer")) && is_array($data) ? new PollAnswer($data) : null;
+		$data = (array)$this->getData("poll_answer", []);
+		return new PollAnswer($data);
 	}
 
-	public function getMyChatMember(): ?ChatMemberUpdated
+	public function getMyChatMember(): ChatMemberUpdated
 	{
-		return ($data = $this->getData("my_chat_member")) && is_array($data) ? new ChatMemberUpdated($data) : null;
+		$data = (array)$this->getData("my_chat_member", []);
+		return new ChatMemberUpdated($data);
 	}
 
-	public function getChatMember(): ?ChatMemberUpdated
+	public function getChatMember(): ChatMemberUpdated
 	{
-		return ($data = $this->getData("chat_member")) && is_array($data) ? new ChatMemberUpdated($data) : null;
+		$data = (array)$this->getData("chat_member", []);
+		return new ChatMemberUpdated($data);
 	}
 
-	public function getChatJoinRequest(): ?ChatJoinRequest
+	public function getChatJoinRequest(): ChatJoinRequest
 	{
-		return ($data = $this->getData("chat_join_request")) && is_array($data) ? new ChatJoinRequest($data) : null;
+		$data = (array)$this->getData("chat_join_request", []);
+		return new ChatJoinRequest($data);
 	}
 
-	public function getChatBoost(): ?ChatBoostUpdated
+	public function getChatBoost(): ChatBoostUpdated
 	{
-		return ($data = $this->getData("chat_boost")) && is_array($data) ? new ChatBoostUpdated($data) : null;
+		$data = (array)$this->getData("chat_boost", []);
+		return new ChatBoostUpdated($data);
 	}
 
-	public function getRemovedChatBoost(): ?ChatBoostRemoved
+	public function getRemovedChatBoost(): ChatBoostRemoved
 	{
-		return ($data = $this->getData("removed_chat_boost")) && is_array($data) ? new ChatBoostRemoved($data) : null;
+		$data = (array)$this->getData("removed_chat_boost", []);
+		return new ChatBoostRemoved($data);
 	}
 
 	/**
@@ -185,7 +198,7 @@ class Update extends Type
 	 *
 	 * @return Chat|null
 	 */
-	public function getChat(): ?Chat
+	public function getChat(): Chat|null
 	{
 		foreach (
 			(function (): Generator {
@@ -220,7 +233,7 @@ class Update extends Type
 	 *
 	 * @return User|null
 	 */
-	public function getUser(): ?User
+	public function getUser(): User|null
 	{
 		foreach (
 			(function (): Generator {
@@ -263,7 +276,7 @@ class Update extends Type
 	 *
 	 * @return User|null
 	 */
-	public function getActualMessage(): ?Message
+	public function getActualMessage(): Message|null
 	{
 		foreach (
 			(function (): Generator {
@@ -287,7 +300,7 @@ class Update extends Type
 	 *
 	 * @return int|null
 	 */
-	public function getDate(): ?int
+	public function getDate(): int|null
 	{
 		foreach (
 			(function (): Generator {

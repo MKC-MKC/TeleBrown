@@ -4,24 +4,14 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * Contact – This object represents a phone contact.
  * @see https://core.telegram.org/bots/api#contact
  */
-class Contact extends Type
+class Contact extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Optional. Contact's user identifier in Telegram.
@@ -34,7 +24,7 @@ class Contact extends Type
 	 */
 	public function getId(): int
 	{
-		return (int)$this->getData("user_id") ?? 0;
+		return (int)$this->getData("user_id");
 	}
 
 	/**
@@ -44,7 +34,7 @@ class Contact extends Type
 	 */
 	public function getPhoneNumber(): string
 	{
-		return (string)$this->getData("phone_number") ?? "";
+		return (string)$this->getData("phone_number");
 	}
 
 	/**
@@ -54,7 +44,7 @@ class Contact extends Type
 	 */
 	public function getFirstName(): string
 	{
-		return (string)$this->getData("first_name") ?? "";
+		return (string)$this->getData("first_name");
 	}
 
 	/**
@@ -64,7 +54,7 @@ class Contact extends Type
 	 */
 	public function getLastName(): string
 	{
-		return (string)$this->getData("last_name") ?? "";
+		return (string)$this->getData("last_name");
 	}
 
 	/**
@@ -74,7 +64,7 @@ class Contact extends Type
 	 */
 	public function getVCard(): string
 	{
-		return (string)$this->getData("vcard") ?? "";
+		return (string)$this->getData("vcard");
 	}
 
 }

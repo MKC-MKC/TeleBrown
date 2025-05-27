@@ -4,24 +4,14 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * MessageEntity – Describes the options used for link preview generation.
  * @see https://core.telegram.org/bots/api#linkpreviewoptions
  */
-class LinkPreviewOptions extends Type
+class LinkPreviewOptions extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Опционально. true, если предпросмотр ссылки отключен
@@ -31,7 +21,7 @@ class LinkPreviewOptions extends Type
 	 */
 	public function isDisabled(): bool
 	{
-		return ($this->getData("is_disabled") ?? false);
+		return (bool)$this->getData("is_disabled");
 	}
 
 	/**
@@ -45,7 +35,7 @@ class LinkPreviewOptions extends Type
 	 */
 	public function getUrl(): string
 	{
-		return (string)$this->getData("url") ?? "";
+		return (string)$this->getData("url");
 	}
 
 	/**
@@ -59,7 +49,7 @@ class LinkPreviewOptions extends Type
 	 */
 	public function isPreferSmallMedia(): bool
 	{
-		return ($this->getData("prefer_small_media") ?? false);
+		return (bool)$this->getData("prefer_small_media");
 	}
 
 	/**
@@ -73,7 +63,7 @@ class LinkPreviewOptions extends Type
 	 */
 	public function isPreferLargeMedia(): bool
 	{
-		return ($this->getData("prefer_large_media") ?? false);
+		return (bool)$this->getData("prefer_large_media");
 	}
 
 	/**
@@ -87,7 +77,7 @@ class LinkPreviewOptions extends Type
 	 */
 	public function isShowAboveText(): bool
 	{
-		return ($this->getData("show_above_text") ?? false);
+		return (bool)$this->getData("show_above_text");
 	}
 
 }

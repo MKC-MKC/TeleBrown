@@ -4,24 +4,14 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * User – This object represents a Telegram user or bot.
  * @see https://core.telegram.org/bots/api#user
  */
-class User extends Type
+class User extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Unique identifier for this user or bot.
@@ -34,7 +24,7 @@ class User extends Type
 	 */
 	public function getId(): int
 	{
-		return (int)$this->getData("id") ?? 0;
+		return (int)$this->getData("id");
 	}
 
 	/**
@@ -44,7 +34,7 @@ class User extends Type
 	 */
 	public function isBot(): bool
 	{
-		return ($this->getData("is_bot") ?? false);
+		return (bool)$this->getData("is_bot", false);
 	}
 
 	/**
@@ -54,7 +44,7 @@ class User extends Type
 	 */
 	public function getFirstName(): string
 	{
-		return (string)$this->getData("first_name") ?? "";
+		return (string)$this->getData("first_name");
 	}
 
 	/**
@@ -64,7 +54,7 @@ class User extends Type
 	 */
 	public function getLastName(): string
 	{
-		return (string)$this->getData("last_name") ?? "";
+		return (string)$this->getData("last_name", "");
 	}
 
 	/**
@@ -74,7 +64,7 @@ class User extends Type
 	 */
 	public function getUsername(): string
 	{
-		return (string)$this->getData("username") ?? "";
+		return (string)$this->getData("username", "");
 	}
 
 	/**
@@ -84,7 +74,7 @@ class User extends Type
 	 */
 	public function getLanguageCode(): string
 	{
-		return (string)$this->getData("language_code") ?? "";
+		return (string)$this->getData("language_code", "");
 	}
 
 	/**
@@ -94,7 +84,7 @@ class User extends Type
 	 */
 	public function isPremium(): bool
 	{
-		return ($this->getData("is_premium") ?? false);
+		return (bool)$this->getData("is_premium", false);
 	}
 
 	/**
@@ -104,7 +94,7 @@ class User extends Type
 	 */
 	public function isAddedToAttachmentMenu(): bool
 	{
-		return ($this->getData("added_to_attachment_menu") ?? false);
+		return (bool)$this->getData("added_to_attachment_menu", false);
 	}
 
 	/**
@@ -115,7 +105,7 @@ class User extends Type
 	 */
 	public function canJoinGroups(): bool
 	{
-		return ($this->getData("can_join_groups") ?? false);
+		return (bool)$this->getData("can_join_groups", false);
 	}
 
 	/**
@@ -126,7 +116,7 @@ class User extends Type
 	 */
 	public function canReadAllGroupMessages(): bool
 	{
-		return ($this->getData("can_read_all_group_messages") ?? false);
+		return (bool)$this->getData("can_read_all_group_messages", false);
 	}
 
 	/**
@@ -137,7 +127,7 @@ class User extends Type
 	 */
 	public function supportsInlineQueries(): bool
 	{
-		return ($this->getData("supports_inline_queries") ?? false);
+		return (bool)$this->getData("supports_inline_queries", false);
 	}
 
 	/**
@@ -148,7 +138,7 @@ class User extends Type
 	 */
 	public function canConnectToBusiness(): bool
 	{
-		return ($this->getData("can_connect_to_business") ?? false);
+		return (bool)$this->getData("can_connect_to_business", false);
 	}
 
 	/**
@@ -159,7 +149,7 @@ class User extends Type
 	 */
 	public function hasMainWebApp(): bool
 	{
-		return ($this->getData("has_main_web_app") ?? false);
+		return (bool)$this->getData("has_main_web_app", false);
 	}
 
 }

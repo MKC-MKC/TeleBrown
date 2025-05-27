@@ -11,24 +11,15 @@ namespace Haikiri\TeleBrown\Entity;
 class InaccessibleMessage extends MaybeInaccessibleMessage
 {
 
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
-
 	/**
 	 * Chat the message belonged to
 	 *
-	 * @return Chat|null
+	 * @return Chat
 	 */
-	public function getChat(): ?Chat
+	public function getChat(): Chat
 	{
-		return ($data = $this->getData("chat")) && is_array($data) ? new Chat($data) : null;
+		$data = (array)$this->getData("chat", []);
+		return new Chat($data);
 	}
 
 	/**
@@ -38,7 +29,7 @@ class InaccessibleMessage extends MaybeInaccessibleMessage
 	 */
 	public function getId(): int
 	{
-		return (int)$this->getData("message_id") ?? 0;
+		return (int)$this->getData("message_id");
 	}
 
 	/**
@@ -48,7 +39,7 @@ class InaccessibleMessage extends MaybeInaccessibleMessage
 	 */
 	public function getDate(): int
 	{
-		return (int)$this->getData("date") ?? 0;
+		return (int)$this->getData("date");
 	}
 
 }

@@ -4,59 +4,49 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * KeyboardButtonRequestUsers – This object defines the criteria used to request suitable users.
  * Information about the selected users will be shared with the bot when the corresponding button is pressed.
  * @see https://core.telegram.org/bots/api#keyboardbuttonrequestusers
  */
-class KeyboardButtonRequestUsers extends Type
+class KeyboardButtonRequestUsers extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function getRequestId(): int
 	{
-		return (int)$this->getData("request_id") ?? 0;
+		return (int)$this->getData("request_id");
 	}
 
 	public function isUserIsBot(): bool
 	{
-		return ($this->getData("user_is_bot") ?? false);
+		return (bool)$this->getData("user_is_bot");
 	}
 
 	public function isUserIsPremium(): bool
 	{
-		return ($this->getData("user_is_premium") ?? false);
+		return (bool)$this->getData("user_is_premium");
 	}
 
 	public function getMaxQuantity(): int
 	{
-		return (int)$this->getData("max_quantity") ?? 0;
+		return (int)$this->getData("max_quantity");
 	}
 
 	public function isRequestName(): bool
 	{
-		return ($this->getData("request_name") ?? false);
+		return (bool)$this->getData("request_name");
 	}
 
 	public function isRequestUsername(): bool
 	{
-		return ($this->getData("request_username") ?? false);
+		return (bool)$this->getData("request_username");
 	}
 
 	public function isRequestPhoto(): bool
 	{
-		return ($this->getData("request_photo") ?? false);
+		return (bool)$this->getData("request_photo");
 	}
 
 }

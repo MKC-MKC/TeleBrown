@@ -15,11 +15,6 @@ class MessageOriginUser extends MessageOrigin
 {
 	protected static string $type = "user";
 
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
 	public static function getType(): string
 	{
 		return self::$type;
@@ -30,9 +25,10 @@ class MessageOriginUser extends MessageOrigin
 		return (int)$this->getData("date") ?? 0;
 	}
 
-	public function getSenderUser(): ?User
+	public function getSenderUser(): User
 	{
-		return ($data = $this->getData("sender_user")) && is_array($data) ? new User($data) : null;
+		$data = (array)$this->getData("sender_user", []);
+		return new User($data);
 	}
 
 }

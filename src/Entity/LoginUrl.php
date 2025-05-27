@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * LoginUrl – This object represents a parameter of the inline keyboard button used to automatically authorize a user.
@@ -12,37 +12,27 @@ use Haikiri\TeleBrown\Type;
  * All the user needs to do is tap/click a button and confirm that they want to log in:
  * @see https://core.telegram.org/bots/api#loginurl
  */
-class LoginUrl extends Type
+class LoginUrl extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function getUrl(): string
 	{
-		return (string)$this->getData("url") ?? "";
+		return (string)$this->getData("url");
 	}
 
-	public function getForwardText(): ?string
+	public function getForwardText(): string
 	{
-		return (string)$this->getData("forward_text") ?? null;
+		return (string)$this->getData("forward_text");
 	}
 
-	public function getBotUsername(): ?string
+	public function getBotUsername(): string
 	{
-		return (string)$this->getData("bot_username") ?? null;
+		return (string)$this->getData("bot_username");
 	}
 
 	public function hasRequestWriteAccess(): bool
 	{
-		return (bool)$this->getData("request_write_access") ?? false;
+		return (bool)$this->getData("request_write_access");
 	}
 
 }

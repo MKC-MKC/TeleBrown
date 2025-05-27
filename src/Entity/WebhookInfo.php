@@ -4,68 +4,58 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * WebhookInfo – Describes the current status of a webhook.
  * @see https://core.telegram.org/bots/api#webhookinfo
  */
-class WebhookInfo extends Type
+class WebhookInfo extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	public function getUrl(): string
 	{
-		return (string)$this->getData("url") ?? "";
+		return (string)$this->getData("url");
 	}
 
 	public function hasCustomCertificate(): bool
 	{
-		return ($this->getData("has_custom_certificate") ?? false);
+		return (bool)$this->getData("has_custom_certificate");
 	}
 
 	public function getPendingUpdateCount(): int
 	{
-		return (int)($this->getData("pending_update_count") ?? 0);
+		return (int)$this->getData("pending_update_count");
 	}
 
-	public function getIpAddress(): ?string
+	public function getIpAddress(): string
 	{
-		return $this->getData("ip_address") ?? null;
+		return (string)$this->getData("ip_address");
 	}
 
-	public function getLastErrorDate(): ?int
+	public function getLastErrorDate(): int
 	{
-		return $this->getData("last_error_date") ?? null;
+		return (int)$this->getData("last_error_date");
 	}
 
-	public function getLastErrorMessage(): ?string
+	public function getLastErrorMessage(): string
 	{
-		return $this->getData("last_error_message") ?? null;
+		return (string)$this->getData("last_error_message");
 	}
 
-	public function getLastSynchronizationErrorDate(): ?int
+	public function getLastSynchronizationErrorDate(): int
 	{
-		return $this->getData("last_synchronization_error_date") ?? null;
+		return (int)$this->getData("last_synchronization_error_date");
 	}
 
-	public function getMaxConnections(): ?int
+	public function getMaxConnections(): int
 	{
-		return $this->getData("max_connections") ?? null;
+		return (int)$this->getData("max_connections");
 	}
 
-	public function getAllowedUpdates(): ?array
+	public function getAllowedUpdates(): array
 	{
-		return $this->getData("allowed_updates") ?? null;
+		return (array)$this->getData("allowed_updates");
 	}
 
 }

@@ -4,24 +4,14 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * MessageEntity – This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  * @see https://core.telegram.org/bots/api#messageentity
  */
-class MessageEntity extends Type
+class MessageEntity extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Type of the entity. Currently, can be “mention” (@username), “hashtag” (#hashtag or #hashtag@chatusername),
@@ -37,7 +27,7 @@ class MessageEntity extends Type
 	 */
 	public function getType(): string
 	{
-		return (string)$this->getData("type") ?? "";
+		return (string)$this->getData("type");
 	}
 
 	/**
@@ -47,7 +37,7 @@ class MessageEntity extends Type
 	 */
 	public function getOffset(): int
 	{
-		return (int)$this->getData("offset") ?? 0;
+		return (int)$this->getData("offset");
 	}
 
 	/**
@@ -57,7 +47,7 @@ class MessageEntity extends Type
 	 */
 	public function getLength(): int
 	{
-		return (int)$this->getData("length") ?? 0;
+		return (int)$this->getData("length");
 	}
 
 	/**
@@ -67,17 +57,18 @@ class MessageEntity extends Type
 	 */
 	public function getUrl(): string
 	{
-		return (string)$this->getData("url") ?? "";
+		return (string)$this->getData("url");
 	}
 
 	/**
 	 * Optional. For “text_mention” only, the mentioned user
 	 *
-	 * @return User|null
+	 * @return User
 	 */
-	public function getUser(): ?User
+	public function getUser(): User
 	{
-		return ($data = $this->getData("user")) && is_array($data) ? new User($data) : null;
+		$data = (array)$this->getData("user", []);
+		return new User($data);
 	}
 
 	/**
@@ -87,7 +78,7 @@ class MessageEntity extends Type
 	 */
 	public function getLanguage(): string
 	{
-		return (string)$this->getData("language") ?? "";
+		return (string)$this->getData("language");
 	}
 
 	/**
@@ -98,7 +89,7 @@ class MessageEntity extends Type
 	 */
 	public function getCustomEmojiId(): string
 	{
-		return (string)$this->getData("custom_emoji_id") ?? "";
+		return (string)$this->getData("custom_emoji_id");
 	}
 
 }

@@ -14,11 +14,6 @@ class MessageOriginHiddenUser extends MessageOrigin
 {
 	protected static string $type = "hidden_user";
 
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
 	public static function getType(): string
 	{
 		return self::$type;
@@ -26,12 +21,12 @@ class MessageOriginHiddenUser extends MessageOrigin
 
 	public function getDate(): int
 	{
-		return (int)$this->getData("date") ?? 0;
+		return (int)$this->getData("date");
 	}
 
 	public function getSenderUserName(): string
 	{
-		return (string)$this->getData("sender_user_name") ?? "";
+		return (string)$this->getData("sender_user_name", "");
 	}
 
 }

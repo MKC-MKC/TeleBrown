@@ -4,25 +4,15 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Entity;
 
-use Haikiri\TeleBrown\Type;
 use Haikiri\TeleBrown\Enums\ChatEnum;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * Chat – This object represents a chat.
  * @see https://core.telegram.org/bots/api#chat
  */
-class Chat extends Type
+class Chat extends ResponseWrapper
 {
-
-	public function __construct(array|null $response)
-	{
-		$this->response = $response;
-	}
-
-	public function getAsArray(): array|null
-	{
-		return $this->response ?? null;
-	}
 
 	/**
 	 * Unique identifier for this chat.
@@ -35,7 +25,7 @@ class Chat extends Type
 	 */
 	public function getId(): int
 	{
-		return (int)$this->getData("id") ?? 0;
+		return (int)$this->getData("id");
 	}
 
 	/**
@@ -45,7 +35,7 @@ class Chat extends Type
 	 */
 	public function getType(): ChatEnum|null
 	{
-		return ChatEnum::tryFrom($this->getData("type")) ?? null;
+		return ChatEnum::tryFrom($this->getData("type"));
 	}
 
 	/**
@@ -55,7 +45,7 @@ class Chat extends Type
 	 */
 	public function getTitle(): string
 	{
-		return (string)$this->getData("title") ?? "";
+		return (string)$this->getData("title");
 	}
 
 	/**
@@ -65,7 +55,7 @@ class Chat extends Type
 	 */
 	public function getUsername(): string
 	{
-		return (string)$this->getData("username") ?? "";
+		return (string)$this->getData("username", "");
 	}
 
 	/**
@@ -75,7 +65,7 @@ class Chat extends Type
 	 */
 	public function getFirstName(): string
 	{
-		return (string)$this->getData("first_name") ?? "";
+		return (string)$this->getData("first_name");
 	}
 
 	/**
@@ -85,7 +75,7 @@ class Chat extends Type
 	 */
 	public function getLastName(): string
 	{
-		return (string)$this->getData("last_name") ?? "";
+		return (string)$this->getData("last_name", "");
 	}
 
 	/**
@@ -95,7 +85,7 @@ class Chat extends Type
 	 */
 	public function isForum(): bool
 	{
-		return ($this->getData("is_forum") ?? false);
+		return (bool)$this->getData("is_forum");
 	}
 
 }

@@ -1,8 +1,8 @@
 <?php /** @noinspection PhpUnused */
 
-declare(strict_types=1);
-
 namespace Haikiri\TeleBrown;
+
+use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 
 abstract class TeleBrownServerAbstract
 {
@@ -86,9 +86,7 @@ abstract class TeleBrownServerAbstract
 	public function getMe(): Entity\User
 	{
 		return new Entity\User(
-			$this->sendRequest(
-				method: __FUNCTION__,
-			)
+			$this->sendRequest(method: __FUNCTION__)->getData()
 		);
 	}
 
@@ -120,7 +118,7 @@ abstract class TeleBrownServerAbstract
 			]
 		);
 
-		return array_map(fn(array $item): Entity\Update => new Entity\Update($item), $response);
+		return array_map(fn(array $item): Entity\Update => new Entity\Update($item), $response->getData());
 	}
 
 	/**
@@ -155,7 +153,7 @@ abstract class TeleBrownServerAbstract
 		?string    $secretToken = null
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"url" => $url,
@@ -166,7 +164,7 @@ abstract class TeleBrownServerAbstract
 				"drop_pending_updates" => $dropPendingUpdates,
 				"secret_token" => $secretToken
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -180,7 +178,12 @@ abstract class TeleBrownServerAbstract
 	 */
 	public function deleteWebhook(bool|null $dropPendingUpdates = null): bool
 	{
-		return (boolean)$this->sendRequest(method: __FUNCTION__, params: ["drop_pending_updates" => $dropPendingUpdates]);
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"drop_pending_updates" => $dropPendingUpdates,
+			],
+		)->isSuccess();
 	}
 
 	/**
@@ -192,7 +195,9 @@ abstract class TeleBrownServerAbstract
 	 */
 	public function getWebhookInfo(): Entity\WebhookInfo
 	{
-		return new Entity\WebhookInfo($this->sendRequest(method: __FUNCTION__));
+		return new Entity\WebhookInfo(
+			$this->sendRequest(method: __FUNCTION__)->getData()
+		);
 	}
 
 	/**
@@ -251,7 +256,7 @@ abstract class TeleBrownServerAbstract
 					"reply_parameters" => $replyParameters?->getAsArray(),
 					"reply_markup" => $replyMarkup?->getAsArray(),
 				]
-			)
+			)->getData()
 		);
 	}
 
@@ -296,7 +301,7 @@ abstract class TeleBrownServerAbstract
 					"disable_notification" => $disableNotification,
 					"protect_content" => $protectContent,
 				]
-			)
+			)->getData()
 		);
 	}
 
@@ -319,7 +324,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|null $messageThreadId
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
-	 * @return array
+	 * @return Entity\MessageId[]
 	 * @throws TelegramMainException
 	 */
 	public function forwardMessages(
@@ -331,7 +336,7 @@ abstract class TeleBrownServerAbstract
 		?bool      $protectContent = null,
 	): array
 	{
-		return $this->sendRequest(
+		$response = $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
@@ -342,6 +347,8 @@ abstract class TeleBrownServerAbstract
 				"protect_content" => $protectContent,
 			]
 		);
+
+		return array_map(fn(array $item): Entity\MessageId => new Entity\MessageId($item), $response->getData());
 	}
 
 	/**
@@ -395,7 +402,7 @@ abstract class TeleBrownServerAbstract
 					"reply_parameters" => $replyParameters?->getAsArray(),
 					"reply_markup" => $replyMarkup?->getAsArray(),
 				]
-			)
+			)->getData()
 		);
 	}
 
@@ -422,7 +429,7 @@ abstract class TeleBrownServerAbstract
 		?string          $businessConnectionId = null,
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
@@ -430,7 +437,7 @@ abstract class TeleBrownServerAbstract
 				"message_thread_id" => $messageThreadId,
 				"business_connection_id" => $businessConnectionId,
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -458,7 +465,7 @@ abstract class TeleBrownServerAbstract
 		?bool      $revokeMessages = null,
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
@@ -466,7 +473,7 @@ abstract class TeleBrownServerAbstract
 				"until_date" => $untilDate,
 				"revoke_messages" => $revokeMessages,
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -514,14 +521,14 @@ abstract class TeleBrownServerAbstract
 		bool       $onlyIfBanned = true,
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 				"user_id" => $userId,
 				"only_if_banned" => $onlyIfBanned,
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -551,7 +558,7 @@ abstract class TeleBrownServerAbstract
 		?int                   $untilDate = null,
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
@@ -560,7 +567,7 @@ abstract class TeleBrownServerAbstract
 				"use_independent_chat_permissions" => $useIndependentChatPermissions,
 				"until_date" => $untilDate,
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -614,7 +621,7 @@ abstract class TeleBrownServerAbstract
 		?bool      $canManageTopics = null
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
@@ -635,7 +642,7 @@ abstract class TeleBrownServerAbstract
 				"can_pin_messages" => $canPinMessages,
 				"can_manage_topics" => $canManageTopics
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -654,14 +661,14 @@ abstract class TeleBrownServerAbstract
 		string     $customTitle
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 				"user_id" => $userId,
 				"custom_title" => $customTitle
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -683,13 +690,13 @@ abstract class TeleBrownServerAbstract
 		int        $senderChatId
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 				"sender_chat_id" => $senderChatId
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -709,13 +716,13 @@ abstract class TeleBrownServerAbstract
 		int        $senderChatId
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 				"sender_chat_id" => $senderChatId
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -737,14 +744,14 @@ abstract class TeleBrownServerAbstract
 		?bool                  $useIndependentChatPermissions = null,
 	): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 				"permissions" => $permissions->getAsArray(),
 				"use_independent_chat_permissions" => $useIndependentChatPermissions,
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -757,12 +764,12 @@ abstract class TeleBrownServerAbstract
 	 */
 	public function leaveChat(int|string $chatId): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -827,7 +834,7 @@ abstract class TeleBrownServerAbstract
 					"link_preview_options" => $linkPreviewOptions?->getAsArray(),
 					"reply_markup" => $replyMarkup?->getAsArray(),
 				]
-			)
+			)->getData()
 		);
 	}
 
@@ -844,13 +851,13 @@ abstract class TeleBrownServerAbstract
 	 */
 	public function deleteMessage(int|string $chatId, int $messageId): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 				"message_id" => $messageId,
 			]
-		);
+		)->isSuccess();
 	}
 
 	/**
@@ -867,13 +874,13 @@ abstract class TeleBrownServerAbstract
 	 */
 	public function deleteMessages(int|string $chatId, array $messageId): bool
 	{
-		return (boolean)$this->sendRequest(
+		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 				"message_ids" => $messageId,
 			]
-		);
+		)->isSuccess();
 	}
 
 }
