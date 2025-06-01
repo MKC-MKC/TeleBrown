@@ -10,7 +10,7 @@ abstract class TeleBrownServerAbstract
 	#	Brown
 	protected string $url = "https://api.telegram.org/bot";
 	protected string $token = "";
-	protected static ?bool $debug = false;
+	protected static bool $debug;
 
 	public function __construct(string $url, string $token, $debug = false)
 	{

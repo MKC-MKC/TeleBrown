@@ -6,7 +6,7 @@ abstract class TeleBrownClientAbstract
 {
 
 	public array $response = [];
-	protected static ?bool $debug = false;
+	protected static bool $debug;
 
 	public function __construct($debug = false)
 	{
