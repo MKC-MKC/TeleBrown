@@ -210,7 +210,7 @@ abstract class TeleBrownServerAbstract
 	 * @param string $text
 	 * @param string|null $businessConnectionId
 	 * @param Enums\ParseModeEnum|null $parseMode
-	 * @param int|null $messageThreadId
+	 * @param int|string|null $messageThreadId
 	 * @param array|null $entities
 	 * @param Objects\LinkPreviewOptions|null $linkPreviewOptions
 	 * @param bool|null $disableNotification
@@ -227,7 +227,7 @@ abstract class TeleBrownServerAbstract
 		string                                                                                                       $text,
 		?string                                                                                                      $businessConnectionId = null,
 		?Enums\ParseModeEnum                                                                                         $parseMode = Enums\ParseModeEnum::HTML,
-		?int                                                                                                         $messageThreadId = null,
+		int|string|null                                                                                              $messageThreadId = null,
 		?array                                                                                                       $entities = null,
 		?Objects\LinkPreviewOptions                                                                                  $linkPreviewOptions = null,
 		?bool                                                                                                        $disableNotification = null,
@@ -272,7 +272,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|string $chatId
 	 * @param int|string $fromChatId
 	 * @param int $messageId
-	 * @param int|null $messageThreadId
+	 * @param int|string|null $messageThreadId
 	 * @param int|null $videoStartTimestamp
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
@@ -280,13 +280,13 @@ abstract class TeleBrownServerAbstract
 	 * @throws TelegramMainException
 	 */
 	public function forwardMessage(
-		int|string $chatId,
-		int|string $fromChatId,
-		int        $messageId,
-		?int       $messageThreadId = null,
-		?int       $videoStartTimestamp = null,
-		?bool      $disableNotification = null,
-		?bool      $protectContent = null,
+		int|string      $chatId,
+		int|string      $fromChatId,
+		int             $messageId,
+		int|string|null $messageThreadId = null,
+		?int            $videoStartTimestamp = null,
+		?bool           $disableNotification = null,
+		?bool           $protectContent = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -321,19 +321,19 @@ abstract class TeleBrownServerAbstract
 	 * @param int|string $chatId
 	 * @param int|string $fromChatId
 	 * @param array $messageIds
-	 * @param int|null $messageThreadId
+	 * @param int|string|null $messageThreadId
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
 	 * @return Objects\MessageId[]
 	 * @throws TelegramMainException
 	 */
 	public function forwardMessages(
-		int|string $chatId,
-		int|string $fromChatId,
-		array      $messageIds,
-		?int       $messageThreadId = null,
-		?bool      $disableNotification = null,
-		?bool      $protectContent = null,
+		int|string      $chatId,
+		int|string      $fromChatId,
+		array           $messageIds,
+		int|string|null $messageThreadId = null,
+		?bool           $disableNotification = null,
+		?bool           $protectContent = null,
 	): array
 	{
 		$response = $this->sendRequest(
@@ -360,7 +360,7 @@ abstract class TeleBrownServerAbstract
 	 * @param string $firstName
 	 * @param string|null $lastName
 	 * @param string|null $vcard
-	 * @param int|null $messageThreadId
+	 * @param int|string|null $messageThreadId
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
 	 * @param bool|null $allowPaidBroadcast
@@ -376,7 +376,7 @@ abstract class TeleBrownServerAbstract
 		string                   $firstName,
 		?string                  $lastName = null,
 		?string                  $vcard = null,
-		?int                     $messageThreadId = null,
+		int|string|null          $messageThreadId = null,
 		?bool                    $disableNotification = null,
 		?bool                    $protectContent = null,
 		?bool                    $allowPaidBroadcast = null,
@@ -417,7 +417,7 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @param int|string $chatId
 	 * @param Enums\ActionEnum $action
-	 * @param int|null $messageThreadId
+	 * @param int|string|null $messageThreadId
 	 * @param string|null $businessConnectionId
 	 * @return bool
 	 * @throws TelegramMainException
@@ -425,7 +425,7 @@ abstract class TeleBrownServerAbstract
 	public function sendChatAction(
 		int|string       $chatId,
 		Enums\ActionEnum $action = Enums\ActionEnum::TYPING,
-		?int             $messageThreadId = null,
+		int|string|null  $messageThreadId = null,
 		?string          $businessConnectionId = null,
 	): bool
 	{
