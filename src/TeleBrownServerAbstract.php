@@ -223,19 +223,19 @@ abstract class TeleBrownServerAbstract
 	 * @throws TelegramMainException
 	 */
 	public function sendMessage(
-		int|string                                                                                                   $chatId,
-		string                                                                                                       $text,
-		?string                                                                                                      $businessConnectionId = null,
-		?Enums\ParseModeEnum                                                                                         $parseMode = Enums\ParseModeEnum::HTML,
-		int|string|null                                                                                              $messageThreadId = null,
-		?array                                                                                                       $entities = null,
-		?Objects\LinkPreviewOptions                                                                                  $linkPreviewOptions = null,
-		?bool                                                                                                        $disableNotification = null,
-		?bool                                                                                                        $protectContent = null,
-		?bool                                                                                                        $allowPaidBroadcast = null,
-		?string                                                                                                      $messageEffectId = null,
-		?Objects\ReplyParameters                                                                                     $replyParameters = null,
-		null|Objects\InlineKeyboardMarkup|Objects\ReplyKeyboardMarkup|Objects\ReplyKeyboardRemove|Objects\ForceReply $replyMarkup = null,
+		int|string                  $chatId,
+		string                      $text,
+		?string                     $businessConnectionId = null,
+		?Enums\ParseModeEnum        $parseMode = Enums\ParseModeEnum::HTML,
+		int|string|null             $messageThreadId = null,
+		?array                      $entities = null,
+		?Objects\LinkPreviewOptions $linkPreviewOptions = null,
+		?bool                       $disableNotification = null,
+		?bool                       $protectContent = null,
+		?bool                       $allowPaidBroadcast = null,
+		?string                     $messageEffectId = null,
+		?Objects\ReplyParameters    $replyParameters = null,
+		mixed                       $replyMarkup = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
