@@ -226,7 +226,7 @@ abstract class TeleBrownServerAbstract
 		int|string                  $chatId,
 		string                      $text,
 		?string                     $businessConnectionId = null,
-		?Enums\ParseModeEnum        $parseMode = null,
+		?Enums\ParseModeEnum        $parseMode = Enums\ParseModeEnum::HTML,
 		int|string|null             $messageThreadId = null,
 		?array                      $entities = null,
 		?Objects\LinkPreviewOptions $linkPreviewOptions = null,
@@ -814,7 +814,7 @@ abstract class TeleBrownServerAbstract
 		string                      $text,
 		?string                     $businessConnectionId = null,
 		?string                     $inlineMessageId = null,
-		?Enums\ParseModeEnum        $parseMode = null,
+		?Enums\ParseModeEnum        $parseMode = Enums\ParseModeEnum::HTML,
 		?array                      $entities = null,
 		?Objects\LinkPreviewOptions $linkPreviewOptions = null,
 		mixed                       $replyMarkup = null
