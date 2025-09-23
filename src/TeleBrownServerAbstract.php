@@ -497,6 +497,102 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
+	 * Используйте этот метод, чтобы отправить видеофайлы, клиенты Telegram поддерживают видео MPEG4 (другие форматы могут быть отправлены как документ).
+	 * При успешном выполнении возвращается объект отправленного сообщения Message.
+	 * Боты могут в настоящее время отправлять видеофайлы размером до 50 МБ, этот лимит может быть изменен в будущем.
+	 *
+	 * Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document).
+	 * On success, the sent Message is returned.
+	 * Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
+	 *
+	 * @param int|string $chatId
+	 * @param mixed $video
+	 * @param string|null $businessConnectionId
+	 * @param int|string|null $messageThreadId
+	 * @param int|null $directMessagesTopicId
+	 * @param int|null $duration
+	 * @param int|null $width
+	 * @param int|null $height
+	 * @param mixed|null $thumbnail
+	 * @param mixed|null $cover
+	 * @param int|null $startTimestamp
+	 * @param string|null $caption
+	 * @param Enums\ParseModeEnum|null $parseMode
+	 * @param array|null $captionEntities
+	 * @param bool|null $showCaptionAboveMedia
+	 * @param bool|null $hasSpoiler
+	 * @param bool|null $supportsStreaming
+	 * @param bool|null $disableNotification
+	 * @param bool|null $protectContent
+	 * @param bool|null $allowPaidBroadcast
+	 * @param string|null $messageEffectId
+	 * @param mixed|null $suggestedPostParameters
+	 * @param mixed|null $replyParameters
+	 * @param mixed|null $replyMarkup
+	 * @return Objects\Message
+	 * @see https://core.telegram.org/bots/api#sendvideo
+	 */
+	public function sendVideo(
+		int|string           $chatId,
+		mixed                $video,
+		?string              $businessConnectionId = null,
+		int|string|null      $messageThreadId = null,
+		?int                 $directMessagesTopicId = null,
+		?int                 $duration = null,
+		?int                 $width = null,
+		?int                 $height = null,
+		mixed                $thumbnail = null,
+		mixed                $cover = null,
+		?int                 $startTimestamp = null,
+		?string              $caption = null,
+		?Enums\ParseModeEnum $parseMode = null,
+		?array               $captionEntities = null,
+		?bool                $showCaptionAboveMedia = null,
+		?bool                $hasSpoiler = null,
+		?bool                $supportsStreaming = null,
+		?bool                $disableNotification = null,
+		?bool                $protectContent = null,
+		?bool                $allowPaidBroadcast = null,
+		?string              $messageEffectId = null,
+		mixed                $suggestedPostParameters = null,
+		mixed                $replyParameters = null,
+		mixed                $replyMarkup = null,
+	): Objects\Message
+	{
+		return new Objects\Message(
+			$this->sendRequest(
+				method: __FUNCTION__,
+				params: [
+					"chat_id" => $chatId,
+					"video" => $video,
+					"business_connection_id" => $businessConnectionId,
+					"message_thread_id" => $messageThreadId,
+					"direct_messages_topic_id" => $directMessagesTopicId,
+					"duration" => $duration,
+					"width" => $width,
+					"height" => $height,
+					"thumbnail" => $thumbnail,
+					"cover" => $cover,
+					"start_timestamp" => $startTimestamp,
+					"caption" => $caption,
+					"parse_mode" => $parseMode?->value,
+					"caption_entities" => $captionEntities,
+					"show_caption_above_media" => $showCaptionAboveMedia,
+					"has_spoiler" => $hasSpoiler,
+					"supports_streaming" => $supportsStreaming,
+					"disable_notification" => $disableNotification,
+					"protect_content" => $protectContent,
+					"allow_paid_broadcast" => $allowPaidBroadcast,
+					"message_effect_id" => $messageEffectId,
+					"suggested_post_parameters" => $suggestedPostParameters?->getAsArray(),
+					"reply_parameters" => $replyParameters?->getAsArray(),
+					"reply_markup" => $replyMarkup?->getAsArray(),
+				]
+			)->getData()
+		);
+	}
+
+	/**
 	 * Используйте этот метод, чтобы отправить контактные данные.
 	 * Use this method to send phone contacts.
 	 *

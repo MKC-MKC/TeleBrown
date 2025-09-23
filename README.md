@@ -7,5 +7,5 @@
 # Установка
 
 ```bash
-composer require haikiri/telebrown:dev-main
+composer require haikiri/telebrown
 ```
