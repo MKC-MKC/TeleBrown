@@ -850,6 +850,40 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
+	 * Используйте этот метод, чтобы остановить опрос, который был отправлен ботом.
+	 * В случае успеха возвращается остановленный опрос.
+	 *
+	 * Use this method to stop a poll which was sent by the bot.
+	 * On success, the stopped Poll is returned.
+	 *
+	 * @param string $businessConnectionId
+	 * @param int|string $chatId
+	 * @param int $messageId
+	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup
+	 * @return Objects\Poll
+	 * @see https://core.telegram.org/bots/api#stoppoll
+	 */
+	public function stopPool(
+		string                            $businessConnectionId,
+		int|string                        $chatId,
+		int                               $messageId,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): Objects\Poll
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+				"chat_id" => $chatId,
+				"message_id" => $messageId,
+				"reply_markup" => $replyMarkup?->getAsArray(),
+			],
+		);
+
+		return new Objects\Poll($response->getData());
+	}
+
+	/**
 	 * Используйте этот метод, чтобы удалить сообщение.
 	 * Use this method to delete a message.
 	 *
