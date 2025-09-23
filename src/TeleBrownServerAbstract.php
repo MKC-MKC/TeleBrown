@@ -78,10 +78,9 @@ abstract class TeleBrownServerAbstract
 	 * A simple method for testing your bot's authentication token.
 	 * Requires no parameters. Returns basic information about the bot in form of a User object.
 	 *
-	 * @see https://core.telegram.org/bots/api#getme
-	 *
 	 * @return Objects\User
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getme
 	 */
 	public function getMe(): Objects\User
 	{
@@ -100,6 +99,7 @@ abstract class TeleBrownServerAbstract
 	 * @param Enums\UpdateEnum[]|null $allowedUpdates
 	 * @return Objects\Update[]
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getupdates
 	 */
 	public function getUpdates(
 		int|string|null $offset = null,
@@ -140,8 +140,8 @@ abstract class TeleBrownServerAbstract
 	 * 3. Ports currently supported for webhooks: 443, 80, 88, 8443.
 	 *
 	 * If you're having any trouble setting up webhooks, please check out this amazing guide to webhooks.
-	 * @see https://core.telegram.org/bots/api#setwebhook
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setwebhook
 	 */
 	public function setWebhook(
 		string     $url,
@@ -171,10 +171,10 @@ abstract class TeleBrownServerAbstract
 	 * Используйте этот метод, чтобы удалить webhook интеграцию, если вы решите вернуться к getUpdates.
 	 * Use this method to remove webhook integration if you decide to switch back to getUpdates.
 	 *
-	 * @see https://core.telegram.org/bots/api#deletewebhook
 	 * @param bool|null $dropPendingUpdates
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#deletewebhook
 	 */
 	public function deleteWebhook(bool|null $dropPendingUpdates = null): bool
 	{
@@ -190,8 +190,8 @@ abstract class TeleBrownServerAbstract
 	 * Используйте этот метод, чтобы получить информацию о текущем webhook.
 	 * Describes the current status of a webhook.
 	 *
-	 * @see https://core.telegram.org/bots/api#getwebhookinfo
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getwebhookinfo
 	 */
 	public function getWebhookInfo(): Objects\WebhookInfo
 	{
@@ -203,8 +203,6 @@ abstract class TeleBrownServerAbstract
 	/**
 	 * Используйте этот метод, чтобы отправить текстовые сообщения.
 	 * Use this method to send text messages.
-	 *
-	 * @see https://core.telegram.org/bots/api#sendmessage
 	 *
 	 * @param int|string $chatId
 	 * @param string $text
@@ -221,6 +219,7 @@ abstract class TeleBrownServerAbstract
 	 * @param null|Objects\InlineKeyboardMarkup|Objects\ReplyKeyboardMarkup|Objects\ReplyKeyboardRemove|Objects\ForceReply $replyMarkup
 	 * @return Objects\Message
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#sendmessage
 	 */
 	public function sendMessage(
 		int|string                  $chatId,
@@ -267,8 +266,6 @@ abstract class TeleBrownServerAbstract
 	 * Use this method to forward messages of any kind.
 	 * Service messages and messages with protected content can't be forwarded.
 	 *
-	 * @see https://core.telegram.org/bots/api#forwardmessage
-	 *
 	 * @param int|string $chatId
 	 * @param int|string $fromChatId
 	 * @param int $messageId
@@ -278,6 +275,7 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $protectContent
 	 * @return Objects\Message
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#forwardmessage
 	 */
 	public function forwardMessage(
 		int|string      $chatId,
@@ -326,6 +324,7 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $protectContent
 	 * @return Objects\MessageId[]
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#forwardmessages
 	 */
 	public function forwardMessages(
 		int|string      $chatId,
@@ -369,6 +368,7 @@ abstract class TeleBrownServerAbstract
 	 * @param mixed|null $replyMarkup
 	 * @return Objects\Message
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#sendcontact
 	 */
 	public function sendContact(
 		int|string               $chatId,
@@ -421,6 +421,7 @@ abstract class TeleBrownServerAbstract
 	 * @param string|null $businessConnectionId
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#sendchataction
 	 */
 	public function sendChatAction(
 		int|string       $chatId,
@@ -457,6 +458,7 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $revokeMessages
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#banchatmember
 	 */
 	public function banChatMember(
 		int|string $chatId,
@@ -485,6 +487,7 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $revokeMessages
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see self::banChatMember()
 	 */
 	public function kickChatMember(
 		int|string $chatId,
@@ -514,6 +517,7 @@ abstract class TeleBrownServerAbstract
 	 * @param bool $onlyIfBanned
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#unbanchatmember
 	 */
 	public function unbanChatMember(
 		int|string $chatId,
@@ -549,6 +553,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|null $untilDate
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#restrictchatmember
 	 */
 	public function restrictChatMember(
 		int|string              $chatId,
@@ -600,6 +605,7 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $canManageTopics
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#promotechatmember
 	 */
 	public function promoteChatMember(
 		int|string $chatId,
@@ -654,6 +660,7 @@ abstract class TeleBrownServerAbstract
 	 * @param string $customTitle
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setchatadministratorcustomtitle
 	 */
 	public function setChatAdministratorCustomTitle(
 		int|string $chatId,
@@ -684,6 +691,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int $senderChatId
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#banchatsenderchat
 	 */
 	public function banChatSenderChat(
 		int|string $chatId,
@@ -710,6 +718,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int $senderChatId
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#unbanchatsenderchat
 	 */
 	public function unbanChatSenderChat(
 		int|string $chatId,
@@ -737,6 +746,7 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $useIndependentChatPermissions
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setchatpermissions
 	 */
 	public function setChatPermissions(
 		int|string              $chatId,
@@ -761,6 +771,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|string $chatId
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#leavechat
 	 */
 	public function leaveChat(int|string $chatId): bool
 	{
@@ -779,6 +790,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|string $chatId
 	 * @return int
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getchatmembercount
 	 */
 	public function getChatMemberCount(int|string $chatId): int
 	{
@@ -794,8 +806,6 @@ abstract class TeleBrownServerAbstract
 	 * On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
 	 * Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 	 *
-	 * @see https://core.telegram.org/bots/api#editmessagetext
-	 *
 	 * @param int|string $chatId
 	 * @param int|string $messageId
 	 * @param string $text
@@ -807,6 +817,7 @@ abstract class TeleBrownServerAbstract
 	 * @param null|Objects\InlineKeyboardMarkup $replyMarkup
 	 * @return Objects\Message
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#editmessagetext
 	 */
 	public function editMessageText(
 		int|string                  $chatId,
@@ -842,12 +853,11 @@ abstract class TeleBrownServerAbstract
 	 * Используйте этот метод, чтобы удалить сообщение.
 	 * Use this method to delete a message.
 	 *
-	 * @see https://core.telegram.org/bots/api#deletemessage
-	 *
 	 * @param int|string $chatId
 	 * @param int $messageId
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#deletemessage
 	 */
 	public function deleteMessage(int|string $chatId, int $messageId): bool
 	{
@@ -871,6 +881,7 @@ abstract class TeleBrownServerAbstract
 	 * @param array $messageId
 	 * @return bool
 	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#deletemessages
 	 */
 	public function deleteMessages(int|string $chatId, array $messageId): bool
 	{
