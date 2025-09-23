@@ -351,6 +351,76 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
+	 * Используйте этот метод, чтобы отправить фотографии.
+	 * При успешном выполнении возвращается объект отправленного сообщение Message.
+	 * # TODO: Проверить метод
+	 *
+	 * @param int|string $chatId
+	 * @param mixed $photo
+	 * @param string|null $businessConnectionId
+	 * @param int|string|null $messageThreadId
+	 * @param int|null $directMessagesTopicId
+	 * @param string|null $caption
+	 * @param Enums\ParseModeEnum|null $parseMode
+	 * @param array|null $captionEntities
+	 * @param bool|null $showCaptionAboveMedia
+	 * @param bool|null $hasSpoiler
+	 * @param bool|null $disableNotification
+	 * @param bool|null $protectContent
+	 * @param bool|null $allowPaidBroadcast
+	 * @param string|null $messageEffectId
+	 * @param Objects\SuggestedPostParameters|null $suggestedPostParameters
+	 * @param Objects\ReplyParameters|null $replyParameters
+	 * @param null|Objects\InlineKeyboardMarkup|Objects\ReplyKeyboardMarkup|Objects\ReplyKeyboardRemove|Objects\ForceReply $replyMarkup
+	 * @return Objects\Message
+	 */
+	public function sendPhoto(
+		int|string               $chatId,
+		mixed                    $photo,
+		string|null              $businessConnectionId = null,
+		int|string|null          $messageThreadId = null,
+		int|null                 $directMessagesTopicId = null,
+		string|null              $caption = null,
+		Enums\ParseModeEnum|null $parseMode = null,
+		array|null               $captionEntities = null,
+		bool|null                $showCaptionAboveMedia = null,
+		bool|null                $hasSpoiler = null,
+		bool|null                $disableNotification = null,
+		bool|null                $protectContent = null,
+		bool|null                $allowPaidBroadcast = null,
+		string|null              $messageEffectId = null,
+		mixed                    $suggestedPostParameters = null,
+		mixed                    $replyParameters = null,
+		mixed                    $replyMarkup = null,
+	): Objects\Message
+	{
+		return new Objects\Message(
+			$this->sendRequest(
+				method: __FUNCTION__,
+				params: [
+					"chat_id" => $chatId,
+					"photo" => $photo,
+					"business_connection_id" => $businessConnectionId,
+					"message_thread_id" => $messageThreadId,
+					"direct_messages_topic_id" => $directMessagesTopicId,
+					"caption" => $caption,
+					"parse_mode" => $parseMode?->value,
+					"caption_entities" => $captionEntities,
+					"show_caption_above_media" => $showCaptionAboveMedia,
+					"has_spoiler" => $hasSpoiler,
+					"disable_notification" => $disableNotification,
+					"protect_content" => $protectContent,
+					"allow_paid_broadcast" => $allowPaidBroadcast,
+					"message_effect_id" => $messageEffectId,
+					"suggested_post_parameters" => $suggestedPostParameters?->getAsArray(),
+					"reply_parameters" => $replyParameters?->getAsArray(),
+					"reply_markup" => $replyMarkup?->getAsArray(),
+				]
+			)->getData()
+		);
+	}
+
+	/**
 	 * Используйте этот метод, чтобы отправить контактные данные.
 	 * Use this method to send phone contacts.
 	 *
