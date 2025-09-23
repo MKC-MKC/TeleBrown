@@ -72,24 +72,6 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
-	 * Простой метод для тестирования токена аутентификации вашего бота.
-	 * Не требует параметров. Возвращает основную информацию о боте в виде объекта User.
-	 *
-	 * A simple method for testing your bot's authentication token.
-	 * Requires no parameters. Returns basic information about the bot in form of a User object.
-	 *
-	 * @return Objects\User
-	 * @throws TelegramMainException
-	 * @see https://core.telegram.org/bots/api#getme
-	 */
-	public function getMe(): Objects\User
-	{
-		return new Objects\User(
-			$this->sendRequest(method: __FUNCTION__)->getData()
-		);
-	}
-
-	/**
 	 * Используйте этот метод, чтобы получать входящие обновления с помощью долгого опроса (wiki). Возвращает массив объектов Update.
 	 * Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
 	 *
@@ -119,6 +101,24 @@ abstract class TeleBrownServerAbstract
 		);
 
 		return array_map(fn(array $item): Objects\Update => new Objects\Update($item), $response->getData());
+	}
+
+	/**
+	 * Простой метод для тестирования токена аутентификации вашего бота.
+	 * Не требует параметров. Возвращает основную информацию о боте в виде объекта User.
+	 *
+	 * A simple method for testing your bot's authentication token.
+	 * Requires no parameters. Returns basic information about the bot in form of a User object.
+	 *
+	 * @return Objects\User
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getme
+	 */
+	public function getMe(): Objects\User
+	{
+		return new Objects\User(
+			$this->sendRequest(method: __FUNCTION__)->getData()
+		);
 	}
 
 	/**
