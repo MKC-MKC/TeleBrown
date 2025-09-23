@@ -29,7 +29,8 @@ class PaidMediaInfo extends ResponseWrapper
 	 */
 	public function getPaidMedia(): array
 	{
-		return array_map(fn(array $item): PaidMedia => new PaidMedia($item), $this->getData());
+		$data = $this->getData("paid_media");
+		return array_map(fn(array $item): PaidMedia => new PaidMedia($item), $data);
 	}
 
 }

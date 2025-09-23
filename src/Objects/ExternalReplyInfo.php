@@ -99,7 +99,8 @@ class ExternalReplyInfo extends ResponseWrapper
 	 */
 	public function getPhoto(): array
 	{
-		return array_map(fn(array $item): PhotoSize => new PhotoSize($item), $this->getData());
+		$data = $this->getData("photo");
+		return array_map(fn(array $item): PhotoSize => new PhotoSize($item), $data);
 	}
 
 	/**
