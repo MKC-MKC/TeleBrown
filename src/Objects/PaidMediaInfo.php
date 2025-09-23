@@ -6,6 +6,10 @@ namespace Haikiri\TeleBrown\Objects;
 
 use Haikiri\TeleBrown\ResponseWrapper;
 
+/**
+ * PaidMediaInfo – Describes the paid media added to a message.
+ * @see https://core.telegram.org/bots/api#paidmediainfo
+ */
 class PaidMediaInfo extends ResponseWrapper
 {
 
