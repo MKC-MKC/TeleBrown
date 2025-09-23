@@ -442,6 +442,44 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
+	 * Используйте этот метод, чтобы изменить выбранные реакции на сообщение.
+	 * На сервисные сообщения некоторых типов не может быть установлена реакция.
+	 * Автоматически пересылаемые сообщения из канала в его группу обсуждения имеют те же доступные реакции, что и сообщения в канале.
+	 * Боты не могут использовать платные реакции.
+	 * Возвращает True в случае успеха.
+	 *
+	 * Use this method to change the chosen reactions on a message.
+	 * Service messages of some types can't be reacted to.
+	 * Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel.
+	 * Bots can't use paid reactions.
+	 * Returns True on success.
+	 *
+	 * @param int|string $chatId
+	 * @param int $messageId
+	 * @param array|null $reaction
+	 * @param bool|null $isBig
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#setmessagereaction
+	 */
+	public function setMessageReaction(
+		int|string $chatId,
+		int        $messageId,
+		array|null $reaction = null,
+		bool|null  $isBig = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"message_id" => $messageId,
+				"reaction" => $reaction ? array_map(fn($u) => $u->value, $reaction) : null,
+				"is_big" => $isBig,
+			]
+		)->isSuccess();
+	}
+
+	/**
 	 * Используйте этот метод, чтобы запретить пользователю в группе, супергруппе или канале.
 	 * В случае супергрупп и каналов пользователь не сможет вернуться в чат самостоятельно, используя приглашения, и т.д., если его не разблокировать сначала.
 	 * Бот должен быть администратором в чате, чтобы это работало, и должен иметь соответствующие права администратора.
