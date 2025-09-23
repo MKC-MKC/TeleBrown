@@ -422,6 +422,81 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
+	 * Используйте этот метод, чтобы отправить общие файлы.
+	 * При успешном выполнении возвращается объект отправленного сообщения Message.
+	 * Боты могут в настоящее время отправлять файлы любого типа размером до 50 МБ, этот лимит может быть изменен в будущем.
+	 *
+	 * Use this method to send general files.
+	 * On success, the sent Message is returned.
+	 * Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
+	 *
+	 * @param int|string $chatId
+	 * @param mixed $document
+	 * @param string|null $businessConnectionId
+	 * @param int|string|null $messageThreadId
+	 * @param int|null $directMessagesTopicId
+	 * @param mixed|null $thumbnail
+	 * @param string|null $caption
+	 * @param Enums\ParseModeEnum|null $parseMode
+	 * @param array|null $captionEntities
+	 * @param bool|null $disableContentTypeDetection
+	 * @param bool|null $disableNotification
+	 * @param bool|null $protectContent
+	 * @param bool|null $allowPaidBroadcast
+	 * @param string|null $messageEffectId
+	 * @param mixed|null $suggestedPostParameters
+	 * @param mixed|null $replyParameters
+	 * @param mixed|null $replyMarkup
+	 * @return Objects\Message
+	 * @see https://core.telegram.org/bots/api#senddocument
+	 */
+	public function sendDocument(
+		int|string           $chatId,
+		mixed                $document,
+		?string              $businessConnectionId = null,
+		int|string|null      $messageThreadId = null,
+		?int                 $directMessagesTopicId = null,
+		mixed                $thumbnail = null,
+		?string              $caption = null,
+		?Enums\ParseModeEnum $parseMode = null,
+		?array               $captionEntities = null,
+		?bool                $disableContentTypeDetection = null,
+		?bool                $disableNotification = null,
+		?bool                $protectContent = null,
+		?bool                $allowPaidBroadcast = null,
+		?string              $messageEffectId = null,
+		mixed                $suggestedPostParameters = null,
+		mixed                $replyParameters = null,
+		mixed                $replyMarkup = null,
+	): Objects\Message
+	{
+		return new Objects\Message(
+			$this->sendRequest(
+				method: __FUNCTION__,
+				params: [
+					"chat_id" => $chatId,
+					"document" => $document,
+					"business_connection_id" => $businessConnectionId,
+					"message_thread_id" => $messageThreadId,
+					"direct_messages_topic_id" => $directMessagesTopicId,
+					"thumbnail" => $thumbnail,
+					"caption" => $caption,
+					"parse_mode" => $parseMode?->value,
+					"caption_entities" => $captionEntities,
+					"disable_content_type_detection" => $disableContentTypeDetection,
+					"disable_notification" => $disableNotification,
+					"protect_content" => $protectContent,
+					"allow_paid_broadcast" => $allowPaidBroadcast,
+					"message_effect_id" => $messageEffectId,
+					"suggested_post_parameters" => $suggestedPostParameters?->getAsArray(),
+					"reply_parameters" => $replyParameters?->getAsArray(),
+					"reply_markup" => $replyMarkup?->getAsArray(),
+				]
+			)->getData()
+		);
+	}
+
+	/**
 	 * Используйте этот метод, чтобы отправить контактные данные.
 	 * Use this method to send phone contacts.
 	 *
