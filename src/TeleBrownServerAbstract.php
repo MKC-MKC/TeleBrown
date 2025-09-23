@@ -373,6 +373,7 @@ abstract class TeleBrownServerAbstract
 	 * @param Objects\ReplyParameters|null $replyParameters
 	 * @param null|Objects\InlineKeyboardMarkup|Objects\ReplyKeyboardMarkup|Objects\ReplyKeyboardRemove|Objects\ForceReply $replyMarkup
 	 * @return Objects\Message
+	 * @see https://core.telegram.org/bots/api#sendphoto
 	 */
 	public function sendPhoto(
 		int|string               $chatId,
