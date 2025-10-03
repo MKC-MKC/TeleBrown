@@ -15,9 +15,15 @@ use Haikiri\TeleBrown\Enums\UpdateEnum;
 class Update extends ResponseWrapper
 {
 
+	/** @deprecated Use getUpdateId() instead. */
 	public function getId(): int
 	{
-		return (int)$this->getData("id");
+		return $this->getUpdateId();
+	}
+
+	public function getUpdateId(): int
+	{
+		return (int)$this->getData("update_id");
 	}
 
 	public function getMessage(): Message
