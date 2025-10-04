@@ -30,11 +30,12 @@ class TeleBrownClient extends TeleBrownClientAbstract
 	/**
 	 * Записываем ответ сервера.
 	 *
+	 * @param array $update
 	 * @return void
 	 */
-	public function setUpdates(): void
+	public function setUpdates(array $update): void
 	{
-		$this->response = $this->fetchResponse();
+		$this->response = $update;
 	}
 
 }

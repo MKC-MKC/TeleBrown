@@ -15,9 +15,10 @@ abstract class TeleBrownClientAbstract
 
 	/**
 	 * Записываем ответ сервера.
+	 * @param array $update
 	 * @return void
 	 */
-	abstract public function setUpdates(): void;
+	abstract public function setUpdates(array $update): void;
 
 	/**
 	 * Метод возвращает данные из входящего запроса.
