@@ -10,7 +10,7 @@ class TeleBrownClient extends TeleBrownClientAbstract
 	 *
 	 * @return array
 	 */
-	public function fetchResponse(): array
+	public function getResponse(): array
 	{
 		if (empty($response = file_get_contents(filename: "php://input"))) return [];
 
