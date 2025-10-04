@@ -79,7 +79,8 @@ abstract class TeleBrownServerAbstract
 	 * @param int|null $limit
 	 * @param int|null $timeout
 	 * @param Enums\UpdateEnum[]|null $allowedUpdates
-	 * @return Objects\Update[]
+	 * @param bool $raw
+	 * @return array|Objects\Update[]
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#getupdates
 	 */
@@ -88,6 +89,7 @@ abstract class TeleBrownServerAbstract
 		int|null        $limit = null,
 		int|null        $timeout = null,
 		array|null      $allowedUpdates = null,
+		bool            $raw = true,
 	): array
 	{
 		$response = $this->sendRequest(
@@ -100,7 +102,8 @@ abstract class TeleBrownServerAbstract
 			]
 		);
 
-		return array_map(fn(array $item): Objects\Update => new Objects\Update($item), $response->getData());
+		$data = $response->getData();
+		return $raw ? $data : array_map(fn(array $item): Objects\Update => new Objects\Update($item), $data);
 	}
 
 	/**
