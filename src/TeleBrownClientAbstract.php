@@ -5,7 +5,7 @@ namespace Haikiri\TeleBrown;
 abstract class TeleBrownClientAbstract
 {
 
-	public array $response = [];
+	protected array $response = [];
 	protected static bool $debug;
 
 	public function __construct($debug = false)
