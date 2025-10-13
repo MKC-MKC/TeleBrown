@@ -10,7 +10,7 @@ class TeleBrownClient extends TeleBrownClientAbstract
 	 *
 	 * @return array
 	 */
-	public function fetchResponse(): array
+	public function getResponse(): array
 	{
 		if (empty($response = file_get_contents(filename: "php://input"))) return [];
 
@@ -30,11 +30,12 @@ class TeleBrownClient extends TeleBrownClientAbstract
 	/**
 	 * Записываем ответ сервера.
 	 *
+	 * @param array $update
 	 * @return void
 	 */
-	public function setUpdates(): void
+	public function setUpdates(array $update): void
 	{
-		$this->response = $this->fetchResponse();
+		$this->response = $update;
 	}
 
 }

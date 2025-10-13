@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haikiri\TeleBrown;
 
 abstract class ResponseWrapper
@@ -22,7 +24,7 @@ abstract class ResponseWrapper
 	 */
 	public function getData(string|null $key = null, mixed $default = null): mixed
 	{
-		$data = $this->response;
+		$data = $this->getAsArray();
 		if ($key === null) return $data;
 
 		foreach (explode(".", $key) as $segment) {

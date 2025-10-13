@@ -5,7 +5,7 @@ namespace Haikiri\TeleBrown;
 abstract class TeleBrownClientAbstract
 {
 
-	public array $response = [];
+	protected array $response = [];
 	protected static bool $debug;
 
 	public function __construct($debug = false)
@@ -15,9 +15,10 @@ abstract class TeleBrownClientAbstract
 
 	/**
 	 * Записываем ответ сервера.
+	 * @param array $update
 	 * @return void
 	 */
-	abstract public function setUpdates(): void;
+	abstract public function setUpdates(array $update): void;
 
 	/**
 	 * Метод возвращает данные из входящего запроса.
