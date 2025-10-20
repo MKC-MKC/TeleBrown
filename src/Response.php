@@ -21,7 +21,7 @@ class Response
 			success: (bool)($response["ok"] ?? false),
 			code: (int)($response["error_code"] ?? -1),
 			message: (string)($response["description"] ?? "N/A"),
-			data: is_array($response["result"] ?? null) ? $response["result"] : null,
+			data: is_array($response["result"] ?? null) ? $response["result"] : [],
 			raw: $response,
 		);
 	}
