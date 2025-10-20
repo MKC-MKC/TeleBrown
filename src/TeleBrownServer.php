@@ -58,6 +58,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		# Отправляем запрос.
 		curl_setopt_array($ch, $options);
 		$response = curl_exec($ch);
+		if ($response === false) throw new TelegramMainException(message: curl_error($ch), code: curl_errno($ch));
 		if (self::$debug) error_log(PHP_EOL . ">>>>>>>>>>" . PHP_EOL . var_export($params, true));
 		curl_close($ch);
 
