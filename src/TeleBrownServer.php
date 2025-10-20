@@ -28,7 +28,8 @@ class TeleBrownServer extends TeleBrownServerAbstract
 	public function sendRequest(string $method, array $params = [], array $headers = ["Content-Type: application/json"]): object
 	{
 		# Сериализация пустых параметров.
-		if ($params) {
+		$isMultipart = $headers === ["Content-Type: multipart/form-data"];
+		if (!$isMultipart && $params) {
 			$params = array_filter($params, fn($value) => !is_null($value));
 			$params = array_map(function ($value) {
 				return (is_array($value) || is_object($value)) ? json_encode($value) : $value;
@@ -40,12 +41,11 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		$ch = curl_init("$url/$method");
 
 		# Формируем заголовки.
-		$options = [
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_HTTPHEADER => $headers,
-			CURLOPT_POST => true,
-			CURLOPT_POSTFIELDS => json_encode((array)$params ?? [])
-		];
+		$options = [];
+		$options[CURLOPT_HTTPHEADER] = $headers;
+		$options[CURLOPT_RETURNTRANSFER] = true;
+		$options[CURLOPT_POST] = true;
+		$options[CURLOPT_POSTFIELDS] = $isMultipart ? $params : json_encode((array)$params ?? []);
 
 		# Формируем параметры прокси.
 		if ($this->isProxy) {
