@@ -701,7 +701,7 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @param int|string $chatId
 	 * @param int $messageId
-	 * @param array|null $reaction
+	 * @param array $reaction
 	 * @param bool|null $isBig
 	 * @return bool
 	 * @see https://core.telegram.org/bots/api#setmessagereaction
@@ -709,7 +709,7 @@ abstract class TeleBrownServerAbstract
 	public function setMessageReaction(
 		int|string $chatId,
 		int        $messageId,
-		array|null $reaction = null,
+		array      $reaction,
 		bool|null  $isBig = null,
 	): bool
 	{
@@ -718,7 +718,7 @@ abstract class TeleBrownServerAbstract
 			params: [
 				"chat_id" => $chatId,
 				"message_id" => $messageId,
-				"reaction" => $reaction ? array_map(fn($u) => $u->value, $reaction) : null,
+				"reaction" => $reaction,
 				"is_big" => $isBig,
 			]
 		)->isSuccess();
