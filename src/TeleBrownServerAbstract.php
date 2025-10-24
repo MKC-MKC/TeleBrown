@@ -713,12 +713,17 @@ abstract class TeleBrownServerAbstract
 		bool|null  $isBig = null,
 	): bool
 	{
+		$preparedReactions = array_map(fn($emoji) => [
+			"type" => "emoji",
+			"emoji" => $emoji,
+		], $reaction);
+
 		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
 				"message_id" => $messageId,
-				"reaction" => $reaction,
+				"reaction" => $preparedReactions,
 				"is_big" => $isBig,
 			]
 		)->isSuccess();
