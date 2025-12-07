@@ -417,7 +417,7 @@ abstract class TeleBrownServerAbstract
 					"reply_parameters" => $replyParameters?->getAsArray(),
 					"reply_markup" => $replyMarkup?->getAsArray(),
 				],
-				headers: ["Content-Type: multipart/form-data"],
+				headers: ["Content-Type" => "multipart/form-data"],
 			)->getData()
 		);
 	}
@@ -493,7 +493,7 @@ abstract class TeleBrownServerAbstract
 					"reply_parameters" => $replyParameters?->getAsArray(),
 					"reply_markup" => $replyMarkup?->getAsArray(),
 				],
-				headers: ["Content-Type: multipart/form-data"],
+				headers: ["Content-Type" => "multipart/form-data"],
 			)->getData()
 		);
 	}
@@ -590,7 +590,7 @@ abstract class TeleBrownServerAbstract
 					"reply_parameters" => $replyParameters?->getAsArray(),
 					"reply_markup" => $replyMarkup?->getAsArray(),
 				],
-				headers: ["Content-Type: multipart/form-data"],
+				headers: ["Content-Type" => "multipart/form-data"],
 			)->getData()
 		);
 	}

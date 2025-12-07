@@ -27,10 +27,10 @@ class TeleBrownServer extends TeleBrownServerAbstract
 	 * @return Response
 	 * @throws TelegramMainException
 	 */
-	public function sendRequest(string $method, array $params = [], array $headers = ["Content-Type: application/json"]): object
+	public function sendRequest(string $method, array $params = [], array $headers = ["Content-Type" => "application/json"]): object
 	{
 		# Сериализация пустых параметров.
-		$isMultipart = $headers === ["Content-Type: multipart/form-data"];
+		$isMultipart = isset($headers["Content-Type"]) && strtolower($headers["Content-Type"]) === "multipart/form-data";
 		if (!$isMultipart && $params) {
 			$params = array_filter($params, fn($value) => !is_null($value));
 			$params = array_map(function ($value) {
