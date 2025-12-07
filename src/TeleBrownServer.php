@@ -63,7 +63,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 			$body = $response->getBody()->getContents();
 			if (self::$debug) error_log(PHP_EOL . ">>>>>>>>>>" . PHP_EOL . var_export($params, true));
 		} catch (Throwable $e) {
-			throw new TelegramMainException(message: $e->getMessage(), code: $e->getCode());
+			throw new TelegramMainException(message: $e->getMessage(), code: $e->getCode(), previous: $e);
 		}
 
 		# Валидация ответа.
