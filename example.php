@@ -4,7 +4,7 @@ require "vendor/autoload.php";
 
 use Haikiri\TeleBrown;
 use Haikiri\TeleBrown\Enums;
-use Haikiri\TeleBrown\Entity;
+use Haikiri\TeleBrown\Objects;
 
 $client = new TeleBrown\TeleBrownClient();
 $server = new TeleBrown\TeleBrownServer(
@@ -87,7 +87,7 @@ try {
 		$message = $server->sendMessage(
 			chatId: $chatId,
 			text: "Visit the https://core.telegram.org",
-			linkPreviewOptions: new Entity\LinkPreviewOptions(["is_disabled" => true]),
+			linkPreviewOptions: new Objects\LinkPreviewOptions(["is_disabled" => true]),
 		);
 		var_dump($message);
 	}
@@ -107,8 +107,10 @@ try {
 	if (0) {
 		echo "<br><code>Working...</code><br>";
 
-		$client->setUpdates();
+		$updates = $client->getUpdates();
+		$client->setUpdates($updates);
 		$type = $client->getUpdate()->getType();
+
 		switch ($type) {
 			case Enums\UpdateEnum::MESSAGE:
 				echo "<h3>Получено сообщение</h3>";
@@ -137,7 +139,7 @@ try {
 				$server->sendMessage(
 					chatId: $client->getUpdate()->getChat()->getId(), # Получаем актуальный ID из объекта чата.
 					text: "Неизвестный тип обновления: <code>`$type?->value`</code>",
-					replyParameters: new Entity\ReplyParameters([
+					replyParameters: new Objects\ReplyParameters([
 						"message_id" => $client->getUpdate()->getActualMessage()->getId(), # Получаем ID сообщения на которое отвечаем.
 					]),
 				);
