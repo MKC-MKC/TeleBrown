@@ -54,8 +54,26 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		# Отправляем запрос.
 		try {
 			$client = new Client($options);
+
 			if ($isMultipart) {
-				$response = $client->post($url, ["multipart" => $params]);
+				$multipart = [];
+
+				foreach ($params as $name => $value) {
+					if (is_string($value) && file_exists($value)) {
+						$multipart[] = [
+							"name" => $name,
+							"contents" => fopen($value, "r"),
+							"filename" => basename($value),
+						];
+					} else {
+						$multipart[] = [
+							"name" => $name,
+							"contents" => is_array($value) || is_object($value) ? json_encode($value) : (string)$value,
+						];
+					}
+				}
+
+				$response = $client->post($url, ["multipart" => $multipart]);
 			} else {
 				$response = $client->post($url, ["json" => $params]);
 			}
