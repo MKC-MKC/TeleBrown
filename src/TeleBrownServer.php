@@ -2,7 +2,9 @@
 
 namespace Haikiri\TeleBrown;
 
+use GuzzleHttp\Client;
 use Haikiri\TeleBrown\Exceptions\TelegramMainException;
+use Throwable;
 
 class TeleBrownServer extends TeleBrownServerAbstract
 {
@@ -37,33 +39,35 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		}
 
 		# Формируем URL.
-		$url = rtrim($this->getUrl(), "/") . $this->getToken();
-		$ch = curl_init("$url/$method");
+		$url = rtrim($this->getUrl(), "/") . $this->getToken() . "/" . $method;
 
 		# Формируем заголовки.
 		$options = [];
-		$options[CURLOPT_HTTPHEADER] = $headers;
-		$options[CURLOPT_RETURNTRANSFER] = true;
-		$options[CURLOPT_POST] = true;
-		$options[CURLOPT_POSTFIELDS] = $isMultipart ? $params : json_encode((array)$params ?? []);
+		$options["headers"] = $headers;
 
 		# Формируем параметры прокси.
 		if ($this->isProxy) {
-			$options[CURLOPT_PROXY] = $this->proxy_addr;
-			$options[CURLOPT_PROXYPORT] = $this->proxy_port;
-			$options[CURLOPT_PROXYTYPE] = $this->proxy_type;
-			if (!empty($this->proxy_user)) $options[$this->proxy_opt] = $this->proxy_user . ":" . $this->proxy_pass;
+			$proxyAuth = !empty($this->proxy_user) ? $this->proxy_user . ":" . $this->proxy_pass . "@" : "";
+			$options["proxy"] = "socks5://" . $proxyAuth . $this->proxy_addr . ":" . $this->proxy_port;
 		}
 
 		# Отправляем запрос.
-		curl_setopt_array($ch, $options);
-		$response = curl_exec($ch);
-		if ($response === false) throw new TelegramMainException(message: curl_error($ch), code: curl_errno($ch));
-		if (self::$debug) error_log(PHP_EOL . ">>>>>>>>>>" . PHP_EOL . var_export($params, true));
-		curl_close($ch);
+		try {
+			$client = new Client($options);
+			if ($isMultipart) {
+				$response = $client->post($url, ["multipart" => $params]);
+			} else {
+				$response = $client->post($url, ["json" => $params]);
+			}
+
+			$body = $response->getBody()->getContents();
+			if (self::$debug) error_log(PHP_EOL . ">>>>>>>>>>" . PHP_EOL . var_export($params, true));
+		} catch (Throwable $e) {
+			throw new TelegramMainException(message: $e->getMessage(), code: $e->getCode());
+		}
 
 		# Валидация ответа.
-		$validResponse = self::validate($response, true);
+		$validResponse = self::validate($body, true);
 		if (!is_array($validResponse) || !($validResponse["ok"] ?? false)) {
 			throw new TelegramMainException(message: $validResponse["description"] ?? "Unknown error", code: $validResponse["error_code"] ?? 0);
 		}
