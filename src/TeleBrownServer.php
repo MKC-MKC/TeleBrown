@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Haikiri\TeleBrown;
 
 use GuzzleHttp\Client;
