@@ -11,15 +11,6 @@ use Throwable;
 class TeleBrownServer extends TeleBrownServerAbstract
 {
 
-	#	Proxy SOCKS:
-	public bool $isProxy = false;    # true - enable proxy ; false - disable proxy ;
-	public int $proxy_opt = CURLOPT_PROXYUSERPWD;
-	public int $proxy_type = CURLPROXY_SOCKS5;
-	public int $proxy_port = 8080;
-	public string $proxy_addr = "";
-	public string $proxy_user = "";
-	public string $proxy_pass = "";
-
 	/**
 	 * Метод отправки POST запроса на сервер API.
 	 *
@@ -48,10 +39,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		$options["headers"] = $headers;
 
 		# Формируем параметры прокси.
-		if ($this->isProxy) {
-			$proxyAuth = !empty($this->proxy_user) ? $this->proxy_user . ":" . $this->proxy_pass . "@" : "";
-			$options["proxy"] = "socks5://" . $proxyAuth . $this->proxy_addr . ":" . $this->proxy_port;
-		}
+		if (!empty($this->proxy)) $options["proxy"] = $this->proxy;
 
 		# Отправляем запрос.
 		try {

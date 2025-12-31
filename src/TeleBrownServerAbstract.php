@@ -12,7 +12,7 @@ abstract class TeleBrownServerAbstract
 	protected string $token = "";
 	protected static bool $debug;
 
-	public function __construct(string $url, string $token, $debug = false)
+	public function __construct(string $url, string $token, protected string|null $proxy = null, $debug = false)
 	{
 		$this->url = $url !== "" ? $url : $this->url;
 		$this->token = $token;
