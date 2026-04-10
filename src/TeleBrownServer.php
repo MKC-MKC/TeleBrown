@@ -49,7 +49,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 				$multipart = [];
 
 				foreach ($params as $name => $value) {
-					if (is_string($value) && file_exists($value)) {
+					if (is_string($value) && is_file($value)) {
 						$multipart[] = [
 							"name" => $name,
 							"contents" => fopen($value, "r"),
