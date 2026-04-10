@@ -96,11 +96,11 @@ abstract class TeleBrownServerAbstract
 				"offset" => $offset,
 				"limit" => $limit,
 				"timeout" => $timeout,
-				"allowed_updates" => $allowedUpdates ? array_map(fn($u) => $u->value, $allowedUpdates) : null,
+				"allowed_updates" => $allowedUpdates ? array_map(static fn($u) => $u->value, $allowedUpdates) : null,
 			]
 		);
 
-		return array_map(fn(array $item): Objects\Update => new Objects\Update($item), $response->getData());
+		return array_map(static fn(array $item): Objects\Update => new Objects\Update($item), $response->getData());
 	}
 
 	/**
@@ -160,7 +160,7 @@ abstract class TeleBrownServerAbstract
 				"certificate" => $certificate,
 				"ip_address" => $ipAddress,
 				"max_connections" => $maxConnections,
-				"allowed_updates" => $allowedUpdates ? array_map(fn($u) => $u->value, $allowedUpdates) : null,
+				"allowed_updates" => $allowedUpdates ? array_map(static fn($u) => $u->value, $allowedUpdates) : null,
 				"drop_pending_updates" => $dropPendingUpdates,
 				"secret_token" => $secretToken
 			]
@@ -347,7 +347,7 @@ abstract class TeleBrownServerAbstract
 			]
 		);
 
-		return array_map(fn(array $item): Objects\MessageId => new Objects\MessageId($item), $response->getData());
+		return array_map(static fn(array $item): Objects\MessageId => new Objects\MessageId($item), $response->getData());
 	}
 
 	/**
@@ -713,7 +713,7 @@ abstract class TeleBrownServerAbstract
 		bool|null  $isBig = null,
 	): bool
 	{
-		$preparedReactions = array_map(fn($emoji) => [
+		$preparedReactions = array_map(static fn($emoji) => [
 			"type" => "emoji",
 			"emoji" => $emoji,
 		], $reaction);
