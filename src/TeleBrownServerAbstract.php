@@ -1076,13 +1076,13 @@ abstract class TeleBrownServerAbstract
 	 * Use this method to get the number of members in a chat.
 	 *
 	 * @param int|string $chatId
-	 * @return int
+	 * @return Response|int
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#getchatmembercount
 	 */
-	public function getChatMemberCount(int|string $chatId): int
+	public function getChatMemberCount(int|string $chatId): int|Response
 	{
-		return (int)$this->sendRequest(method: __FUNCTION__, params: ["chat_id" => $chatId]) ?? 0;
+		return $this->sendRequest(method: __FUNCTION__, params: ["chat_id" => $chatId]) ?? 0;
 	}
 
 	/**
