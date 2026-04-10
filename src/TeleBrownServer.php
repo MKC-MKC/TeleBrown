@@ -32,7 +32,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		}
 
 		# Формируем URL.
-		$url = rtrim($this->getUrl(), "/") . $this->getToken() . "/" . $method;
+		$url = $this->buildRequestUrl($method);
 
 		# Формируем заголовки.
 		$options = [];
@@ -81,6 +81,29 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		}
 
 		return Response::fromResponse($validResponse);
+	}
+
+	/**
+	 * Сборка и нормализация request url.
+	 * @param string $method
+	 * @return string
+	 */
+	protected function buildRequestUrl(string $method): string
+	{
+		$url = rtrim($this->getUrl(), "/");
+		$segments = explode("/", $url);
+		$lastSegment = end($segments);
+
+		if (is_string($lastSegment) && count($segments) > 3 && str_starts_with($lastSegment, "bot")) {
+			# Срезаем переданный в URL (bot+токен).
+			array_pop($segments);
+
+			# Убираем file-префикс, если передан.
+			if (end($segments) === "file") array_pop($segments);
+			$url = implode("/", $segments);
+		}
+
+		return $url . "/bot" . $this->getToken() . "/" . $method;
 	}
 
 	/**
