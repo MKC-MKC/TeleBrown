@@ -7,7 +7,7 @@ use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 abstract class TeleBrownServerAbstract
 {
 
-	#	Brown
+	# Brown
 	protected string $url = "https://api.telegram.org/bot";
 	protected string $token = "";
 	protected static bool $debug;
