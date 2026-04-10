@@ -52,7 +52,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 					if (is_string($value) && is_file($value)) {
 						$multipart[] = [
 							"name" => $name,
-							"contents" => fopen($value, "r"),
+							"contents" => fopen($value, "rb"),
 							"filename" => basename($value),
 						];
 					} else {
