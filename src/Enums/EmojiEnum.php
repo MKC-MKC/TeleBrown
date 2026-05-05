@@ -1,0 +1,82 @@
+<?php
+
+namespace Haikiri\TeleBrown\Enums;
+
+enum EmojiEnum: string
+{
+
+	case RED_HEART = "❤";
+	case THUMBS_UP = "👍";
+	case THUMBS_DOWN = "👎";
+	case FIRE = "🔥";
+	case SMILING_FACE_WITH_HEARTS = "🥰";
+	case CLAPPING_HANDS = "👏";
+	case STAR_STRUCK = "🤩";
+	case THINKING_FACE = "🤔";
+	case EXPLODING_HEAD = "🤯";
+	case BEAMING_FACE_WITH_SMILING_EYES = "😁";
+	case CRYING_FACE = "😢";
+	case PARTY_POPPER = "🎉";
+	case FACE_SCREAMING_IN_FEAR = "😱";
+	case FACE_WITH_SYMBOLS_ON_MOUTH = "🤬";
+	case FACE_VOMITING = "🤮";
+	case PILE_OF_POO = "💩";
+	case FOLDED_HANDS = "🙏";
+	case OK_HAND = "👌";
+	case DOVE = "🕊";
+	case CLOWN_FACE = "🤡";
+	case NEUTRAL_FACE = "😐";
+	case YAWNING_FACE = "🥱";
+	case WOOZY_FACE = "🥴";
+	case SLEEPING_FACE = "😴";
+	case SMILING_FACE_WITH_HEART_EYES = "😍";
+	case SPOUTING_WHALE = "🐳";
+	case HEART_ON_FIRE = "❤‍🔥";
+	case NEW_MOON_FACE = "🌚";
+	case HOT_DOG = "🌭";
+	case HUNDRED_POINTS = "💯";
+	case ROLLING_ON_THE_FLOOR_LAUGHING = "🤣";
+	case HIGH_VOLTAGE = "⚡";
+	case BANANA = "🍌";
+	case TROPHY = "🏆";
+	case BROKEN_HEART = "💔";
+	case FACE_WITH_RAISED_EYEBROW = "🤨";
+	case EXPRESSIONLESS_FACE = "😑";
+	case STRAWBERRY = "🍓";
+	case BOTTLE_WITH_POPPING_CORK = "🍾";
+	case KISS_MARK = "💋";
+	case MIDDLE_FINGER = "🖕";
+	case SMILING_FACE_WITH_HORNS = "😈";
+	case LOUDLY_CRYING_FACE = "😭";
+	case NERD_FACE = "🤓";
+	case GHOST = "👻";
+	case MAN_TECHNOLOGIST = "👨‍💻";
+	case EYES = "👀";
+	case JACK_O_LANTERN = "🎃";
+	case SEE_NO_EVIL_MONKEY = "🙈";
+	case SMILING_FACE_WITH_HALO = "😇";
+	case FEARFUL_FACE = "😨";
+	case HANDSHAKE = "🤝";
+	case WRITING_HAND = "✍";
+	case SMILING_FACE_WITH_OPEN_HANDS = "🤗";
+	case SALUTING_FACE = "🫡";
+	case SANTA_CLAUS = "🎅";
+	case CHRISTMAS_TREE = "🎄";
+	case SNOWMAN = "☃";
+	case NAIL_POLISH = "💅";
+	case ZANY_FACE = "🤪";
+	case MOAI = "🗿";
+	case COOL_BUTTON = "🆒";
+	case HEART_WITH_ARROW = "💘";
+	case HEAR_NO_EVIL_MONKEY = "🙉";
+	case UNICORN = "🦄";
+	case FACE_BLOWING_A_KISS = "😘";
+	case PILL = "💊";
+	case SPEAK_NO_EVIL_MONKEY = "🙊";
+	case SMILING_FACE_WITH_SUNGLASSES = "😎";
+	case ALIEN_MONSTER = "👾";
+	case MAN_SHRUGGING = "🤷‍♂️";
+	case PERSON_SHRUGGING = "🤷";
+	case WOMAN_SHRUGGING = "🤷‍♀️";
+	case ENRAGED_FACE = "😡";
+}

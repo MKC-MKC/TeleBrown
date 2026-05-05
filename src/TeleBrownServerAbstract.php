@@ -701,22 +701,23 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @param int|string $chatId
 	 * @param int $messageId
-	 * @param array $reaction
+	 * @param Enums\EmojiEnum|Enums\EmojiEnum[]|string|string[] $reaction
 	 * @param bool|null $isBig
 	 * @return bool
 	 * @see https://core.telegram.org/bots/api#setmessagereaction
 	 */
 	public function setMessageReaction(
-		int|string $chatId,
-		int        $messageId,
-		array      $reaction,
-		bool|null  $isBig = null,
+		int|string                                  $chatId,
+		int                                         $messageId,
+		Enums\EmojiEnum|array|string $reaction,
+		bool|null                                   $isBig = null,
 	): bool
 	{
-		$preparedReactions = array_map(static fn($emoji) => [
+		$reactions = is_array($reaction) ? $reaction : [$reaction];
+		$preparedReactions = array_map(static fn(Enums\EmojiEnum|string $emoji) => [
 			"type" => "emoji",
-			"emoji" => $emoji,
-		], $reaction);
+			"emoji" => $emoji instanceof Enums\EmojiEnum ? $emoji->value : $emoji,
+		], $reactions);
 
 		return $this->sendRequest(
 			method: __FUNCTION__,
