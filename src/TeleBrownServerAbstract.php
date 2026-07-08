@@ -707,10 +707,10 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#setmessagereaction
 	 */
 	public function setMessageReaction(
-		int|string                                  $chatId,
-		int                                         $messageId,
+		int|string                   $chatId,
+		int                          $messageId,
 		Enums\EmojiEnum|array|string $reaction,
-		bool|null                                   $isBig = null,
+		bool|null                    $isBig = null,
 	): bool
 	{
 		$reactions = is_array($reaction) ? $reaction : [$reaction];
