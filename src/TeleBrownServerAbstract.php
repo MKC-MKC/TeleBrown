@@ -11,12 +11,28 @@ abstract class TeleBrownServerAbstract
 	protected string $url = "https://api.telegram.org";
 	protected string $token = "";
 	protected static bool $debug;
+	protected int|null $connectTimeout = 120;
 
 	public function __construct(string $url, string $token, protected string|null $proxy = null, $debug = false)
 	{
 		$this->url = $url !== "" ? $url : $this->url;
 		$this->token = $token;
 		self::$debug = filter_var($debug, FILTER_VALIDATE_BOOLEAN);
+	}
+
+	/**
+	 * Тайм-аут общего соединения.
+	 * @param int|null $connectTimeout
+	 * @return void
+	 */
+	public function setConnectTimeout(int|null $connectTimeout): void
+	{
+		$this->connectTimeout = $connectTimeout;
+	}
+
+	public function getConnectTimeout(): ?int
+	{
+		return $this->connectTimeout;
 	}
 
 	/**
