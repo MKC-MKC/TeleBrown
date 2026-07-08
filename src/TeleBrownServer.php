@@ -38,6 +38,13 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		$options = [];
 		$options["headers"] = $headers;
 
+		# Тайм-аут соединения.
+		if (!is_null($this->getConnectTimeout())) $options["connect_timeout"] = $this->getConnectTimeout();
+
+		if (isset($params["timeout"]) && is_numeric($params["timeout"])) {
+			$options["timeout"] = (int)$params["timeout"] + 10;
+		}
+
 		# Формируем параметры прокси.
 		if (!empty($this->proxy)) $options["proxy"] = $this->proxy;
 
