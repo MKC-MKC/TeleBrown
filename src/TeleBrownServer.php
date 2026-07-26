@@ -26,9 +26,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		$isMultipart = isset($headers["Content-Type"]) && strtolower($headers["Content-Type"]) === "multipart/form-data";
 		if (!$isMultipart && $params) {
 			$params = array_filter($params, static fn($value) => !is_null($value));
-			$params = array_map(static function ($value) {
-				return (is_array($value) || is_object($value)) ? json_encode($value) : $value;
-			}, $params);
+			$params = array_map(static fn($value) => is_object($value) ? json_encode($value) : $value, $params);
 		}
 
 		# Формируем URL.
