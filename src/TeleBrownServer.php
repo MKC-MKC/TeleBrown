@@ -39,7 +39,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		$options["headers"] = $headers;
 
 		# Тайм-аут соединения.
-		if (!is_null($this->getConnectTimeout())) $options["connect_timeout"] = $this->getConnectTimeout();
+		if (!is_null($this->getConnectTimeout())) $options["connect_timeout"] = $options["timeout"] = $this->getConnectTimeout();
 
 		if (isset($params["timeout"]) && is_numeric($params["timeout"])) {
 			$options["timeout"] = (int)$params["timeout"] + 10;
