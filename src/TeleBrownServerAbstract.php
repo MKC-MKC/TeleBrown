@@ -294,6 +294,53 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
+	 * Используйте этот метод, чтобы транслировать пользователю часть сообщения во время его генерации.
+	 * Черновик является временным, поэтому после завершения генерации отправьте полное сообщение через sendMessage.
+	 *
+	 * Use this method to stream a partial message to a user while the message is being generated.
+	 * The draft is temporary, so send the complete message through sendMessage after generation is finished.
+	 *
+	 * @param int $chatId
+	 * @param int $draftId
+	 * @param string|null $text
+	 * @param int|null $messageThreadId
+	 * @param Enums\ParseModeEnum|null $parseMode
+	 * @param array|null $entities
+	 * @param bool|null $canStop
+	 * @param bool|null $keepOnStop
+	 * @return bool
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#sendmessagedraft
+	 */
+	public function sendMessageDraft(
+		int                  $chatId,
+		int                  $draftId,
+		?string              $text = null,
+		?int                 $messageThreadId = null,
+		?Enums\ParseModeEnum $parseMode = null,
+		?array               $entities = null,
+		?bool                $canStop = null,
+		?bool                $keepOnStop = null,
+	): bool
+	{
+		if ($draftId === 0) throw new TelegramMainException("Draft ID must be non-zero");
+
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"message_thread_id" => $messageThreadId,
+				"draft_id" => $draftId,
+				"text" => $text,
+				"parse_mode" => $parseMode?->value,
+				"entities" => $entities,
+				"can_stop" => $canStop,
+				"keep_on_stop" => $keepOnStop,
+			],
+		)->isSuccess();
+	}
+
+	/**
 	 * Используйте этот метод, чтобы переслать сообщения любого типа.
 	 * Сервисные сообщения и сообщения с защищенным контентом не могут быть пересланы.
 	 *
