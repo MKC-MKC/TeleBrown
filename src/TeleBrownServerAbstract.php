@@ -138,6 +138,24 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
+	 * Используйте этот метод, чтобы получить основную информацию о файле и подготовить его к загрузке.
+	 *
+	 * @param string $fileId
+	 * @return Objects\File
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getfile
+	 */
+	public function getFile(string $fileId): Objects\File
+	{
+		return new Objects\File(
+			$this->sendRequest(
+				method: __FUNCTION__,
+				params: ["file_id" => $fileId],
+			)->getData()
+		);
+	}
+
+	/**
 	 * Используйте этот метод, чтобы установить URL-адрес webhook для вашего бота.
 	 * Всякий раз, когда бот получает обновление, он отправляет его на указанный URL-адрес в виде POST-запроса с JSON-объектом Update в теле.
 	 * В случае неудачного запроса (HTTP-код ответа, отличный от 2XY), мы повторим запрос и сдадимся после разумного количества попыток.

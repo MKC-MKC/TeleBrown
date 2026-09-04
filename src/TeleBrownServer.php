@@ -24,10 +24,15 @@ class TeleBrownServer extends TeleBrownServerAbstract
 	{
 		# Сериализация пустых параметров.
 		$isMultipart = isset($headers["Content-Type"]) && strtolower($headers["Content-Type"]) === "multipart/form-data";
-		if (!$isMultipart && $params) {
+		if ($params) {
 			$params = array_filter($params, static fn($value) => !is_null($value));
+		}
+
+		if (!$isMultipart && $params) {
 			$params = array_map(static fn($value) => is_object($value) ? json_encode($value) : $value, $params);
 		}
+
+		if ($isMultipart) unset($headers["Content-Type"]);
 
 		# Формируем URL.
 		$url = $this->buildRequestUrl($method);
@@ -48,7 +53,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 
 		# Отправляем запрос.
 		try {
-			$client = new Client($options);
+			$client = $this->createClient($options);
 
 			if ($isMultipart) {
 				$multipart = [];
@@ -89,6 +94,72 @@ class TeleBrownServer extends TeleBrownServerAbstract
 	}
 
 	/**
+	 * Метод загружает файл Telegram в указанный путь.
+	 *
+	 * @param string $fileId
+	 * @param string $destination
+	 * @param bool $overwrite
+	 * @return Objects\File
+	 * @throws TelegramMainException
+	 */
+	public function downloadFile(string $fileId, string $destination, bool $overwrite = false): Objects\File
+	{
+		if (!$overwrite && (file_exists($destination) || is_link($destination))) {
+			throw new TelegramMainException("Destination file already exists");
+		}
+
+		$temporaryDestination = null;
+
+		try {
+			# Защищаем существующий файл от повреждения при незавершённой загрузке.
+			$directory = dirname($destination);
+			if (!is_dir($directory) || !is_writable($directory)) throw new TelegramMainException("Download directory is not writable");
+			$temporaryDestination = tempnam($directory, ".telebrown-");
+			if ($temporaryDestination === false) throw new TelegramMainException("Unable to create a temporary file");
+
+			# Получаем актуальный путь перед загрузкой файла.
+			$file = $this->getFile($fileId);
+			$filePath = $file->getFilePath();
+			if ($filePath === null || $filePath === "") throw new TelegramMainException("Telegram API did not return a file path");
+
+			# Применяем настройки соединения сервера к загрузке файла.
+			$options = [];
+			if (!is_null($this->getConnectTimeout())) $options["connect_timeout"] = $options["timeout"] = $this->getConnectTimeout();
+			if (!empty($this->proxy)) $options["proxy"] = $this->proxy;
+
+			$this->createClient($options)->get(
+				$this->buildFileUrl($filePath),
+				["sink" => $temporaryDestination],
+			);
+
+			# Атомарно сохраняем результат согласно политике перезаписи.
+			$isSaved = $overwrite
+				? rename($temporaryDestination, $destination)
+				: link($temporaryDestination, $destination);
+			if (!$isSaved) throw new TelegramMainException("Unable to save the downloaded file");
+			if (!$overwrite) unlink($temporaryDestination);
+			$temporaryDestination = null;
+		} catch (Throwable $e) {
+			if ($temporaryDestination !== null && is_file($temporaryDestination)) unlink($temporaryDestination);
+
+			throw new TelegramMainException(message: "Unable to download Telegram file", code: (int)$e->getCode());
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Метод создаёт HTTP-клиент с указанными настройками.
+	 *
+	 * @param array $options
+	 * @return Client
+	 */
+	protected function createClient(array $options): Client
+	{
+		return new Client($options);
+	}
+
+	/**
 	 * Сборка и нормализация request url.
 	 * @param string $method
 	 * @return string
@@ -109,6 +180,33 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		}
 
 		return $url . "/bot" . $this->getToken() . "/" . $method;
+	}
+
+	/**
+	 * Метод собирает и нормализует URL для загрузки файла.
+	 *
+	 * @param string $filePath
+	 * @return string
+	 */
+	protected function buildFileUrl(string $filePath): string
+	{
+		$url = rtrim($this->getUrl(), "/");
+		$segments = explode("/", $url);
+		$lastSegment = end($segments);
+
+		# Убираем контрактные сегменты из переданного базового URL.
+		if (is_string($lastSegment) && count($segments) > 3 && str_starts_with($lastSegment, "bot")) {
+			array_pop($segments);
+			$lastSegment = end($segments);
+		}
+
+		if ($lastSegment === "file") array_pop($segments);
+		$url = implode("/", $segments);
+
+		# Экранируем компоненты пути без потери вложенности каталогов Telegram.
+		$filePath = implode("/", array_map("rawurlencode", explode("/", ltrim($filePath, "/"))));
+
+		return $url . "/file/bot" . $this->getToken() . "/" . $filePath;
 	}
 
 	/**
