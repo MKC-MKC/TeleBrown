@@ -1233,7 +1233,7 @@ abstract class TeleBrownServerAbstract
 	 * @return Objects\Poll
 	 * @see https://core.telegram.org/bots/api#stoppoll
 	 */
-	public function stopPool(
+	public function stopPoll(
 		string                            $businessConnectionId,
 		int|string                        $chatId,
 		int                               $messageId,
@@ -1251,6 +1251,24 @@ abstract class TeleBrownServerAbstract
 		);
 
 		return new Objects\Poll($response->getData());
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public function stopPool(
+		string                            $businessConnectionId,
+		int|string                        $chatId,
+		int                               $messageId,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): Objects\Poll
+	{
+		return $this->stopPoll(
+			businessConnectionId: $businessConnectionId,
+			chatId: $chatId,
+			messageId: $messageId,
+			replyMarkup: $replyMarkup,
+		);
 	}
 
 	/**
