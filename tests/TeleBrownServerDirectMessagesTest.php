@@ -41,6 +41,8 @@ final class TeleBrownServerDirectMessagesTest extends TestCase
 			fromChatId: 17,
 			messageIds: [21, 22],
 			directMessagesTopicId: 9007199254740991,
+			messageEffectId: "effect-42",
+			suggestedPostParameters: $suggestion,
 		);
 		$server->sendContact(
 			chatId: -1000000000042,
@@ -77,6 +79,8 @@ final class TeleBrownServerDirectMessagesTest extends TestCase
 				"direct_messages_topic_id" => 9007199254740991,
 				"from_chat_id" => 17,
 				"message_ids" => [21, 22],
+				"message_effect_id" => "effect-42",
+				"suggested_post_parameters" => ["send_date" => 1788960000],
 			],
 			$this->requestBody($history, 2),
 		);

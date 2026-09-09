@@ -112,7 +112,7 @@ abstract class TeleBrownServerAbstract
 				"offset" => $offset,
 				"limit" => $limit,
 				"timeout" => $timeout,
-				"allowed_updates" => $allowedUpdates ? array_map(static fn($u) => $u->value, $allowedUpdates) : null,
+				"allowed_updates" => $allowedUpdates === null ? null : array_map(static fn($u) => $u->value, $allowedUpdates),
 			]
 		);
 
@@ -198,7 +198,7 @@ abstract class TeleBrownServerAbstract
 				"certificate" => $certificate,
 				"ip_address" => $ipAddress,
 				"max_connections" => $maxConnections,
-				"allowed_updates" => $allowedUpdates ? array_map(static fn($u) => $u->value, $allowedUpdates) : null,
+				"allowed_updates" => $allowedUpdates === null ? null : array_map(static fn($u) => $u->value, $allowedUpdates),
 				"drop_pending_updates" => $dropPendingUpdates,
 				"secret_token" => $secretToken
 			],
@@ -263,20 +263,20 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#sendmessage
 	 */
 	public function sendMessage(
-		int|string                  $chatId,
-		string                      $text,
-		?string                     $businessConnectionId = null,
-		?Enums\ParseModeEnum        $parseMode = null,
-		int|string|null             $messageThreadId = null,
-		?array                      $entities = null,
-		?Objects\LinkPreviewOptions $linkPreviewOptions = null,
-		?bool                       $disableNotification = null,
-		?bool                       $protectContent = null,
-		?bool                       $allowPaidBroadcast = null,
-		?string                     $messageEffectId = null,
-		?Objects\ReplyParameters    $replyParameters = null,
-		mixed                       $replyMarkup = null,
-		?int                        $directMessagesTopicId = null,
+		int|string                       $chatId,
+		string                           $text,
+		?string                          $businessConnectionId = null,
+		?Enums\ParseModeEnum             $parseMode = null,
+		int|string|null                  $messageThreadId = null,
+		?array                           $entities = null,
+		?Objects\LinkPreviewOptions      $linkPreviewOptions = null,
+		?bool                            $disableNotification = null,
+		?bool                            $protectContent = null,
+		?bool                            $allowPaidBroadcast = null,
+		?string                          $messageEffectId = null,
+		?Objects\ReplyParameters         $replyParameters = null,
+		mixed                            $replyMarkup = null,
+		?int                             $directMessagesTopicId = null,
 		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
 	): Objects\Message
 	{
@@ -373,16 +373,16 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#forwardmessage
 	 */
 	public function forwardMessage(
-		int|string      $chatId,
-		int|string      $fromChatId,
-		int             $messageId,
-		int|string|null $messageThreadId = null,
-		?int            $videoStartTimestamp = null,
-		?bool           $disableNotification = null,
-		?bool           $protectContent = null,
-		?int            $directMessagesTopicId = null,
+		int|string                       $chatId,
+		int|string                       $fromChatId,
+		int                              $messageId,
+		int|string|null                  $messageThreadId = null,
+		?int                             $videoStartTimestamp = null,
+		?bool                            $disableNotification = null,
+		?bool                            $protectContent = null,
+		?int                             $directMessagesTopicId = null,
 		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
-		?string         $messageEffectId = null,
+		?string                          $messageEffectId = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -424,18 +424,22 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
 	 * @param int|null $directMessagesTopicId
+	 * @param string|null $messageEffectId
+	 * @param Objects\SuggestedPostParameters|null $suggestedPostParameters
 	 * @return Objects\MessageId[]
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#forwardmessages
 	 */
 	public function forwardMessages(
-		int|string      $chatId,
-		int|string      $fromChatId,
-		array           $messageIds,
-		int|string|null $messageThreadId = null,
-		?bool           $disableNotification = null,
-		?bool           $protectContent = null,
-		?int            $directMessagesTopicId = null,
+		int|string                       $chatId,
+		int|string                       $fromChatId,
+		array                            $messageIds,
+		int|string|null                  $messageThreadId = null,
+		?bool                            $disableNotification = null,
+		?bool                            $protectContent = null,
+		?int                             $directMessagesTopicId = null,
+		?string                          $messageEffectId = null,
+		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
 	): array
 	{
 		$response = $this->sendRequest(
@@ -448,6 +452,8 @@ abstract class TeleBrownServerAbstract
 				"message_ids" => $messageIds,
 				"disable_notification" => $disableNotification,
 				"protect_content" => $protectContent,
+				"message_effect_id" => $messageEffectId,
+				"suggested_post_parameters" => $suggestedPostParameters?->getAsArray(),
 			]
 		);
 
@@ -723,20 +729,20 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#sendcontact
 	 */
 	public function sendContact(
-		int|string               $chatId,
-		string                   $phoneNumber,
-		string                   $firstName,
-		?string                  $lastName = null,
-		?string                  $vcard = null,
-		int|string|null          $messageThreadId = null,
-		?bool                    $disableNotification = null,
-		?bool                    $protectContent = null,
-		?bool                    $allowPaidBroadcast = null,
-		?string                  $messageEffectId = null,
-		?Objects\ReplyParameters $replyParameters = null,
-		mixed                    $replyMarkup = null,
-		?string                  $businessConnectionId = null,
-		?int                     $directMessagesTopicId = null,
+		int|string                       $chatId,
+		string                           $phoneNumber,
+		string                           $firstName,
+		?string                          $lastName = null,
+		?string                          $vcard = null,
+		int|string|null                  $messageThreadId = null,
+		?bool                            $disableNotification = null,
+		?bool                            $protectContent = null,
+		?bool                            $allowPaidBroadcast = null,
+		?string                          $messageEffectId = null,
+		?Objects\ReplyParameters         $replyParameters = null,
+		mixed                            $replyMarkup = null,
+		?string                          $businessConnectionId = null,
+		?int                             $directMessagesTopicId = null,
 		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
 	): Objects\Message
 	{
@@ -814,23 +820,25 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @param int|string $chatId
 	 * @param int $messageId
-	 * @param Enums\EmojiEnum|Enums\EmojiEnum[]|string|string[] $reaction
+	 * @param Enums\EmojiEnum|Objects\ReactionTypeCustomEmoji|Enums\EmojiEnum[]|Objects\ReactionTypeCustomEmoji[]|string|string[] $reaction
 	 * @param bool|null $isBig
 	 * @return bool
 	 * @see https://core.telegram.org/bots/api#setmessagereaction
 	 */
 	public function setMessageReaction(
-		int|string                   $chatId,
-		int                          $messageId,
-		Enums\EmojiEnum|array|string $reaction,
-		bool|null                    $isBig = null,
+		int|string                                                   $chatId,
+		int                                                          $messageId,
+		Enums\EmojiEnum|Objects\ReactionTypeCustomEmoji|array|string $reaction,
+		bool|null                                                    $isBig = null,
 	): bool
 	{
 		$reactions = is_array($reaction) ? $reaction : [$reaction];
-		$preparedReactions = array_map(static fn(Enums\EmojiEnum|string $emoji) => [
-			"type" => "emoji",
-			"emoji" => $emoji instanceof Enums\EmojiEnum ? $emoji->value : $emoji,
-		], $reactions);
+		$preparedReactions = array_map(
+			static fn(Enums\EmojiEnum|Objects\ReactionTypeCustomEmoji|string $item) => $item instanceof Objects\ReactionTypeCustomEmoji
+				? $item->getAsArray()
+				: ["type" => "emoji", "emoji" => $item instanceof Enums\EmojiEnum ? $item->value : $item],
+			$reactions,
+		);
 
 		return $this->sendRequest(
 			method: __FUNCTION__,
@@ -1100,20 +1108,23 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @param int|string $chatId
 	 * @param int $senderChatId
+	 * @param int|null $untilDate
 	 * @return bool
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#banchatsenderchat
 	 */
 	public function banChatSenderChat(
 		int|string $chatId,
-		int        $senderChatId
+		int        $senderChatId,
+		?int       $untilDate = null,
 	): bool
 	{
 		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
 				"chat_id" => $chatId,
-				"sender_chat_id" => $senderChatId
+				"sender_chat_id" => $senderChatId,
+				"until_date" => $untilDate,
 			]
 		)->isSuccess();
 	}
