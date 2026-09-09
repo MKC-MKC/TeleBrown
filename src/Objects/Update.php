@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Haikiri\TeleBrown\Objects;
 
 use Generator;
-use Haikiri\TeleBrown\ResponseWrapper;
 use Haikiri\TeleBrown\Enums\UpdateEnum;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * Update – This object represents an incoming update.

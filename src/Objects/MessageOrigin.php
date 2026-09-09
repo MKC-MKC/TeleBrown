@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Objects;
 
-use RuntimeException;
-use Haikiri\TeleBrown\ResponseWrapper;
 use Haikiri\TeleBrown\Enums\MessageOriginEnum;
+use Haikiri\TeleBrown\ResponseWrapper;
+use RuntimeException;
 
 /**
  * MessageOrigin – This object describes the origin of a message.

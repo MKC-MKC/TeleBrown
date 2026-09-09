@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Objects\ChatMember;
 
-use Haikiri\TeleBrown\Objects\User;
 use Haikiri\TeleBrown\Objects\ChatMember;
+use Haikiri\TeleBrown\Objects\User;
 
 /**
  * ChatMemberRestricted – Represents a chat member that is under certain restrictions in the chat. Supergroups only.

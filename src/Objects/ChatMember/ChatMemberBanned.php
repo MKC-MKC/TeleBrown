@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Objects\ChatMember;
 
-use Haikiri\TeleBrown\Objects\User;
 use Haikiri\TeleBrown\Objects\ChatMember;
+use Haikiri\TeleBrown\Objects\User;
 
 /**
  * ChatMemberBanned – Represents a chat member that was banned in the chat and can't return to the chat or view chat messages.

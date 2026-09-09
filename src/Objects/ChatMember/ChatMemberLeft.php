@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Objects\ChatMember;
 
-use Haikiri\TeleBrown\Objects\User;
 use Haikiri\TeleBrown\Objects\ChatMember;
+use Haikiri\TeleBrown\Objects\User;
 
 /**
  * ChatMemberLeft – Represents a chat member that isn't currently a member of the chat, but may join it themselves.

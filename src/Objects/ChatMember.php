@@ -2,9 +2,9 @@
 
 namespace Haikiri\TeleBrown\Objects;
 
-use RuntimeException;
-use Haikiri\TeleBrown\ResponseWrapper;
 use Haikiri\TeleBrown\Enums\ChatMemberEnum;
+use Haikiri\TeleBrown\ResponseWrapper;
+use RuntimeException;
 
 /**
  * ChatMember – This object contains information about one member of a chat.

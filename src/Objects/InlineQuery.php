@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Objects;
 
-use Haikiri\TeleBrown\ResponseWrapper;
 use Haikiri\TeleBrown\Enums\InlineQueryChatEnum;
+use Haikiri\TeleBrown\ResponseWrapper;
 
 /**
  * InlineQuery – This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.

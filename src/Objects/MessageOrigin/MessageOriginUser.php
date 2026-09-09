@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Objects\MessageOrigin;
 
-use Haikiri\TeleBrown\Objects\User;
 use Haikiri\TeleBrown\Objects\MessageOrigin;
+use Haikiri\TeleBrown\Objects\User;
 
 /**
  * MessageOriginUser – The message was originally sent by a known user.
