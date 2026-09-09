@@ -32,5 +32,6 @@ enum UpdateEnum: string
 	case CHAT_JOIN_REQUEST = "chat_join_request"; # Запрос на присоединение к чату.
 	case CHAT_BOOST = "chat_boost"; # Увеличение boost чата.
 	case REMOVED_CHAT_BOOST = "removed_chat_boost"; # Удаление boost чата.
+	case STOPPED_MESSAGE_GENERATION = "stopped_message_generation"; # Остановка генерации сообщения пользователем.
 
 }

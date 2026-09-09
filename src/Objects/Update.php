@@ -164,6 +164,12 @@ class Update extends ResponseWrapper
 		return new ChatBoostRemoved($data);
 	}
 
+	public function getStoppedMessageGeneration(): MessageGenerationStopped
+	{
+		$data = (array)$this->getData("stopped_message_generation", []);
+		return new MessageGenerationStopped($data);
+	}
+
 	/**
 	 * Метод для получения типа обновления.
 	 *
@@ -195,6 +201,7 @@ class Update extends ResponseWrapper
 			!empty($this->getChatJoinRequest()?->getAsArray()) => UpdateEnum::CHAT_JOIN_REQUEST,
 			!empty($this->getChatBoost()?->getAsArray()) => UpdateEnum::CHAT_BOOST,
 			!empty($this->getRemovedChatBoost()?->getAsArray()) => UpdateEnum::REMOVED_CHAT_BOOST,
+			!empty($this->getStoppedMessageGeneration()?->getAsArray()) => UpdateEnum::STOPPED_MESSAGE_GENERATION,
 			default => null,
 		};
 	}
@@ -223,6 +230,7 @@ class Update extends ResponseWrapper
 				yield $this->getChatJoinRequest();
 				yield $this->getChatBoost();
 				yield $this->getRemovedChatBoost();
+				yield $this->getStoppedMessageGeneration();
 			})
 			() as $object) {
 			if (is_object($object) && method_exists($object, "getChat")) {
