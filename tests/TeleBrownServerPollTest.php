@@ -43,28 +43,38 @@ final class TeleBrownServerPollTest extends TestCase
 		};
 		$markup = new InlineKeyboardMarkup(["inline_keyboard" => []]);
 
-		// Старое имя сохраняет именованные аргументы, но не отправляет опечатку в HTTP-маршрут.
-		foreach (["stopPoll", "stopPool"] as $index => $method) {
-			$poll = $server->$method(
-				businessConnectionId: "",
-				chatId: "@poll_channel",
-				messageId: 42,
-				replyMarkup: $markup,
-			);
+		$poll = $server->stopPoll(
+			chatId: "@poll_channel",
+			messageId: 42,
+			replyMarkup: $markup,
+		);
 
-			self::assertInstanceOf(Poll::class, $poll);
-			self::assertSame("9007199254740993", $poll->getId());
-			self::assertSame("Ready?", $poll->getQuestion());
-			self::assertTrue($poll->isClosed());
-			self::assertSame(3, $poll->getTotalVoterCount());
-			self::assertSame("Yes", $poll->getOptions()[0]->getText());
-			self::assertSame(2, $poll->getOptions()[0]->getVoterCount());
-			self::assertSame("https://telegram.example.test/bot123:TOKEN/stopPoll", (string)$history[$index]["request"]->getUri());
-			self::assertSame(
-				["business_connection_id" => "", "chat_id" => "@poll_channel", "message_id" => 42, "reply_markup" => ["inline_keyboard" => []]],
-				json_decode((string)$history[$index]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR),
-			);
-		}
+		self::assertInstanceOf(Poll::class, $poll);
+		self::assertSame("9007199254740993", $poll->getId());
+		self::assertSame("Ready?", $poll->getQuestion());
+		self::assertTrue($poll->isClosed());
+		self::assertSame(3, $poll->getTotalVoterCount());
+		self::assertSame("Yes", $poll->getOptions()[0]->getText());
+		self::assertSame(2, $poll->getOptions()[0]->getVoterCount());
+		self::assertSame("https://telegram.example.test/bot123:TOKEN/stopPoll", (string)$history[0]["request"]->getUri());
+		self::assertSame(
+			["chat_id" => "@poll_channel", "message_id" => 42, "reply_markup" => ["inline_keyboard" => []]],
+			json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR),
+		);
+
+		$legacyPoll = $server->stopPool(
+			chatId: "@poll_channel",
+			messageId: 42,
+			businessConnectionId: "",
+			replyMarkup: $markup,
+		);
+
+		self::assertInstanceOf(Poll::class, $legacyPoll);
+		self::assertSame("https://telegram.example.test/bot123:TOKEN/stopPoll", (string)$history[1]["request"]->getUri());
+		self::assertSame(
+			["business_connection_id" => "", "chat_id" => "@poll_channel", "message_id" => 42, "reply_markup" => ["inline_keyboard" => []]],
+			json_decode((string)$history[1]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR),
+		);
 	}
 
 }

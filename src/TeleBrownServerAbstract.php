@@ -1226,17 +1226,17 @@ abstract class TeleBrownServerAbstract
 	 * Use this method to stop a poll which was sent by the bot.
 	 * On success, the stopped Poll is returned.
 	 *
-	 * @param string $businessConnectionId
 	 * @param int|string $chatId
 	 * @param int $messageId
+	 * @param string|null $businessConnectionId
 	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup
 	 * @return Objects\Poll
 	 * @see https://core.telegram.org/bots/api#stoppoll
 	 */
 	public function stopPoll(
-		string                            $businessConnectionId,
 		int|string                        $chatId,
 		int                               $messageId,
+		?string                           $businessConnectionId = null,
 		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
 	): Objects\Poll
 	{
@@ -1257,9 +1257,9 @@ abstract class TeleBrownServerAbstract
 	 * @deprecated
 	 */
 	public function stopPool(
-		string                            $businessConnectionId,
 		int|string                        $chatId,
 		int                               $messageId,
+		?string                           $businessConnectionId = null,
 		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
 	): Objects\Poll
 	{
