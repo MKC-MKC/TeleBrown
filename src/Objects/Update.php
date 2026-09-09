@@ -10,7 +10,7 @@ use Haikiri\TeleBrown\Enums\UpdateEnum;
 
 /**
  * Update – This object represents an incoming update.
- * @see https:core.telegram.org/bots/api#update
+ * @see https://core.telegram.org/bots/api#update
  */
 class Update extends ResponseWrapper
 {
@@ -224,6 +224,7 @@ class Update extends ResponseWrapper
 				yield $this->getDeletedBusinessMessages();
 				yield $this->getMessageReaction();
 				yield $this->getMessageReactionCount();
+				yield $this->getPollAnswer();
 				yield $this->getCallbackQuery()?->getMessage();
 				yield $this->getMyChatMember();
 				yield $this->getChatMember();
@@ -277,8 +278,10 @@ class Update extends ResponseWrapper
 			})
 			() as $object) {
 			foreach (["getFrom", "getUser"] as $method) {
-				$user = $object?->$method();
-				if (isset($user) && $user->getId() !== null) return $user;
+				if (!is_object($object) || !method_exists($object, $method)) continue;
+
+				$user = $object->$method();
+				if ($user instanceof User && !empty($user->getId())) return $user;
 			}
 		}
 
@@ -288,7 +291,7 @@ class Update extends ResponseWrapper
 	/**
 	 * Метод возвращает актуальный объект сообщения.
 	 *
-	 * @return User|null
+	 * @return Message|null
 	 */
 	public function getActualMessage(): Message|null
 	{
@@ -330,11 +333,15 @@ class Update extends ResponseWrapper
 				yield $this->getMyChatMember();
 				yield $this->getChatMember();
 				yield $this->getChatJoinRequest();
+				yield $this->getChatBoost();
+				yield $this->getRemovedChatBoost();
 			})
 			() as $object) {
 			foreach (["getDate", "getEditDate", "getEditDateTime"] as $method) {
-				$value = $object?->$method();
-				if (isset($value) && is_numeric($value)) return (int)$value;
+				if (!is_object($object) || !method_exists($object, $method)) continue;
+
+				$value = $object->$method();
+				if (!empty($value) && is_numeric($value)) return (int)$value;
 			}
 		}
 
