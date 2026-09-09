@@ -15,6 +15,36 @@ use PHPUnit\Framework\TestCase;
 
 final class TeleBrownServerFileTest extends TestCase
 {
+	public function testSetWebhookUploadsCertificateOnlyWhenProvided(): void
+	{
+		$history = [];
+		$certificate = tempnam(sys_get_temp_dir(), "telebrown-certificate-");
+		self::assertNotFalse($certificate);
+		file_put_contents($certificate, "certificate");
+
+		try {
+			$server = $this->createServer(
+				history: $history,
+				responses: [
+					new GuzzleResponse(200, [], '{"ok":true,"result":true}'),
+					new GuzzleResponse(200, [], '{"ok":true,"result":true}'),
+				],
+			);
+
+			$server->setWebhook("https://bot.example.test/hook", certificate: $certificate);
+			$server->setWebhook("https://bot.example.test/hook");
+
+			self::assertStringStartsWith("multipart/form-data; boundary=", $history[0]["request"]->getHeaderLine("Content-Type"));
+			self::assertStringContainsString('name="certificate"', (string)$history[0]["request"]->getBody());
+			self::assertSame("application/json", $history[1]["request"]->getHeaderLine("Content-Type"));
+			self::assertSame(
+				["url" => "https://bot.example.test/hook"],
+				json_decode((string)$history[1]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR),
+			);
+		} finally {
+			if (is_file($certificate)) unlink($certificate);
+		}
+	}
 
 	public function testMultipartRequestFiltersNullAndAddsBoundary(): void
 	{

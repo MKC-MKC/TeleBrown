@@ -187,6 +187,10 @@ abstract class TeleBrownServerAbstract
 		?string    $secretToken = null
 	): bool
 	{
+		$headers = $certificate === null
+			? ["Content-Type" => "application/json"]
+			: ["Content-Type" => "multipart/form-data"];
+
 		return $this->sendRequest(
 			method: __FUNCTION__,
 			params: [
@@ -197,7 +201,8 @@ abstract class TeleBrownServerAbstract
 				"allowed_updates" => $allowedUpdates ? array_map(static fn($u) => $u->value, $allowedUpdates) : null,
 				"drop_pending_updates" => $dropPendingUpdates,
 				"secret_token" => $secretToken
-			]
+			],
+			headers: $headers,
 		)->isSuccess();
 	}
 
