@@ -111,4 +111,19 @@ class ChatMemberAdministrator extends ChatMember
 		return (bool)$this->getData("can_manage_topics");
 	}
 
+	public function canManageDirectMessages(): bool
+	{
+		return (bool)$this->getData("can_manage_direct_messages");
+	}
+
+	public function canManageTags(): bool
+	{
+		return (bool)$this->getData("can_manage_tags");
+	}
+
+	public function canSendWelcomeMessages(): bool
+	{
+		return (bool)$this->getData("can_send_welcome_messages");
+	}
+
 }

@@ -251,6 +251,8 @@ abstract class TeleBrownServerAbstract
 	 * @param string|null $messageEffectId
 	 * @param Objects\ReplyParameters|null $replyParameters
 	 * @param null|Objects\InlineKeyboardMarkup|Objects\ReplyKeyboardMarkup|Objects\ReplyKeyboardRemove|Objects\ForceReply $replyMarkup
+	 * @param int|null $directMessagesTopicId
+	 * @param Objects\SuggestedPostParameters|null $suggestedPostParameters
 	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#sendmessage
@@ -269,6 +271,8 @@ abstract class TeleBrownServerAbstract
 		?string                     $messageEffectId = null,
 		?Objects\ReplyParameters    $replyParameters = null,
 		mixed                       $replyMarkup = null,
+		?int                        $directMessagesTopicId = null,
+		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -280,12 +284,14 @@ abstract class TeleBrownServerAbstract
 					"business_connection_id" => $businessConnectionId,
 					"parse_mode" => $parseMode?->value,
 					"message_thread_id" => $messageThreadId,
+					"direct_messages_topic_id" => $directMessagesTopicId,
 					"entities" => $entities,
 					"link_preview_options" => $linkPreviewOptions?->getAsArray(),
 					"disable_notification" => $disableNotification,
 					"protect_content" => $protectContent,
 					"allow_paid_broadcast" => $allowPaidBroadcast,
 					"message_effect_id" => $messageEffectId,
+					"suggested_post_parameters" => $suggestedPostParameters?->getAsArray(),
 					"reply_parameters" => $replyParameters?->getAsArray(),
 					"reply_markup" => $replyMarkup?->getAsArray(),
 				]
@@ -354,6 +360,9 @@ abstract class TeleBrownServerAbstract
 	 * @param int|null $videoStartTimestamp
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
+	 * @param int|null $directMessagesTopicId
+	 * @param Objects\SuggestedPostParameters|null $suggestedPostParameters
+	 * @param string|null $messageEffectId
 	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#forwardmessage
@@ -366,6 +375,9 @@ abstract class TeleBrownServerAbstract
 		?int            $videoStartTimestamp = null,
 		?bool           $disableNotification = null,
 		?bool           $protectContent = null,
+		?int            $directMessagesTopicId = null,
+		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
+		?string         $messageEffectId = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -376,9 +388,12 @@ abstract class TeleBrownServerAbstract
 					"from_chat_id" => $fromChatId,
 					"message_id" => $messageId,
 					"message_thread_id" => $messageThreadId,
+					"direct_messages_topic_id" => $directMessagesTopicId,
 					"video_start_timestamp" => $videoStartTimestamp,
 					"disable_notification" => $disableNotification,
 					"protect_content" => $protectContent,
+					"message_effect_id" => $messageEffectId,
+					"suggested_post_parameters" => $suggestedPostParameters?->getAsArray(),
 				]
 			)->getData()
 		);
@@ -403,6 +418,7 @@ abstract class TeleBrownServerAbstract
 	 * @param int|string|null $messageThreadId
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
+	 * @param int|null $directMessagesTopicId
 	 * @return Objects\MessageId[]
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#forwardmessages
@@ -414,6 +430,7 @@ abstract class TeleBrownServerAbstract
 		int|string|null $messageThreadId = null,
 		?bool           $disableNotification = null,
 		?bool           $protectContent = null,
+		?int            $directMessagesTopicId = null,
 	): array
 	{
 		$response = $this->sendRequest(
@@ -421,6 +438,7 @@ abstract class TeleBrownServerAbstract
 			params: [
 				"chat_id" => $chatId,
 				"message_thread_id" => $messageThreadId,
+				"direct_messages_topic_id" => $directMessagesTopicId,
 				"from_chat_id" => $fromChatId,
 				"message_ids" => $messageIds,
 				"disable_notification" => $disableNotification,
@@ -692,6 +710,9 @@ abstract class TeleBrownServerAbstract
 	 * @param string|null $messageEffectId
 	 * @param Objects\ReplyParameters|null $replyParameters
 	 * @param mixed|null $replyMarkup
+	 * @param string|null $businessConnectionId
+	 * @param int|null $directMessagesTopicId
+	 * @param Objects\SuggestedPostParameters|null $suggestedPostParameters
 	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#sendcontact
@@ -709,6 +730,9 @@ abstract class TeleBrownServerAbstract
 		?string                  $messageEffectId = null,
 		?Objects\ReplyParameters $replyParameters = null,
 		mixed                    $replyMarkup = null,
+		?string                  $businessConnectionId = null,
+		?int                     $directMessagesTopicId = null,
+		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -716,15 +740,18 @@ abstract class TeleBrownServerAbstract
 				method: __FUNCTION__,
 				params: [
 					"chat_id" => $chatId,
+					"business_connection_id" => $businessConnectionId,
 					"phone_number" => $phoneNumber,
 					"first_name" => $firstName,
 					"last_name" => $lastName,
 					"vcard" => $vcard,
 					"message_thread_id" => $messageThreadId,
+					"direct_messages_topic_id" => $directMessagesTopicId,
 					"disable_notification" => $disableNotification,
 					"protect_content" => $protectContent,
 					"allow_paid_broadcast" => $allowPaidBroadcast,
 					"message_effect_id" => $messageEffectId,
+					"suggested_post_parameters" => $suggestedPostParameters?->getAsArray(),
 					"reply_parameters" => $replyParameters?->getAsArray(),
 					"reply_markup" => $replyMarkup?->getAsArray(),
 				]
@@ -973,6 +1000,9 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $canEditMessages
 	 * @param bool|null $canPinMessages
 	 * @param bool|null $canManageTopics
+	 * @param bool|null $canManageDirectMessages
+	 * @param bool|null $canManageTags
+	 * @param bool|null $canSendWelcomeMessages
 	 * @return bool
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#promotechatmember
@@ -994,7 +1024,10 @@ abstract class TeleBrownServerAbstract
 		?bool      $canPostMessages = null,
 		?bool      $canEditMessages = null,
 		?bool      $canPinMessages = null,
-		?bool      $canManageTopics = null
+		?bool      $canManageTopics = null,
+		?bool      $canManageDirectMessages = null,
+		?bool      $canManageTags = null,
+		?bool      $canSendWelcomeMessages = null,
 	): bool
 	{
 		return $this->sendRequest(
@@ -1016,7 +1049,10 @@ abstract class TeleBrownServerAbstract
 				"can_post_messages" => $canPostMessages,
 				"can_edit_messages" => $canEditMessages,
 				"can_pin_messages" => $canPinMessages,
-				"can_manage_topics" => $canManageTopics
+				"can_manage_topics" => $canManageTopics,
+				"can_manage_direct_messages" => $canManageDirectMessages,
+				"can_manage_tags" => $canManageTags,
+				"can_send_welcome_messages" => $canSendWelcomeMessages,
 			]
 		)->isSuccess();
 	}
