@@ -34,7 +34,8 @@ class CallbackQuery extends ResponseWrapper
 	 */
 	public function getMessage(): MaybeInaccessibleMessage
 	{
-		return MaybeInaccessibleMessage::getMessage($this->getAsArray());
+		$data = (array)$this->getData("message", []);
+		return MaybeInaccessibleMessage::getMessage($data);
 	}
 
 	public function getInlineMessageId(): string
