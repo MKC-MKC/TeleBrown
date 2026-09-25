@@ -86,4 +86,30 @@ trait InlineQueries
 		return $response->isSuccess();
 	}
 
+	/**
+	 * Сохраняет кнопку, которую можно использовать в методе requestChat Mini App.
+	 * Возвращается объект PreparedKeyboardButton.
+	 *
+	 * @param int $userId Уникальный идентификатор пользователя.
+	 * @param Objects\KeyboardButton $button Кнопка с запросом пользователя, чата или управляемого бота.
+	 * @return Objects\PreparedKeyboardButton
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#savepreparedkeyboardbutton
+	 */
+	public function savePreparedKeyboardButton(
+		int                    $userId,
+		Objects\KeyboardButton $button,
+	): Objects\PreparedKeyboardButton
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"button" => $button->getAsArray(),
+			],
+		);
+
+		return new Objects\PreparedKeyboardButton($response->getData());
+	}
+
 }
