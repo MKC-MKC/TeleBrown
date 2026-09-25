@@ -1318,9 +1318,9 @@ abstract class TeleBrownServerAbstract
 	): Objects\Poll
 	{
 		return $this->stopPoll(
-			businessConnectionId: $businessConnectionId,
 			chatId: $chatId,
 			messageId: $messageId,
+			businessConnectionId: $businessConnectionId,
 			replyMarkup: $replyMarkup,
 		);
 	}
