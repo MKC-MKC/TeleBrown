@@ -231,4 +231,29 @@ trait ChatSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Устанавливаем новую фотографию чата. В личных чатах фотографию изменить нельзя.
+	 * Бот должен быть администратором с соответствующими правами.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param string $photo Путь к новой фотографии, например /tmp/photo.jpg. Файл загружается через multipart/form-data.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setchatphoto
+	 */
+	public function setChatPhoto(
+		int|string $chatId,
+		string     $photo,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"photo" => $photo,
+			],
+			headers: ["Content-Type" => "multipart/form-data"],
+		)->isSuccess();
+	}
+
 }
