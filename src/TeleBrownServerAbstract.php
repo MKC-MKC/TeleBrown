@@ -14,6 +14,7 @@ abstract class TeleBrownServerAbstract
 	use Methods\MessageEditing;
 	use Methods\LiveLocations;
 	use Methods\InlineQueries;
+	use Methods\MessageContent;
 	use Methods\MessageCopies;
 	use Methods\UserProfiles;
 	use Methods\ChatSettings;
