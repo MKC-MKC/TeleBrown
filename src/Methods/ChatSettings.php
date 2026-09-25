@@ -54,4 +54,28 @@ trait ChatSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем описание группы, супергруппы или канала.
+	 * Бот должен быть администратором с соответствующими правами.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param string|null $description Новое описание чата, от 0 до 255 символов.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setchatdescription
+	 */
+	public function setChatDescription(
+		int|string  $chatId,
+		string|null $description = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"description" => $description,
+			],
+		)->isSuccess();
+	}
+
 }
