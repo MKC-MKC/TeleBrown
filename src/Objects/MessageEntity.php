@@ -92,4 +92,26 @@ class MessageEntity extends ResponseWrapper
 		return (string)$this->getData("custom_emoji_id");
 	}
 
+	/**
+	 * Необязательно. Unix-время сущности date_time.
+	 *
+	 * @return int|null
+	 * @see https://core.telegram.org/bots/api#messageentity
+	 */
+	public function getUnixTime(): int|null
+	{
+		return $this->getData("unix_time");
+	}
+
+	/**
+	 * Необязательно. Строка формата даты и времени для сущности date_time.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#messageentity
+	 */
+	public function getDateTimeFormat(): string|null
+	{
+		return $this->getData("date_time_format");
+	}
+
 }
