@@ -127,4 +127,32 @@ trait ChatSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Открепляем сообщение в чате.
+	 * В группах требуется право can_pin_messages, в каналах - can_edit_messages.
+	 * В личных чатах и чатах личных сообщений канала можно открепить любое сообщение.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param string|null $businessConnectionId Идентификатор бизнес-подключения, от имени которого выполняется действие.
+	 * @param int|null $messageId Идентификатор сообщения, например 42. Обязателен при business_connection_id. Без него открепляется последнее закреплённое сообщение.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#unpinchatmessage
+	 */
+	public function unpinChatMessage(
+		int|string  $chatId,
+		string|null $businessConnectionId = null,
+		int|null    $messageId = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"business_connection_id" => $businessConnectionId,
+				"message_id" => $messageId,
+			],
+		)->isSuccess();
+	}
+
 }
