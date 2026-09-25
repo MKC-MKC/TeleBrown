@@ -18,10 +18,10 @@ class ExternalReplyInfo extends ResponseWrapper
 	 * Origin of the message replied to by the given message
 	 * @return MessageOrigin
 	 */
-	public function getOrigin(): object
+	public function getOrigin(): MessageOrigin
 	{
 		$data = (array)$this->getData("origin", []);
-		return new MessageOrigin($data);
+		return MessageOrigin::getOrigin($data);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class ExternalReplyInfo extends ResponseWrapper
 	 */
 	public function getPhoto(): array
 	{
-		$data = $this->getData("photo");
+		$data = (array)$this->getData("photo", []);
 		return array_map(fn(array $item): PhotoSize => new PhotoSize($item), $data);
 	}
 
@@ -251,6 +251,30 @@ class ExternalReplyInfo extends ResponseWrapper
 	{
 		$data = (array)$this->getData("venue", []);
 		return new Venue($data);
+	}
+
+	/**
+	 * Необязательно. Сообщение является живой фотографией; сведения о фотографии.
+	 *
+	 * @return LivePhoto|null
+	 * @see https://core.telegram.org/bots/api#externalreplyinfo
+	 */
+	public function getLivePhoto(): LivePhoto|null
+	{
+		$data = $this->getData("live_photo");
+		return $data === null ? null : new LivePhoto($data);
+	}
+
+	/**
+	 * Необязательно. Сообщение является списком задач.
+	 *
+	 * @return Checklist|null
+	 * @see https://core.telegram.org/bots/api#externalreplyinfo
+	 */
+	public function getChecklist(): Checklist|null
+	{
+		$data = $this->getData("checklist");
+		return $data === null ? null : new Checklist($data);
 	}
 
 }
