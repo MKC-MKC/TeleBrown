@@ -88,4 +88,40 @@ trait EphemeralMessages
 		return $response->isSuccess();
 	}
 
+	/**
+	 * Изменяем медиа эфемерного сообщения.
+	 * Доставка события изменения пользователю не гарантируется, особенно если он не в сети.
+	 *
+	 * @param int|string $chatId Идентификатор целевого чата или @username супергруппы.
+	 * @param int $receiverUserId Идентификатор пользователя, получившего сообщение.
+	 * @param int $ephemeralMessageId Идентификатор эфемерного сообщения.
+	 * @param Objects\InputMedia|array $media Новое медиа, например ["type" => "photo", "media" => "/tmp/photo.jpg"].
+	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup Новая inline-клавиатура сообщения.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#editephemeralmessagemedia
+	 */
+	public function editEphemeralMessageMedia(
+		int|string                        $chatId,
+		int                               $receiverUserId,
+		int                               $ephemeralMessageId,
+		Objects\InputMedia|array          $media,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): bool
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"receiver_user_id" => $receiverUserId,
+				"ephemeral_message_id" => $ephemeralMessageId,
+				"media" => $media,
+				"reply_markup" => $replyMarkup?->getAsArray(),
+			],
+			headers: ["Content-Type" => "multipart/form-data"],
+		);
+
+		return $response->isSuccess();
+	}
+
 }

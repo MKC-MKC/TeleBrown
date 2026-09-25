@@ -42,6 +42,29 @@ final class TeleBrownServerEphemeralMessagesTest extends TestCase
 		self::assertSame($rich->getAsArray(), json_decode($parts["rich_message"]["contents"], true, 512, JSON_THROW_ON_ERROR));
 	}
 
+	public function testMediaEditingUploadsFileWithoutUploadingCaption(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-ephemeral-");
+		file_put_contents($path, "ephemeral-photo");
+		try {
+			$history = [];
+			$media = new Objects\InputMedia(["type" => "photo", "media" => $path, "caption" => $path]);
+			$markup = new Objects\InlineKeyboardMarkup(["inline_keyboard" => []]);
+
+			self::assertTrue($this->createServer($history, true)->editEphemeralMessageMedia(17, 123, 42, $media, $markup));
+
+			$parts = $this->requestParts($history);
+			self::assertSame("/bot123:TOKEN/editEphemeralMessageMedia", $history[0]["request"]->getUri()->getPath());
+			self::assertSame(["type" => "photo", "media" => "attach://media_media", "caption" => $path], json_decode($parts["media"]["contents"], true, 512, JSON_THROW_ON_ERROR));
+			self::assertSame("ephemeral-photo", $parts["media_media"]["contents"]);
+			self::assertSame(basename($path), $parts["media_media"]["filename"]);
+			self::assertSame(["inline_keyboard" => []], json_decode($parts["reply_markup"]["contents"], true, 512, JSON_THROW_ON_ERROR));
+			self::assertSame($path, $media->getMedia());
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
