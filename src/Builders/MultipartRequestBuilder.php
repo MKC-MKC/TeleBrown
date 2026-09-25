@@ -32,6 +32,11 @@ class MultipartRequestBuilder
 		foreach ($params as $name => $value) {
 			if ($value === null) continue;
 
+			if ($name === "media" && is_array($value) && isset($value["type"])) {
+				array_push($multipart, ...InputMediaMultipartBuilder::build($value));
+				continue;
+			}
+
 			# Загружаем только поля, предназначенные для файлов.
 			if (in_array($name, self::FILE_PARAMETERS, true) && is_string($value) && is_file($value)) {
 				$contents = fopen($value, "rb");
