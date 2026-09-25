@@ -82,4 +82,28 @@ trait ChatInvites
 		)->isSuccess();
 	}
 
+	/**
+	 * Обрабатываем запрос на вступление в чат.
+	 * При успешном выполнении возвращается true.
+	 *
+	 * @param string $chatJoinRequestQueryId Уникальный идентификатор запроса на вступление.
+	 * @param string $result Решение: approve - одобрить, decline - отклонить, queue - оставить другим администраторам.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#answerchatjoinrequestquery
+	 */
+	public function answerChatJoinRequestQuery(
+		string $chatJoinRequestQueryId,
+		string $result,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_join_request_query_id" => $chatJoinRequestQueryId,
+				"result" => $result,
+			],
+		)->isSuccess();
+	}
+
 }
