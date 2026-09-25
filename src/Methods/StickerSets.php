@@ -194,4 +194,28 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем поисковые ключевые слова обычного стикера или пользовательского эмодзи.
+	 * Стикер должен принадлежать набору, созданному ботом.
+	 *
+	 * @param string $sticker Идентификатор файла стикера.
+	 * @param string[]|null $keywords От 0 до 20 поисковых ключевых слов общей длиной до 64 символов.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setstickerkeywords
+	 */
+	public function setStickerKeywords(
+		string     $sticker,
+		array|null $keywords = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"sticker" => $sticker,
+				"keywords" => $keywords,
+			],
+		)->isSuccess();
+	}
+
 }
