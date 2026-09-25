@@ -119,4 +119,24 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Удаляем стикер из созданного ботом набора.
+	 *
+	 * @param string $sticker Идентификатор файла стикера.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#deletestickerfromset
+	 */
+	public function deleteStickerFromSet(
+		string $sticker,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"sticker" => $sticker,
+			],
+		)->isSuccess();
+	}
+
 }
