@@ -15,7 +15,7 @@ trait Polls
 	 * Отправляет обычный опрос или викторину.
 	 * Возвращается отправленное сообщение Message.
 	 *
-	 * @param int|string $chatId Идентификатор целевого чата или его @username.
+	 * @param int|string $chatId Идентификатор целевого чата или его @username. Опросы нельзя отправлять в чаты личных сообщений каналов.
 	 * @param string $question Вопрос опроса, от 1 до 300 символов.
 	 * @param Objects\InputPollOption[]|array $options От 1 до 12 вариантов ответа.
 	 * @param string|null $businessConnectionId Идентификатор бизнес-подключения, от имени которого отправляется сообщение.
