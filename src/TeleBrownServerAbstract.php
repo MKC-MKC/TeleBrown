@@ -7,6 +7,7 @@ use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 abstract class TeleBrownServerAbstract
 {
 
+	use Methods\StickerSets;
 	use Methods\Stickers;
 	use Methods\BusinessAccounts;
 	use Methods\BotSettings;
