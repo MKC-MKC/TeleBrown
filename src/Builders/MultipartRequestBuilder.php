@@ -32,6 +32,11 @@ class MultipartRequestBuilder
 		foreach ($params as $name => $value) {
 			if ($value === null) continue;
 
+			if ($name === "rich_message" && is_array($value)) {
+				array_push($multipart, ...RichMessageMultipartBuilder::build($value));
+				continue;
+			}
+
 			if (in_array($name, ["media", "explanation_media", "options", "photo", "sticker", "stickers"], true) && is_array($value)) {
 				array_push($multipart, ...InputMediaMultipartBuilder::build($value, $name));
 				continue;

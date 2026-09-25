@@ -17,6 +17,7 @@ class InputMediaMultipartBuilder
 		"live_photo" => ["media", "photo"],
 		"photo" => ["media"],
 		"sticker" => ["media"],
+		"voice_note" => ["media"],
 		"video" => ["media", "thumbnail", "cover"],
 	];
 
@@ -77,7 +78,7 @@ class InputMediaMultipartBuilder
 	 * @throws RuntimeException
 	 * @see https://core.telegram.org/bots/api#sending-files
 	 */
-	private static function attach(array &$media, string $prefix, array &$multipart, bool $profilePhoto = false): void
+	public static function attach(array &$media, string $prefix, array &$multipart, bool $profilePhoto = false): void
 	{
 		$fields = $profilePhoto
 			? (["static" => ["photo"], "animated" => ["animation"]][$media["type"] ?? ""] ?? [])
