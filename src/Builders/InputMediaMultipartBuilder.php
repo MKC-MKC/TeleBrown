@@ -38,7 +38,14 @@ class InputMediaMultipartBuilder
 	{
 		$multipart = [];
 
-		if ($name === "options") {
+		if ($name === "sticker") {
+			MultipartAttachmentBuilder::attach($media, ["sticker"], $name, $multipart);
+		} elseif ($name === "stickers") {
+			foreach ($media as $index => &$sticker) {
+				if (is_array($sticker)) MultipartAttachmentBuilder::attach($sticker, ["sticker"], $name . "_" . $index, $multipart);
+			}
+			unset($sticker);
+		} elseif ($name === "options") {
 			foreach ($media as $index => &$option) {
 				if (is_array($option) && isset($option["media"]) && is_array($option["media"])) {
 					self::attach($option["media"], $name . "_" . $index . "_media", $multipart);
@@ -76,17 +83,7 @@ class InputMediaMultipartBuilder
 			? (["static" => ["photo"], "animated" => ["animation"]][$media["type"] ?? ""] ?? [])
 			: (self::FILE_FIELDS[$media["type"] ?? ""] ?? []);
 
-		foreach ($fields as $field) {
-			$path = $media[$field] ?? null;
-			if (!is_string($path) || !is_file($path)) continue;
-
-			$contents = fopen($path, "rb");
-			if ($contents === false) throw new RuntimeException("Unable to open upload file");
-
-			$name = $prefix . "_" . $field;
-			$multipart[] = ["name" => $name, "contents" => $contents, "filename" => basename($path)];
-			$media[$field] = "attach://" . $name;
-		}
+		MultipartAttachmentBuilder::attach($media, $fields, $prefix, $multipart);
 	}
 
 }
