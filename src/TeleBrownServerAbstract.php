@@ -7,6 +7,7 @@ use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 abstract class TeleBrownServerAbstract
 {
 
+	use Methods\BusinessAccounts;
 	use Methods\BotSettings;
 	use Methods\ManagedBots;
 	use Methods\ForumTopics;
