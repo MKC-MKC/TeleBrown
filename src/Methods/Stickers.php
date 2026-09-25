@@ -95,4 +95,34 @@ trait Stickers
 		return array_map(static fn(array $item): Objects\Sticker => new Objects\Sticker($item), $response->getData());
 	}
 
+	/**
+	 * Загружаем файл стикера для дальнейшего использования в createNewStickerSet, addStickerToSet или replaceStickerInSet.
+	 * Загруженный файл можно использовать несколько раз.
+	 *
+	 * @param int $userId Идентификатор владельца файла стикера.
+	 * @param string $sticker Путь к локальному файлу стикера WEBP, PNG, TGS или WEBM.
+	 * @param string $stickerFormat Формат стикера: static, animated или video.
+	 * @return Objects\File
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#uploadstickerfile
+	 */
+	public function uploadStickerFile(
+		int    $userId,
+		string $sticker,
+		string $stickerFormat,
+	): Objects\File
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"sticker" => $sticker,
+				"sticker_format" => $stickerFormat,
+			],
+			headers: ["Content-Type" => "multipart/form-data"],
+		);
+
+		return new Objects\File($response->getData());
+	}
+
 }

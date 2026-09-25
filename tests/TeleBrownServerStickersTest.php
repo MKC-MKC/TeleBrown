@@ -26,6 +26,24 @@ final class TeleBrownServerStickersTest extends TestCase
 		self::assertSame([], $this->createServer($history, [])->getCustomEmojiStickers(["123456"]));
 	}
 
+	public function testStickerUploadSendsFileAndReturnsReusableIdentifier(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-sticker-");
+		self::assertNotFalse($path);
+		file_put_contents($path, "sticker-file-content");
+		try {
+			$history = [];
+			$file = $this->createServer($history, ["file_id" => "uploaded-id", "file_unique_id" => "unique-id"])->uploadStickerFile(123, $path, "static");
+			self::assertSame("uploaded-id", $file->getFileId());
+			$body = (string)$history[0]["request"]->getBody();
+			self::assertStringContainsString('name="sticker"; filename="' . basename($path) . '"', $body);
+			self::assertStringContainsString("sticker-file-content", $body);
+			self::assertStringContainsString('name="sticker_format"', $body);
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);
