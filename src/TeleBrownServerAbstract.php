@@ -826,12 +826,13 @@ abstract class TeleBrownServerAbstract
 	 * @param Enums\EmojiEnum|Objects\ReactionTypeCustomEmoji|Enums\EmojiEnum[]|Objects\ReactionTypeCustomEmoji[]|string|string[] $reaction
 	 * @param bool|null $isBig
 	 * @return bool
+	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#setmessagereaction
 	 */
 	public function setMessageReaction(
 		int|string                                                   $chatId,
 		int                                                          $messageId,
-		Enums\EmojiEnum|Objects\ReactionTypeCustomEmoji|array|string $reaction,
+		Enums\EmojiEnum|Objects\ReactionTypeCustomEmoji|array|string $reaction = [],
 		bool|null                                                    $isBig = null,
 	): bool
 	{
