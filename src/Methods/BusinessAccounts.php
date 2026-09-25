@@ -110,4 +110,27 @@ trait BusinessAccounts
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем описание управляемого бизнес-аккаунта. Требуется право can_change_bio.
+	 *
+	 * @param string $businessConnectionId Уникальный идентификатор бизнес-подключения.
+	 * @param string|null $bio Новое описание бизнес-аккаунта, 0-140 символов.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setbusinessaccountbio
+	 */
+	public function setBusinessAccountBio(
+		string $businessConnectionId,
+		string|null $bio = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+				"bio" => $bio,
+			],
+		)->isSuccess();
+	}
+
 }
