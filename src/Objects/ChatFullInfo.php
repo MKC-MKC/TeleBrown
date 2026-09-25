@@ -244,4 +244,98 @@ class ChatFullInfo extends ResponseWrapper
 		return new ChatLocation($data);
 	}
 
+	/**
+	 * Необязательно. True, если чат предназначен для личных сообщений канала.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#chatfullinfo
+	 */
+	public function isDirectMessages(): bool
+	{
+		return (bool)$this->getData("is_direct_messages");
+	}
+
+	/**
+	 * Необязательно. Соответствующий канал; только для чатов личных сообщений.
+	 *
+	 * @return Chat|null
+	 * @see https://core.telegram.org/bots/api#chatfullinfo
+	 */
+	public function getParentChat(): Chat|null
+	{
+		$data = $this->getData("parent_chat");
+		return $data === null ? null : new Chat($data);
+	}
+
+	/**
+	 * Необязательно. Рейтинг пользователя; только для личных чатов.
+	 *
+	 * @return UserRating|null
+	 * @see https://core.telegram.org/bots/api#chatfullinfo
+	 */
+	public function getRating(): UserRating|null
+	{
+		$data = $this->getData("rating");
+		return $data === null ? null : new UserRating($data);
+	}
+
+	/**
+	 * Необязательно. Первое аудио в профиле пользователя; только для личных чатов.
+	 *
+	 * @return Audio|null
+	 * @see https://core.telegram.org/bots/api#chatfullinfo
+	 */
+	public function getFirstProfileAudio(): Audio|null
+	{
+		$data = $this->getData("first_profile_audio");
+		return $data === null ? null : new Audio($data);
+	}
+
+	/**
+	 * Необязательно. Цветовая схема уникального подарка для имени чата, ответов и предпросмотра ссылок.
+	 *
+	 * @return UniqueGiftColors|null
+	 * @see https://core.telegram.org/bots/api#chatfullinfo
+	 */
+	public function getUniqueGiftColors(): UniqueGiftColors|null
+	{
+		$data = $this->getData("unique_gift_colors");
+		return $data === null ? null : new UniqueGiftColors($data);
+	}
+
+	/**
+	 * Необязательно. Количество Telegram Stars, которое обычный пользователь должен заплатить за сообщение в чат.
+	 *
+	 * @return int|null
+	 * @see https://core.telegram.org/bots/api#chatfullinfo
+	 */
+	public function getPaidMessageStarCount(): int|null
+	{
+		return $this->getData("paid_message_star_count");
+	}
+
+	/**
+	 * Необязательно. Бот, обрабатывающий запросы вступления в чат; поле доступно только администраторам.
+	 *
+	 * @return User|null
+	 * @see https://core.telegram.org/bots/api#chatfullinfo
+	 */
+	public function getGuardBot(): User|null
+	{
+		$data = $this->getData("guard_bot");
+		return $data === null ? null : new User($data);
+	}
+
+	/**
+	 * Необязательно. Сообщество, к которому относится чат.
+	 *
+	 * @return Community|null
+	 * @see https://core.telegram.org/bots/api#chatfullinfo
+	 */
+	public function getCommunity(): Community|null
+	{
+		$data = $this->getData("community");
+		return $data === null ? null : new Community($data);
+	}
+
 }
