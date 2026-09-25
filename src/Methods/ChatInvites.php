@@ -255,4 +255,42 @@ trait ChatInvites
 		return new Objects\ChatInviteLink($response->getData());
 	}
 
+	/**
+	 * Изменяем созданную ботом дополнительную пригласительную ссылку.
+	 * Бот должен быть администратором с соответствующими правами.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param string $inviteLink Пригласительная ссылка чата, например https://t.me/+example.
+	 * @param string|null $name Название пригласительной ссылки, от 0 до 32 символов.
+	 * @param int|null $expireDate Дата истечения ссылки в формате Unix timestamp.
+	 * @param int|null $memberLimit Максимальное число участников, вступивших по ссылке, от 1 до 99999.
+	 * @param bool|null $createsJoinRequest true, если вступление требует одобрения администратора. При true нельзя передавать member_limit.
+	 * @return Objects\ChatInviteLink
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#editchatinvitelink
+	 */
+	public function editChatInviteLink(
+		int|string  $chatId,
+		string      $inviteLink,
+		string|null $name = null,
+		int|null    $expireDate = null,
+		int|null    $memberLimit = null,
+		bool|null   $createsJoinRequest = null,
+	): Objects\ChatInviteLink
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"invite_link" => $inviteLink,
+				"name" => $name,
+				"expire_date" => $expireDate,
+				"member_limit" => $memberLimit,
+				"creates_join_request" => $createsJoinRequest,
+			],
+		);
+
+		return new Objects\ChatInviteLink($response->getData());
+	}
+
 }
