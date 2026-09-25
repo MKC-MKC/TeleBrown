@@ -182,4 +182,28 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Подтверждаем чат от имени организации, которую представляет бот.
+	 * Чаты личных сообщений каналов не могут быть подтверждены.
+	 *
+	 * @param int|string $chatId Идентификатор чата или @username бота, супергруппы или канала.
+	 * @param string|null $customDescription Описание проверки, 0-70 символов. Должно быть пустым, если организации не разрешено собственное описание.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#verifychat
+	 */
+	public function verifyChat(
+		int|string $chatId,
+		string|null $customDescription = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"custom_description" => $customDescription,
+			],
+		)->isSuccess();
+	}
+
 }
