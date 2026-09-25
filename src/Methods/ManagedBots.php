@@ -32,4 +32,26 @@ trait ManagedBots
 		return (string)$response->getData();
 	}
 
+	/**
+	 * Отзываем текущий токен управляемого бота и создаём новый.
+	 *
+	 * @param int $userId Идентификатор управляемого бота.
+	 * @return string
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#replacemanagedbottoken
+	 */
+	public function replaceManagedBotToken(
+		int $userId,
+	): string
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+			],
+		);
+
+		return (string)$response->getData();
+	}
+
 }
