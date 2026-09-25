@@ -112,4 +112,30 @@ trait InlineQueries
 		return new Objects\PreparedKeyboardButton($response->getData());
 	}
 
+	/**
+	 * Отправляет сообщение от имени пользователя в ответ на запрос Web App.
+	 * Возвращается объект SentWebAppMessage.
+	 *
+	 * @param string $webAppQueryId Уникальный идентификатор запроса Web App.
+	 * @param array $result Объект InlineQueryResult, например ["type" => "article", "id" => "1", "title" => "Ответ", "input_message_content" => ["message_text" => "Текст"]].
+	 * @return Objects\SentWebAppMessage
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#answerwebappquery
+	 */
+	public function answerWebAppQuery(
+		string $webAppQueryId,
+		array  $result,
+	): Objects\SentWebAppMessage
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"web_app_query_id" => $webAppQueryId,
+				"result" => $result,
+			],
+		);
+
+		return new Objects\SentWebAppMessage($response->getData());
+	}
+
 }
