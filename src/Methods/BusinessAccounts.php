@@ -37,4 +37,28 @@ trait BusinessAccounts
 		)->isSuccess();
 	}
 
+	/**
+	 * Удаляем сообщения от имени бизнес-аккаунта.
+	 * Требуется can_delete_sent_messages для своих сообщений или can_delete_all_messages для любых.
+	 *
+	 * @param string $businessConnectionId Уникальный идентификатор бизнес-подключения.
+	 * @param int[] $messageIds От 1 до 100 идентификаторов сообщений из одного чата. Ограничения удаления описаны в deleteMessage.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#deletebusinessmessages
+	 */
+	public function deleteBusinessMessages(
+		string $businessConnectionId,
+		array $messageIds,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+				"message_ids" => $messageIds,
+			],
+		)->isSuccess();
+	}
+
 }
