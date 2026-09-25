@@ -21,7 +21,7 @@ class Document extends ResponseWrapper
 
 	public function getFileUniqueId(): string
 	{
-		return (string)$this->getData("file_id");
+		return (string)$this->getData("file_unique_id");
 	}
 
 	public function getThumbnail(): object
