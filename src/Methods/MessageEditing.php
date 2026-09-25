@@ -147,4 +147,38 @@ trait MessageEditing
 		return is_bool($result) ? $result : new Objects\Message($result);
 	}
 
+	/**
+	 * Изменяем список задач от имени подключённого бизнес-аккаунта.
+	 *
+	 * @param string $businessConnectionId Идентификатор бизнес-подключения, от имени которого изменяется сообщение.
+	 * @param int|string $chatId Идентификатор целевого чата или @username бота.
+	 * @param int $messageId Идентификатор целевого сообщения.
+	 * @param Objects\InputChecklist $checklist Новый список задач.
+	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup Новая inline-клавиатура сообщения.
+	 * @return Objects\Message Изменённое сообщение.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#editmessagechecklist
+	 */
+	public function editMessageChecklist(
+		string                            $businessConnectionId,
+		int|string                        $chatId,
+		int                               $messageId,
+		Objects\InputChecklist            $checklist,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): Objects\Message
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+				"chat_id" => $chatId,
+				"message_id" => $messageId,
+				"checklist" => $checklist->getAsArray(),
+				"reply_markup" => $replyMarkup?->getAsArray(),
+			],
+		);
+
+		return new Objects\Message($response->getData());
+	}
+
 }
