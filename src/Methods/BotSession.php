@@ -34,4 +34,26 @@ trait BotSession
 		return $response->isSuccess();
 	}
 
+	/**
+	 * Закрывает экземпляр бота перед переносом с одного локального сервера на другой.
+	 * Перед вызовом нужно удалить webhook, чтобы бот не запустился вновь после перезапуска сервера.
+	 * В первые 10 минут после запуска бота метод возвращает ошибку 429.
+	 * При успешном выполнении возвращается True.
+	 *
+	 * @return bool
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#close
+	 */
+	public function close(
+	): bool
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+			],
+		);
+
+		return $response->isSuccess();
+	}
+
 }
