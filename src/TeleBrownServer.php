@@ -7,6 +7,7 @@ namespace Haikiri\TeleBrown;
 use GuzzleHttp\Client;
 use Haikiri\TeleBrown\Builders\MultipartRequestBuilder;
 use Haikiri\TeleBrown\Exceptions\TelegramMainException;
+use Haikiri\TeleBrown\Normalizers\ModelNormalizer;
 use Throwable;
 
 class TeleBrownServer extends TeleBrownServerAbstract
@@ -29,9 +30,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 			$params = array_filter($params, static fn($value) => !is_null($value));
 		}
 
-		if (!$isMultipart && $params) {
-			$params = array_map(static fn($value) => is_object($value) ? json_encode($value) : $value, $params);
-		}
+		$params = ModelNormalizer::normalize($params);
 
 		if ($isMultipart) unset($headers["Content-Type"]);
 

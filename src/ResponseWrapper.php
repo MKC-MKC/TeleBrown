@@ -2,6 +2,8 @@
 
 namespace Haikiri\TeleBrown;
 
+use Haikiri\TeleBrown\Normalizers\ModelNormalizer;
+
 abstract class ResponseWrapper
 {
 
@@ -11,7 +13,7 @@ abstract class ResponseWrapper
 
 	public function getAsArray(): array|null
 	{
-		return $this->response;
+		return $this->response === null ? null : ModelNormalizer::normalize($this->response);
 	}
 
 	/**
