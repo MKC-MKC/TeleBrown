@@ -211,6 +211,26 @@ final class TeleBrownServerAdditionalMediaTest extends TestCase
 		}
 	}
 
+	public function testPaidMediaPreservesPayloadAndNestedLivePhoto(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-paid-");
+		file_put_contents($path, "paid-media");
+		try {
+			$history = [];
+			$server = $this->createServer($history, ["message_id" => 47]);
+			$media = new Objects\InputPaidMedia(["type" => "live_photo", "media" => $path, "photo" => $path]);
+			self::assertSame(47, $server->sendPaidMedia(17, 1, [$media], payload: "", captionEntities: [new Objects\MessageEntity(["type" => "bold", "offset" => 0, "length" => 1])])->getId());
+			$parts = $this->requestParts($history);
+			self::assertSame("1", $parts["star_count"]["contents"]);
+			self::assertSame("", $parts["payload"]["contents"]);
+			self::assertSame([["type" => "live_photo", "media" => "attach://media_0_media", "photo" => "attach://media_0_photo"]], json_decode($parts["media"]["contents"], true, 512, JSON_THROW_ON_ERROR));
+			self::assertSame("paid-media", $parts["media_0_photo"]["contents"]);
+			self::assertSame([["type" => "bold", "offset" => 0, "length" => 1]], json_decode($parts["caption_entities"]["contents"], true, 512, JSON_THROW_ON_ERROR));
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
