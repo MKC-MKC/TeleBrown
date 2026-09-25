@@ -22,7 +22,7 @@ class KeyboardButton extends ResponseWrapper
 
 	public function getRequestUser(): KeyboardButtonRequestUsers
 	{
-		$data = (array)$this->getData("request_user", []);
+		$data = (array)$this->getData("request_users", []);
 		return new KeyboardButtonRequestUsers($data);
 	}
 
