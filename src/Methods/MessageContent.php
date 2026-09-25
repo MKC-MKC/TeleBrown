@@ -158,7 +158,7 @@ trait MessageContent
 	 * @param bool|null $protectContent Защищает содержимое от пересылки и сохранения.
 	 * @param string|null $messageEffectId Идентификатор эффекта сообщения; только для личных чатов.
 	 * @param Objects\ReplyParameters|null $replyParameters Описание сообщения, на которое отправляется ответ.
-	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup Inline-клавиатура, клавиатура ответа, её удаление или запрос ответа.
+	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup Inline-клавиатура сообщения.
 	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#sendchecklist
