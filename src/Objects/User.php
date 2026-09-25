@@ -174,4 +174,37 @@ class User extends ResponseWrapper
 		return (bool)$this->getData("allows_users_to_create_topics", false);
 	}
 
+	/**
+	 * Необязательно. True, если бот поддерживает гостевые запросы из чатов, в которых он не состоит; только в getMe.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#user
+	 */
+	public function supportsGuestQueries(): bool
+	{
+		return (bool)$this->getData("supports_guest_queries");
+	}
+
+	/**
+	 * Необязательно. True, если можно создавать других ботов под управлением этого бота; только в getMe.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#user
+	 */
+	public function canManageBots(): bool
+	{
+		return (bool)$this->getData("can_manage_bots");
+	}
+
+	/**
+	 * Необязательно. True, если бот поддерживает запросы вступления и может быть назначен для их обработки; только в getMe.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#user
+	 */
+	public function supportsJoinRequestQueries(): bool
+	{
+		return (bool)$this->getData("supports_join_request_queries");
+	}
+
 }
