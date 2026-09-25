@@ -130,4 +130,31 @@ trait ChatInvites
 		)->isSuccess();
 	}
 
+	/**
+	 * Отзываем пригласительную ссылку, созданную ботом.
+	 * При отзыве основной ссылки автоматически создаётся новая.
+	 * Бот должен быть администратором с соответствующими правами.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param string $inviteLink Пригласительная ссылка чата, например https://t.me/+example.
+	 * @return Objects\ChatInviteLink
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#revokechatinvitelink
+	 */
+	public function revokeChatInviteLink(
+		int|string $chatId,
+		string     $inviteLink,
+	): Objects\ChatInviteLink
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"invite_link" => $inviteLink,
+			],
+		);
+
+		return new Objects\ChatInviteLink($response->getData());
+	}
+
 }
