@@ -34,4 +34,28 @@ trait ChatInvites
 		return $response->getData();
 	}
 
+	/**
+	 * Одобряем заявку на вступление в чат.
+	 * Боту требуется право администратора can_invite_users.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param int $userId Уникальный идентификатор пользователя, например 123456789.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#approvechatjoinrequest
+	 */
+	public function approveChatJoinRequest(
+		int|string $chatId,
+		int        $userId,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"user_id" => $userId,
+			],
+		)->isSuccess();
+	}
+
 }
