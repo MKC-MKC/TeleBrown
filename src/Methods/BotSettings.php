@@ -367,4 +367,26 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Получаем кнопку меню бота в личном чате или кнопку меню по умолчанию.
+	 *
+	 * @param int|null $chatId Идентификатор личного чата. Если не указан, используется кнопка меню по умолчанию.
+	 * @return Objects\MenuButton
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getchatmenubutton
+	 */
+	public function getChatMenuButton(
+		int|null $chatId = null,
+	): Objects\MenuButton
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+			],
+		);
+
+		return new Objects\MenuButton($response->getData());
+	}
+
 }

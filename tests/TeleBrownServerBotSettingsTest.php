@@ -60,6 +60,18 @@ final class TeleBrownServerBotSettingsTest extends TestCase
 		self::assertSame(["commands" => [["command" => "start", "description" => "Начать", "is_ephemeral" => false]], "scope" => ["type" => "default"], "language_code" => ""], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
 	}
 
+	public function testMenuButtonHydratesWebAppAndDefaultVariant(): void
+	{
+		$history = [];
+		$button = $this->createServer($history, ["type" => "web_app", "text" => "Открыть", "web_app" => ["url" => "https://example.com/app"]])->getChatMenuButton();
+		self::assertSame("web_app", $button->getType());
+		self::assertSame("Открыть", $button->getText());
+		self::assertSame("https://example.com/app", $button->getWebApp()->getUrl());
+		$default = new Objects\MenuButton(["type" => "default"]);
+		self::assertNull($default->getText());
+		self::assertNull($default->getWebApp());
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);
