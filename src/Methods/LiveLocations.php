@@ -68,4 +68,41 @@ trait LiveLocations
 		return is_bool($result) ? $result : new Objects\Message($result);
 	}
 
+	/**
+	 * Используйте этот метод для остановки трансляции геопозиции до истечения live_period.
+	 * При успешном выполнении возвращается изменённое сообщение Message, для inline-сообщения возвращается true.
+	 *
+	 * @param int|string|null $chatId ID чата или имя бота, супергруппы или канала в формате @username. Обязателен без inlineMessageId.
+	 * @param int|null $messageId ID сообщения с трансляцией геопозиции. Обязателен без inlineMessageId.
+	 * @param string|null $inlineMessageId ID inline-сообщения. Обязателен без chatId и messageId.
+	 * @param string|null $businessConnectionId ID бизнес-подключения, от имени которого отправлено сообщение.
+	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup Новая inline-клавиатура.
+	 * @return Objects\Message|bool
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#stopmessagelivelocation
+	 */
+	public function stopMessageLiveLocation(
+		int|string|null                    $chatId = null,
+		int|null                           $messageId = null,
+		string|null                        $inlineMessageId = null,
+		string|null                        $businessConnectionId = null,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): Objects\Message|bool
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"message_id" => $messageId,
+				"inline_message_id" => $inlineMessageId,
+				"business_connection_id" => $businessConnectionId,
+				"reply_markup" => $replyMarkup?->getAsArray(),
+			]
+		);
+
+		$result = $response->getData();
+
+		return is_bool($result) ? $result : new Objects\Message($result);
+	}
+
 }

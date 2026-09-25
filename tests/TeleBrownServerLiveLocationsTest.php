@@ -67,6 +67,53 @@ final class TeleBrownServerLiveLocationsTest extends TestCase
 		$server->editMessageLiveLocation(55.75, 37.61, inlineMessageId: "INLINE");
 	}
 
+	public function testStopInlineLocationReturnsTrueAndOmitsChatAddress(): void
+	{
+		$history = [];
+		$server = $this->createServer($history, true);
+
+		self::assertTrue($server->stopMessageLiveLocation(inlineMessageId: "INLINE"));
+		self::assertSame("/bot123:TOKEN/stopMessageLiveLocation", $history[0]["request"]->getUri()->getPath());
+		self::assertSame(
+			["inline_message_id" => "INLINE"],
+			json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR),
+		);
+	}
+
+	public function testStopChatLocationReturnsMessageAndUpdatesKeyboard(): void
+	{
+		$history = [];
+		$message = ["message_id" => 42, "location" => ["latitude" => 55.75, "longitude" => 37.61]];
+		$server = $this->createServer($history, $message);
+
+		$result = $server->stopMessageLiveLocation(
+			-1001234567890, 42, businessConnectionId: "BUSINESS",
+			replyMarkup: new InlineKeyboardMarkup(["inline_keyboard" => []]),
+		);
+
+		self::assertInstanceOf(Message::class, $result);
+		self::assertSame($message, $result->getAsArray());
+		self::assertSame(
+			[
+				"chat_id" => -1001234567890, "message_id" => 42, "business_connection_id" => "BUSINESS",
+				"reply_markup" => ["inline_keyboard" => []],
+			],
+			json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR),
+		);
+	}
+
+	public function testStopMissingLiveLocationPropagatesTelegramError(): void
+	{
+		$history = [];
+		$server = $this->createServer($history, true, "Bad Request: message to edit not found");
+
+		$this->expectException(TelegramMainException::class);
+		$this->expectExceptionCode(400);
+		$this->expectExceptionMessage("Bad Request: message to edit not found");
+
+		$server->stopMessageLiveLocation(inlineMessageId: "INLINE");
+	}
+
 	private function createServer(array &$history, array|bool $result, string|null $error = null): TeleBrownServer
 	{
 		$mock = new MockHandler([
@@ -79,8 +126,6 @@ final class TeleBrownServerLiveLocationsTest extends TestCase
 		$handler->push(Middleware::history($history));
 
 		return new class("https://api.telegram.org", "123:TOKEN", $handler) extends TeleBrownServer {
-			use \Haikiri\TeleBrown\Methods\LiveLocations;
-
 			public function __construct(string $url, string $token, private readonly HandlerStack $handler)
 			{
 				parent::__construct($url, $token);
