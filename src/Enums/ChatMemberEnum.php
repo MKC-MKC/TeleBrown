@@ -5,7 +5,7 @@ namespace Haikiri\TeleBrown\Enums;
 enum ChatMemberEnum: string
 {
 
-	case OWNER = "owner";
+	case OWNER = "creator";
 	case ADMINISTRATOR = "administrator";
 	case MEMBER = "member";
 	case RESTRICTED = "restricted";
