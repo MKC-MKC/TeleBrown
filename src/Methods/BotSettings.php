@@ -341,4 +341,30 @@ trait BotSettings
 		return array_map(static fn(array $item): Objects\BotCommand => new Objects\BotCommand($item), $response->getData());
 	}
 
+	/**
+	 * Изменяем список команд бота.
+	 *
+	 * @param Objects\BotCommand[]|array[] $commands Список команд бота, не более 100 команд.
+	 * @param Objects\BotCommandScope|null $scope Область действия команд. По умолчанию BotCommandScopeDefault.
+	 * @param string|null $languageCode Двухбуквенный код языка ISO 639-1, например ru. Пустая строка задаёт значение для остальных языков.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setmycommands
+	 */
+	public function setMyCommands(
+		array $commands,
+		Objects\BotCommandScope|null $scope = null,
+		string|null $languageCode = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"commands" => $commands,
+				"scope" => $scope?->getAsArray(),
+				"language_code" => $languageCode,
+			],
+		)->isSuccess();
+	}
+
 }

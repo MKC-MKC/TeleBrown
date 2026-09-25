@@ -53,6 +53,13 @@ final class TeleBrownServerBotSettingsTest extends TestCase
 		self::assertSame([], $this->createServer($history, [])->getMyCommands());
 	}
 
+	public function testCommandModelsSerializeWithScopeAndEmptyLanguage(): void
+	{
+		$history = [];
+		self::assertTrue($this->createServer($history, true)->setMyCommands([new Objects\BotCommand(["command" => "start", "description" => "Начать", "is_ephemeral" => false])], new Objects\BotCommandScope(["type" => "default"]), ""));
+		self::assertSame(["commands" => [["command" => "start", "description" => "Начать", "is_ephemeral" => false]], "scope" => ["type" => "default"], "language_code" => ""], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);
