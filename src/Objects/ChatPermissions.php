@@ -114,6 +114,30 @@ class ChatPermissions extends ResponseWrapper
 	}
 
 	/**
+	 * Необязательно. True, если пользователю разрешено реагировать на сообщения.
+	 * Если не указано, по умолчанию используется значение can_send_messages.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#chatpermissions
+	 */
+	public function canReactToMessages(): bool
+	{
+		return (bool)$this->getData("can_react_to_messages", $this->canSendMessages());
+	}
+
+	/**
+	 * Необязательно. True, если пользователю разрешено изменять свой тег.
+	 * Если не указано, по умолчанию используется значение can_pin_messages.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#chatpermissions
+	 */
+	public function canEditTag(): bool
+	{
+		return (bool)$this->getData("can_edit_tag", $this->canPinMessages());
+	}
+
+	/**
 	 * Optional. True, if the user is allowed to change the chat title, photo and other settings. Ignored in public supergroups
 	 *
 	 * @return bool
@@ -150,7 +174,7 @@ class ChatPermissions extends ResponseWrapper
 	 */
 	public function canManageTopics(): bool
 	{
-		return (bool)$this->getData("can_manage_topics");
+		return (bool)$this->getData("can_manage_topics", $this->canPinMessages());
 	}
 
 }
