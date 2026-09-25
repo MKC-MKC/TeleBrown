@@ -100,4 +100,27 @@ trait BotSettings
 		return new Objects\BotDescription($response->getData());
 	}
 
+	/**
+	 * Изменяем краткое описание бота в профиле и при отправке ссылки на бота.
+	 *
+	 * @param string|null $shortDescription Новое краткое описание, 0-120 символов. Пустая строка удаляет описание для указанного языка.
+	 * @param string|null $languageCode Двухбуквенный код языка ISO 639-1, например ru. Пустая строка задаёт значение для остальных языков.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setmyshortdescription
+	 */
+	public function setMyShortDescription(
+		string|null $shortDescription = null,
+		string|null $languageCode = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"short_description" => $shortDescription,
+				"language_code" => $languageCode,
+			],
+		)->isSuccess();
+	}
+
 }
