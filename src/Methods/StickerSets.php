@@ -295,4 +295,27 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем миниатюру набора пользовательских эмодзи.
+	 *
+	 * @param string $name Имя набора стикеров.
+	 * @param string|null $customEmojiId Идентификатор эмодзи из набора. Пустая строка удаляет миниатюру и использует первый стикер.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setcustomemojistickersetthumbnail
+	 */
+	public function setCustomEmojiStickerSetThumbnail(
+		string      $name,
+		string|null $customEmojiId = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"name" => $name,
+				"custom_emoji_id" => $customEmojiId,
+			],
+		)->isSuccess();
+	}
+
 }
