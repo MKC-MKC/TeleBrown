@@ -1238,27 +1238,29 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @param int|string|null $chatId Идентификатор чата, например -1001234567890 или @channel; null для inline-сообщения.
 	 * @param int|string|null $messageId Идентификатор сообщения в чате, например 42; null для inline-сообщения.
-	 * @param string $text Новый текст сообщения, от 1 до 4096 символов после разбора сущностей.
+	 * @param string|null $text Новый текст сообщения, от 1 до 4096 символов после разбора сущностей.
 	 * @param string|null $businessConnectionId
 	 * @param string|null $inlineMessageId Идентификатор inline-сообщения; обязателен, если chatId и messageId не указаны.
 	 * @param Enums\ParseModeEnum|null $parseMode
 	 * @param array|null $entities
 	 * @param Objects\LinkPreviewOptions|null $linkPreviewOptions
 	 * @param null|Objects\InlineKeyboardMarkup $replyMarkup
+	 * @param Objects\InputRichMessage|null $richMessage Новое содержимое rich-сообщения; обязательно, если text не указан.
 	 * @return Objects\Message|bool Отредактированное сообщение в чате или true для inline-сообщения.
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#editmessagetext
 	 */
 	public function editMessageText(
-		int|string|null             $chatId,
-		int|string|null             $messageId,
-		string                      $text,
+		int|string|null             $chatId = null,
+		int|string|null             $messageId = null,
+		?string                     $text = null,
 		?string                     $businessConnectionId = null,
 		?string                     $inlineMessageId = null,
 		?Enums\ParseModeEnum        $parseMode = null,
 		?array                      $entities = null,
 		?Objects\LinkPreviewOptions $linkPreviewOptions = null,
-		mixed                       $replyMarkup = null
+		mixed                       $replyMarkup = null,
+		?Objects\InputRichMessage  $richMessage = null,
 	): Objects\Message|bool
 	{
 		$result = $this->sendRequest(
@@ -1267,6 +1269,7 @@ abstract class TeleBrownServerAbstract
 				"chat_id" => $chatId,
 				"message_id" => $messageId,
 				"text" => $text,
+				"rich_message" => $richMessage?->getAsArray(),
 				"business_connection_id" => $businessConnectionId,
 				"inline_message_id" => $inlineMessageId,
 				"parse_mode" => $parseMode?->value,

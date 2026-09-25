@@ -7,6 +7,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use Haikiri\TeleBrown\Objects\InputRichMessage;
 use Haikiri\TeleBrown\Objects\Message;
 use Haikiri\TeleBrown\TeleBrownServer;
 use PHPUnit\Framework\TestCase;
@@ -49,6 +50,24 @@ final class TeleBrownServerEditMessageTest extends TestCase
 		self::assertSame($message, $result->getAsArray());
 		self::assertSame(
 			["chat_id" => -1001234567890, "message_id" => 42, "text" => "Updated"],
+			json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR),
+		);
+	}
+
+	public function testEditInlineRichMessageOmitsTextAndChatAddress(): void
+	{
+		$history = [];
+		$server = $this->createServer($history, true);
+		$content = ["html" => "<b>Updated</b>", "is_rtl" => false, "skip_entity_detection" => true];
+
+		$result = $server->editMessageText(
+			inlineMessageId: "INLINE_MESSAGE_ID",
+			richMessage: new InputRichMessage($content),
+		);
+
+		self::assertTrue($result);
+		self::assertSame(
+			["rich_message" => $content, "inline_message_id" => "INLINE_MESSAGE_ID"],
 			json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR),
 		);
 	}
