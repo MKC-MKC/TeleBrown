@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Haikiri\TeleBrown;
 
 use GuzzleHttp\Client;
+use Haikiri\TeleBrown\Builders\MultipartRequestBuilder;
 use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 use Throwable;
 
@@ -56,24 +57,7 @@ class TeleBrownServer extends TeleBrownServerAbstract
 			$client = $this->createClient($options);
 
 			if ($isMultipart) {
-				$multipart = [];
-
-				foreach ($params as $name => $value) {
-					if (is_string($value) && is_file($value)) {
-						$multipart[] = [
-							"name" => $name,
-							"contents" => fopen($value, "rb"),
-							"filename" => basename($value),
-						];
-					} else {
-						$multipart[] = [
-							"name" => $name,
-							"contents" => is_array($value) || is_object($value) ? json_encode($value) : (string)$value,
-						];
-					}
-				}
-
-				$response = $client->post($url, ["multipart" => $multipart]);
+				$response = $client->post($url, ["multipart" => MultipartRequestBuilder::build($params)]);
 			} else {
 				$response = $client->post($url, ["json" => $params]);
 			}
