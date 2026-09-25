@@ -42,11 +42,11 @@ trait UserProfiles
 	}
 
 	/**
-	 * Используйте этот метод, чтобы получить сообщения из чата, указанного в профиле пользователя.
+	 * Используйте этот метод, чтобы получить последние сообщения из чата, указанного в профиле пользователя.
 	 * Возвращается массив объектов Message.
 	 *
 	 * @param int $userId Уникальный идентификатор пользователя.
-	 * @param int $limit Максимальное количество возвращаемых объектов.
+	 * @param int $limit Максимальное количество возвращаемых сообщений, от 1 до 20.
 	 * @return Objects\Message[]
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#getuserpersonalchatmessages
