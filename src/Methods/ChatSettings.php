@@ -105,4 +105,26 @@ trait ChatSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Открепляем все сообщения в чате.
+	 * В группах требуется право can_pin_messages, в каналах - can_edit_messages.
+	 * В личных чатах и чатах личных сообщений канала дополнительные права не требуются.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#unpinallchatmessages
+	 */
+	public function unpinAllChatMessages(
+		int|string $chatId,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+			],
+		)->isSuccess();
+	}
+
 }
