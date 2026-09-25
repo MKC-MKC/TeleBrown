@@ -12,7 +12,7 @@ class MultipartRequestBuilder
 
 	private const FILE_PARAMETERS = [
 		"photo", "audio", "document", "video", "animation", "voice", "video_note",
-		"sticker", "thumbnail", "cover", "certificate",
+		"sticker", "thumbnail", "cover", "certificate", "live_photo",
 	];
 
 	/**
@@ -32,8 +32,8 @@ class MultipartRequestBuilder
 		foreach ($params as $name => $value) {
 			if ($value === null) continue;
 
-			if ($name === "media" && is_array($value) && isset($value["type"])) {
-				array_push($multipart, ...InputMediaMultipartBuilder::build($value));
+			if (in_array($name, ["media", "explanation_media", "options", "photo"], true) && is_array($value)) {
+				array_push($multipart, ...InputMediaMultipartBuilder::build($value, $name));
 				continue;
 			}
 
