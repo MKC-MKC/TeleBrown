@@ -186,4 +186,28 @@ trait ChatSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Задаём набор стикеров супергруппы. Бот должен быть администратором с соответствующими правами.
+	 * Возможность изменения набора возвращается в поле can_set_sticker_set метода getChat.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param string $stickerSetName Название набора стикеров супергруппы.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setchatstickerset
+	 */
+	public function setChatStickerSet(
+		int|string $chatId,
+		string     $stickerSetName,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"sticker_set_name" => $stickerSetName,
+			],
+		)->isSuccess();
+	}
+
 }
