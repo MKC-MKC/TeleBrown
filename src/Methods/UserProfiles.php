@@ -96,4 +96,33 @@ trait UserProfiles
 		return new Objects\UserProfilePhotos($response->getData());
 	}
 
+	/**
+	 * Используйте этот метод, чтобы получить аудиофайлы профиля пользователя.
+	 * Возвращается объект UserProfileAudios.
+	 *
+	 * @param int $userId Уникальный идентификатор пользователя.
+	 * @param int|null $offset Смещение от начала списка.
+	 * @param int|null $limit Количество аудиофайлов, от 1 до 100. По умолчанию 100.
+	 * @return Objects\UserProfileAudios
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getuserprofileaudios
+	 */
+	public function getUserProfileAudios(
+		int      $userId,
+		int|null $offset = null,
+		int|null $limit = null,
+	): Objects\UserProfileAudios
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"offset" => $offset,
+				"limit" => $limit,
+			],
+		);
+
+		return new Objects\UserProfileAudios($response->getData());
+	}
+
 }
