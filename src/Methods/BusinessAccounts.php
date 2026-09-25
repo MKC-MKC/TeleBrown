@@ -61,4 +61,30 @@ trait BusinessAccounts
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем имя и фамилию управляемого бизнес-аккаунта. Требуется право can_change_name.
+	 *
+	 * @param string $businessConnectionId Уникальный идентификатор бизнес-подключения.
+	 * @param string $firstName Новое имя бизнес-аккаунта, 1-64 символа.
+	 * @param string|null $lastName Новая фамилия бизнес-аккаунта, 0-64 символа.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setbusinessaccountname
+	 */
+	public function setBusinessAccountName(
+		string $businessConnectionId,
+		string $firstName,
+		string|null $lastName = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+				"first_name" => $firstName,
+				"last_name" => $lastName,
+			],
+		)->isSuccess();
+	}
+
 }
