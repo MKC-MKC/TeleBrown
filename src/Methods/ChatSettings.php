@@ -210,4 +210,25 @@ trait ChatSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Удаляем набор стикеров супергруппы. Бот должен быть администратором с соответствующими правами.
+	 * Возможность удаления набора возвращается в поле can_set_sticker_set метода getChat.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#deletechatstickerset
+	 */
+	public function deleteChatStickerSet(
+		int|string $chatId,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+			],
+		)->isSuccess();
+	}
+
 }
