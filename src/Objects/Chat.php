@@ -88,4 +88,15 @@ class Chat extends ResponseWrapper
 		return (bool)$this->getData("is_forum");
 	}
 
+	/**
+	 * Необязательно. True, если чат предназначен для личных сообщений канала.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#chat
+	 */
+	public function isDirectMessages(): bool
+	{
+		return (bool)$this->getData("is_direct_messages");
+	}
+
 }
