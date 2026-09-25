@@ -72,4 +72,38 @@ class InlineKeyboardButton extends ResponseWrapper
 		return (bool)$this->getData("pay");
 	}
 
+	/**
+	 * Необязательно. Идентификатор эмодзи, отображаемого перед текстом кнопки.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#inlinekeyboardbutton
+	 */
+	public function getIconCustomEmojiId(): string|null
+	{
+		return $this->getData("icon_custom_emoji_id");
+	}
+
+	/**
+	 * Необязательно. Стиль кнопки: danger, success или primary.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#inlinekeyboardbutton
+	 */
+	public function getStyle(): string|null
+	{
+		return $this->getData("style");
+	}
+
+	/**
+	 * Необязательно. Кнопка отключена и не реагирует на нажатия.
+	 *
+	 * @return object|null
+	 * @see https://core.telegram.org/bots/api#inlinekeyboardbutton
+	 */
+	public function getDisabled(): object|null
+	{
+		$data = $this->getData("disabled");
+		return $data === null ? null : (object)$data;
+	}
+
 }
