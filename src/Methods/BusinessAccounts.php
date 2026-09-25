@@ -133,4 +133,27 @@ trait BusinessAccounts
 		)->isSuccess();
 	}
 
+	/**
+	 * Удаляем текущую фотографию управляемого бизнес-аккаунта. Требуется право can_edit_profile_photo.
+	 *
+	 * @param string $businessConnectionId Уникальный идентификатор бизнес-подключения.
+	 * @param bool|null $isPublic True для удаления общедоступной фотографии. После удаления основной фотографии основной становится предыдущая, если она есть.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#removebusinessaccountprofilephoto
+	 */
+	public function removeBusinessAccountProfilePhoto(
+		string $businessConnectionId,
+		bool|null $isPublic = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+				"is_public" => $isPublic,
+			],
+		)->isSuccess();
+	}
+
 }
