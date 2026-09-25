@@ -8,6 +8,7 @@ abstract class TeleBrownServerAbstract
 {
 
 	use Methods\ForumTopics;
+	use Methods\MessageEditing;
 
 	# Brown
 	protected string $url = "https://api.telegram.org";
