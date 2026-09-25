@@ -270,4 +270,26 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Получаем текущие права администратора бота по умолчанию.
+	 *
+	 * @param bool|null $forChannels True для каналов. Иначе используются группы и супергруппы.
+	 * @return Objects\ChatAdministratorRights
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getmydefaultadministratorrights
+	 */
+	public function getMyDefaultAdministratorRights(
+		bool|null $forChannels = null,
+	): Objects\ChatAdministratorRights
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"for_channels" => $forChannels,
+			],
+		);
+
+		return new Objects\ChatAdministratorRights($response->getData());
+	}
+
 }
