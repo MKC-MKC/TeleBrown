@@ -226,4 +226,24 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Снимаем подтверждение чата от имени организации, которую представляет бот.
+	 *
+	 * @param int|string $chatId Идентификатор чата или @username бота или канала.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#removechatverification
+	 */
+	public function removeChatVerification(
+		int|string $chatId,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+			],
+		)->isSuccess();
+	}
+
 }
