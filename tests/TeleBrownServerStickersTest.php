@@ -44,6 +44,22 @@ final class TeleBrownServerStickersTest extends TestCase
 		}
 	}
 
+	public function testNewSetSerializesNestedMaskAndFalseValues(): void
+	{
+		$history = [];
+		$sticker = new Objects\InputSticker([
+			"sticker" => "file-id", "format" => "static", "emoji_list" => ["🙂"],
+			"mask_position" => new Objects\MaskPosition(["point" => "eyes", "x_shift" => 0.0, "y_shift" => 0.0, "scale" => 1.0]),
+			"keywords" => [],
+		]);
+		self::assertSame(0.0, $sticker->getMaskPosition()->getXShift());
+		self::assertSame([], $sticker->getKeywords());
+		self::assertTrue($this->createServer($history, true)->createNewStickerSet(123, "animals_by_example_bot", "Animals", [$sticker], "mask", false));
+		$body = (string)$history[0]["request"]->getBody();
+		self::assertStringContainsString(json_encode([$sticker->getAsArray()], JSON_THROW_ON_ERROR), $body);
+		self::assertMatchesRegularExpression('/name="needs_repainting"\r\n(?:[^\r\n]+\r\n)*\r\nfalse\r\n/', $body);
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);

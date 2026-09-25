@@ -32,4 +32,40 @@ trait StickerSets
 		return new Objects\StickerSet($response->getData());
 	}
 
+	/**
+	 * Создаём принадлежащий пользователю набор стикеров. Бот сможет редактировать созданный набор.
+	 *
+	 * @param int $userId Идентификатор владельца набора стикеров.
+	 * @param string $name Короткое имя набора, 1-64 символа: английские буквы, цифры и подчёркивания. Начинается с буквы, без двойных подчёркиваний, оканчивается на _by_<bot_username>.
+	 * @param string $title Заголовок набора, 1-64 символа.
+	 * @param Objects\InputSticker[]|array $stickers От 1 до 50 начальных стикеров набора.
+	 * @param string|null $stickerType Тип стикеров: regular, mask или custom_emoji. По умолчанию regular.
+	 * @param bool|null $needsRepainting True, если эмодзи должны перекрашиваться в цвет текста, акцентный цвет статуса, белый цвет на фотографиях чатов или другой цвет по контексту; только для custom_emoji.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#createnewstickerset
+	 */
+	public function createNewStickerSet(
+		int         $userId,
+		string      $name,
+		string      $title,
+		array       $stickers,
+		string|null $stickerType = null,
+		bool|null   $needsRepainting = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"name" => $name,
+				"title" => $title,
+				"stickers" => $stickers,
+				"sticker_type" => $stickerType,
+				"needs_repainting" => $needsRepainting,
+			],
+			headers: ["Content-Type" => "multipart/form-data"],
+		)->isSuccess();
+	}
+
 }
