@@ -138,4 +138,30 @@ trait InlineQueries
 		return new Objects\SentWebAppMessage($response->getData());
 	}
 
+	/**
+	 * Отправляет сообщение в ответ на гостевой запрос.
+	 * Возвращается объект SentGuestMessage.
+	 *
+	 * @param string $guestQueryId Уникальный идентификатор гостевого запроса.
+	 * @param array $result Объект InlineQueryResult, например ["type" => "article", "id" => "1", "title" => "Ответ", "input_message_content" => ["message_text" => "Текст"]].
+	 * @return Objects\SentGuestMessage
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#answerguestquery
+	 */
+	public function answerGuestQuery(
+		string $guestQueryId,
+		array  $result,
+	): Objects\SentGuestMessage
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"guest_query_id" => $guestQueryId,
+				"result" => $result,
+			],
+		);
+
+		return new Objects\SentGuestMessage($response->getData());
+	}
+
 }
