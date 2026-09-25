@@ -727,6 +727,7 @@ abstract class TeleBrownServerAbstract
 	 * @param string|null $businessConnectionId
 	 * @param int|null $directMessagesTopicId
 	 * @param Objects\SuggestedPostParameters|null $suggestedPostParameters
+	 * @param Objects\EphemeralMessageParameters|null $ephemeralMessageParameters Параметры эфемерного сообщения.
 	 * @return Objects\Message
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#sendcontact
@@ -747,6 +748,7 @@ abstract class TeleBrownServerAbstract
 		?string                          $businessConnectionId = null,
 		?int                             $directMessagesTopicId = null,
 		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
+		?Objects\EphemeralMessageParameters $ephemeralMessageParameters = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -754,6 +756,7 @@ abstract class TeleBrownServerAbstract
 				method: __FUNCTION__,
 				params: [
 					"chat_id" => $chatId,
+					"ephemeral_message_parameters" => $ephemeralMessageParameters?->getAsArray(),
 					"business_connection_id" => $businessConnectionId,
 					"phone_number" => $phoneNumber,
 					"first_name" => $firstName,
