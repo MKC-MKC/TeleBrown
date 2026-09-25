@@ -145,4 +145,18 @@ trait BotSettings
 		return new Objects\BotShortDescription($response->getData());
 	}
 
+	/**
+	 * Удаляем фотографию профиля бота.
+	 *
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#removemyprofilephoto
+	 */
+	public function removeMyProfilePhoto(): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+		)->isSuccess();
+	}
+
 }
