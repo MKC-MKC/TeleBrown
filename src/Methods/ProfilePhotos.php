@@ -35,4 +35,35 @@ trait ProfilePhotos
 		return $response->isSuccess();
 	}
 
+	/**
+	 * Изменяет фотографию профиля управляемого бизнес-аккаунта.
+	 * Требуется право can_edit_profile_photo.
+	 * При успешном выполнении возвращается True.
+	 *
+	 * @param string $businessConnectionId Идентификатор бизнес-подключения, от имени которого отправляется сообщение.
+	 * @param Objects\InputProfilePhoto $photo Новая фотография профиля. В photo или animation передайте путь к новому локальному файлу.
+	 * @param bool|null $isPublic Передайте True, чтобы установить публичную фотографию, видимую при скрытой основной фотографии.
+	 * @return bool
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setbusinessaccountprofilephoto
+	 */
+	public function setBusinessAccountProfilePhoto(
+		string                    $businessConnectionId,
+		Objects\InputProfilePhoto $photo,
+		bool|null                 $isPublic = null,
+	): bool
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+				"photo" => $photo->getAsArray(),
+				"is_public" => $isPublic,
+			],
+			headers: ["Content-Type" => "multipart/form-data"],
+		);
+
+		return $response->isSuccess();
+	}
+
 }
