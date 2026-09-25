@@ -318,4 +318,24 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Удаляем набор стикеров, созданный ботом.
+	 *
+	 * @param string $name Имя набора стикеров.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#deletestickerset
+	 */
+	public function deleteStickerSet(
+		string $name,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"name" => $name,
+			],
+		)->isSuccess();
+	}
+
 }
