@@ -47,6 +47,24 @@ final class TeleBrownServerRichMessagesTest extends TestCase
 		}
 	}
 
+	public function testRichDraftUsesJsonAndPreservesStopOptions(): void
+	{
+		$history = [];
+		$server = $this->createServer($history, true);
+		$rich = new Objects\InputRichMessage([
+			"markdown" => "**Text**", "is_rtl" => false,
+			"media" => [new Objects\InputRichMessageMedia(["id" => "voice", "media" => new Objects\InputMedia(["type" => "voice_note", "media" => "file-id", "duration" => 8])])],
+		]);
+		self::assertTrue($server->sendRichMessageDraft(17, 1, $rich, messageThreadId: 5, canStop: true, keepOnStop: false));
+		$request = $history[0]["request"];
+		self::assertSame("application/json", $request->getHeaderLine("Content-Type"));
+		self::assertSame("/bot123:TOKEN/sendRichMessageDraft", $request->getUri()->getPath());
+		self::assertSame([
+			"chat_id" => 17, "draft_id" => 1, "rich_message" => $rich->getAsArray(),
+			"message_thread_id" => 5, "can_stop" => true, "keep_on_stop" => false,
+		], json_decode((string)$request->getBody(), true, 512, JSON_THROW_ON_ERROR));
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
