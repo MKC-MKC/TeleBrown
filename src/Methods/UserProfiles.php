@@ -67,4 +67,33 @@ trait UserProfiles
 		return array_map(static fn(array $item): Objects\Message => new Objects\Message($item), $response->getData());
 	}
 
+	/**
+	 * Используйте этот метод, чтобы получить фотографии профиля пользователя.
+	 * Возвращается объект UserProfilePhotos.
+	 *
+	 * @param int $userId Уникальный идентификатор пользователя.
+	 * @param int|null $offset Смещение от начала списка.
+	 * @param int|null $limit Количество фотографий, от 1 до 100. По умолчанию 100.
+	 * @return Objects\UserProfilePhotos
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getuserprofilephotos
+	 */
+	public function getUserProfilePhotos(
+		int      $userId,
+		int|null $offset = null,
+		int|null $limit = null,
+	): Objects\UserProfilePhotos
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"offset" => $offset,
+				"limit" => $limit,
+			],
+		);
+
+		return new Objects\UserProfilePhotos($response->getData());
+	}
+
 }
