@@ -231,6 +231,32 @@ final class TeleBrownServerAdditionalMediaTest extends TestCase
 		}
 	}
 
+	public function testPollUploadsMediaAtEveryLevelAndPreservesQuizOptions(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-poll-");
+		file_put_contents($path, "poll-media");
+		try {
+			$history = [];
+			$server = $this->createServer($history, ["message_id" => 48]);
+			$media = new Objects\InputPollMedia(["type" => "photo", "media" => $path]);
+			$options = [new Objects\InputPollOption(["text" => "One", "media" => $media]), new Objects\InputPollOption(["text" => "Two"])];
+			$message = $server->sendPoll(17, "Question", $options, type: "quiz", correctOptionIds: [0], isAnonymous: false, allowsRevoting: false, countryCodes: [], media: $media, explanationMedia: $media);
+			self::assertSame(48, $message->getId());
+			$parts = $this->requestParts($history);
+			self::assertSame("[0]", $parts["correct_option_ids"]["contents"]);
+			self::assertSame("[]", $parts["country_codes"]["contents"]);
+			self::assertSame("false", $parts["allows_revoting"]["contents"]);
+			self::assertSame("false", $parts["is_anonymous"]["contents"]);
+			self::assertSame("attach://media_media", json_decode($parts["media"]["contents"], true, 512, JSON_THROW_ON_ERROR)["media"]);
+			self::assertSame("attach://explanation_media_media", json_decode($parts["explanation_media"]["contents"], true, 512, JSON_THROW_ON_ERROR)["media"]);
+			self::assertSame("attach://options_0_media_media", json_decode($parts["options"]["contents"], true, 512, JSON_THROW_ON_ERROR)[0]["media"]["media"]);
+			self::assertSame("poll-media", $parts["options_0_media_media"]["contents"]);
+			self::assertSame($path, $media->getMedia());
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
