@@ -15,6 +15,7 @@ abstract class TeleBrownServerAbstract
 	use Methods\LiveLocations;
 	use Methods\InlineQueries;
 	use Methods\EphemeralMessages;
+	use Methods\MessageReactions;
 	use Methods\Polls;
 	use Methods\MediaGroups;
 	use Methods\ProfilePhotos;
