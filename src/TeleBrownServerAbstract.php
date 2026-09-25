@@ -1230,22 +1230,22 @@ abstract class TeleBrownServerAbstract
 	 * On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
 	 * Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 	 *
-	 * @param int|string $chatId
-	 * @param int|string $messageId
-	 * @param string $text
+	 * @param int|string|null $chatId Идентификатор чата, например -1001234567890 или @channel; null для inline-сообщения.
+	 * @param int|string|null $messageId Идентификатор сообщения в чате, например 42; null для inline-сообщения.
+	 * @param string $text Новый текст сообщения, от 1 до 4096 символов после разбора сущностей.
 	 * @param string|null $businessConnectionId
-	 * @param string|null $inlineMessageId
+	 * @param string|null $inlineMessageId Идентификатор inline-сообщения; обязателен, если chatId и messageId не указаны.
 	 * @param Enums\ParseModeEnum|null $parseMode
 	 * @param array|null $entities
 	 * @param Objects\LinkPreviewOptions|null $linkPreviewOptions
 	 * @param null|Objects\InlineKeyboardMarkup $replyMarkup
-	 * @return Objects\Message
+	 * @return Objects\Message|bool Отредактированное сообщение в чате или true для inline-сообщения.
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#editmessagetext
 	 */
 	public function editMessageText(
-		int|string                  $chatId,
-		int|string                  $messageId,
+		int|string|null             $chatId,
+		int|string|null             $messageId,
 		string                      $text,
 		?string                     $businessConnectionId = null,
 		?string                     $inlineMessageId = null,
@@ -1253,24 +1253,24 @@ abstract class TeleBrownServerAbstract
 		?array                      $entities = null,
 		?Objects\LinkPreviewOptions $linkPreviewOptions = null,
 		mixed                       $replyMarkup = null
-	): Objects\Message
+	): Objects\Message|bool
 	{
-		return new Objects\Message(
-			$this->sendRequest(
-				method: __FUNCTION__,
-				params: [
-					"chat_id" => $chatId,
-					"message_id" => $messageId,
-					"text" => $text,
-					"business_connection_id" => $businessConnectionId,
-					"inline_message_id" => $inlineMessageId,
-					"parse_mode" => $parseMode?->value,
-					"entities" => $entities,
-					"link_preview_options" => $linkPreviewOptions?->getAsArray(),
-					"reply_markup" => $replyMarkup?->getAsArray(),
-				]
-			)->getData()
-		);
+		$result = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"message_id" => $messageId,
+				"text" => $text,
+				"business_connection_id" => $businessConnectionId,
+				"inline_message_id" => $inlineMessageId,
+				"parse_mode" => $parseMode?->value,
+				"entities" => $entities,
+				"link_preview_options" => $linkPreviewOptions?->getAsArray(),
+				"reply_markup" => $replyMarkup?->getAsArray(),
+			]
+		)->getData();
+
+		return is_bool($result) ? $result : new Objects\Message($result);
 	}
 
 	/**
