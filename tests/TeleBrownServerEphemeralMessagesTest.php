@@ -8,6 +8,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Haikiri\TeleBrown\Enums\ParseModeEnum;
+use Haikiri\TeleBrown\Enums;
 use Haikiri\TeleBrown\Objects;
 use Haikiri\TeleBrown\TeleBrownServer;
 use PHPUnit\Framework\TestCase;
