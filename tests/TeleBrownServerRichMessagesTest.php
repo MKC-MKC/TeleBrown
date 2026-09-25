@@ -65,6 +65,37 @@ final class TeleBrownServerRichMessagesTest extends TestCase
 		], json_decode((string)$request->getBody(), true, 512, JSON_THROW_ON_ERROR));
 	}
 
+	public function testRichMessageEditUploadsFileInChat(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-rich-edit-");
+		file_put_contents($path, "edited-photo");
+		try {
+			$history = [];
+			$server = $this->createServer($history, ["message_id" => 50]);
+			$rich = new Objects\InputRichMessage(["blocks" => [["type" => "photo", "photo" => new Objects\InputMedia(["type" => "photo", "media" => $path])]]]);
+			self::assertSame(50, $server->editMessageText(17, 50, richMessage: $rich)->getId());
+			$parts = $this->requestParts($history);
+			$data = json_decode($parts["rich_message"]["contents"], true, 512, JSON_THROW_ON_ERROR);
+			$attachment = $data["blocks"][0]["photo"]["media"];
+			self::assertStringStartsWith("attach://", $attachment);
+			self::assertSame("edited-photo", $parts[substr($attachment, 9)]["contents"]);
+			self::assertArrayNotHasKey("text", $parts);
+		} finally {
+			unlink($path);
+		}
+	}
+
+	public function testInlineRichMessageEditUsesExistingFile(): void
+	{
+		$history = [];
+		$server = $this->createServer($history, true);
+		$rich = new Objects\InputRichMessage(["blocks" => [["type" => "photo", "photo" => new Objects\InputMedia(["type" => "photo", "media" => "file-id"])]]]);
+		self::assertTrue($server->editMessageText(inlineMessageId: "inline-id", richMessage: $rich));
+		$request = $history[0]["request"];
+		self::assertSame("application/json", $request->getHeaderLine("Content-Type"));
+		self::assertSame(["rich_message" => $rich->getAsArray(), "inline_message_id" => "inline-id"], json_decode((string)$request->getBody(), true, 512, JSON_THROW_ON_ERROR));
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];

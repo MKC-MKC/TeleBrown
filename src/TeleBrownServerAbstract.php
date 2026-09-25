@@ -1298,7 +1298,8 @@ abstract class TeleBrownServerAbstract
 				"entities" => $entities,
 				"link_preview_options" => $linkPreviewOptions?->getAsArray(),
 				"reply_markup" => $replyMarkup?->getAsArray(),
-			]
+			],
+			headers: ["Content-Type" => $richMessage !== null && $inlineMessageId === null ? "multipart/form-data" : "application/json"],
 		)->getData();
 
 		return is_bool($result) ? $result : new Objects\Message($result);
