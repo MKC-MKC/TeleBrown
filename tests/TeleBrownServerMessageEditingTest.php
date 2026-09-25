@@ -10,6 +10,7 @@ use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Haikiri\TeleBrown\Objects\InlineKeyboardButton;
 use Haikiri\TeleBrown\Objects\InlineKeyboardMarkup;
 use Haikiri\TeleBrown\Objects\Message;
+use Haikiri\TeleBrown\Objects\MessageEntity;
 use Haikiri\TeleBrown\TeleBrownServer;
 use PHPUnit\Framework\TestCase;
 
@@ -38,6 +39,31 @@ final class TeleBrownServerMessageEditingTest extends TestCase
 			self::assertSame("/bot123:TOKEN/editMessageReplyMarkup", $history[0]["request"]->getUri()->getPath());
 			$expected = $inline ? ["inline_message_id" => "inline-id"] : ["chat_id" => 17, "message_id" => 42, "business_connection_id" => "business-id"];
 			$expected["reply_markup"] = $markup->getAsArray();
+			self::assertEquals($expected, json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+		}
+	}
+
+	public function testCaptionPreservesEmptyTextFalseAndNestedEntities(): void
+	{
+		foreach ([false, true] as $inline) {
+			$history = [];
+			$message = ["message_id" => 42, "caption" => "0"];
+			$server = $this->createServer($history, $inline ? true : $message);
+			$entities = $inline ? [] : [new MessageEntity(["type" => "bold", "offset" => 0, "length" => 1])];
+
+			$result = $server->editMessageCaption(
+				chatId: $inline ? null : 17,
+				messageId: $inline ? null : 42,
+				caption: $inline ? "" : "0",
+				inlineMessageId: $inline ? "inline-id" : null,
+				captionEntities: $entities,
+				showCaptionAboveMedia: false,
+			);
+
+			self::assertSame($inline ? true : $message, $result instanceof Message ? $result->getAsArray() : $result);
+			self::assertSame("/bot123:TOKEN/editMessageCaption", $history[0]["request"]->getUri()->getPath());
+			$expected = $inline ? ["inline_message_id" => "inline-id"] : ["chat_id" => 17, "message_id" => 42];
+			$expected += ["caption" => $inline ? "" : "0", "caption_entities" => $inline ? [] : [["type" => "bold", "offset" => 0, "length" => 1]], "show_caption_above_media" => false];
 			self::assertEquals($expected, json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
 		}
 	}
