@@ -84,6 +84,27 @@ final class TeleBrownServerAdditionalMediaTest extends TestCase
 		}
 	}
 
+	public function testsendVideoNoteUploadsFileAndPreservesFalse(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-media-");
+		file_put_contents($path, "media-contents");
+		try {
+			$history = [];
+			$server = $this->createServer($history, ["message_id" => 42]);
+			$message = $server->sendVideoNote(17, $path, duration: 0, disableNotification: false, length: 0);
+			$parts = $this->requestParts($history);
+			self::assertSame(42, $message->getId());
+			self::assertSame("/bot123:TOKEN/sendVideoNote", $history[0]["request"]->getUri()->getPath());
+			self::assertSame("media-contents", $parts["video_note"]["contents"]);
+			self::assertSame(basename($path), $parts["video_note"]["filename"]);
+			self::assertSame("0", $parts["duration"]["contents"]);
+			self::assertSame("false", $parts["disable_notification"]["contents"]);
+			self::assertSame("0", $parts["length"]["contents"]);
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
