@@ -159,4 +159,27 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Подтверждаем пользователя от имени организации, которую представляет бот.
+	 *
+	 * @param int $userId Уникальный идентификатор пользователя.
+	 * @param string|null $customDescription Описание проверки, 0-70 символов. Должно быть пустым, если организации не разрешено собственное описание.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#verifyuser
+	 */
+	public function verifyUser(
+		int $userId,
+		string|null $customDescription = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"custom_description" => $customDescription,
+			],
+		)->isSuccess();
+	}
+
 }
