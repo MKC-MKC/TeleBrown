@@ -181,6 +181,36 @@ final class TeleBrownServerAdditionalMediaTest extends TestCase
 		}
 	}
 
+	public function testMediaGroupUsesUniqueAttachmentsAndReturnsMessages(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-album-");
+		file_put_contents($path, "album-media");
+		try {
+			$history = [];
+			$server = $this->createServer($history, [["message_id" => 45], ["message_id" => 46]]);
+			$media = [
+				new Objects\InputMedia(["type" => "photo", "media" => $path, "caption" => $path]),
+				new Objects\InputMedia(["type" => "video", "media" => $path, "thumbnail" => $path, "cover" => "cover-id"]),
+			];
+			$messages = $server->sendMediaGroup(17, $media, messageThreadId: 5, allowPaidBroadcast: false);
+			self::assertSame([45, 46], array_map(static fn(Objects\Message $message): int => $message->getId(), $messages));
+			$parts = $this->requestParts($history);
+			$data = json_decode($parts["media"]["contents"], true, 512, JSON_THROW_ON_ERROR);
+			self::assertSame("attach://media_0_media", $data[0]["media"]);
+			self::assertSame("attach://media_1_media", $data[1]["media"]);
+			self::assertSame("attach://media_1_thumbnail", $data[1]["thumbnail"]);
+			self::assertSame("cover-id", $data[1]["cover"]);
+			self::assertSame($path, $data[0]["caption"]);
+			self::assertSame("album-media", $parts["media_0_media"]["contents"]);
+			self::assertSame("album-media", $parts["media_1_thumbnail"]["contents"]);
+			self::assertSame("false", $parts["allow_paid_broadcast"]["contents"]);
+			self::assertSame("5", $parts["message_thread_id"]["contents"]);
+			self::assertSame($path, $media[0]->getMedia());
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
