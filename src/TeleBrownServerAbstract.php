@@ -11,6 +11,7 @@ abstract class TeleBrownServerAbstract
 	use Methods\MessageEditing;
 	use Methods\LiveLocations;
 	use Methods\InlineQueries;
+	use Methods\ChatSettings;
 
 	# Brown
 	protected string $url = "https://api.telegram.org";
