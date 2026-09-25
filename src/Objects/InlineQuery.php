@@ -74,7 +74,8 @@ class InlineQuery extends ResponseWrapper
 	 */
 	public function getChatType(): InlineQueryChatEnum|null
 	{
-		return InlineQueryChatEnum::tryFrom($this->getData("chat_type")) ?? null;
+		$type = $this->getData("chat_type");
+		return $type === null ? null : InlineQueryChatEnum::tryFrom($type);
 	}
 
 	/**
