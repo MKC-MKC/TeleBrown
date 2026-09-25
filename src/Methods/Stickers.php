@@ -73,4 +73,26 @@ trait Stickers
 		return new Objects\Message($response->getData());
 	}
 
+	/**
+	 * Получаем информацию о стикерах пользовательских эмодзи по их идентификаторам.
+	 *
+	 * @param string[] $customEmojiIds До 200 идентификаторов пользовательских эмодзи.
+	 * @return Objects\Sticker[]
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getcustomemojistickers
+	 */
+	public function getCustomEmojiStickers(
+		array $customEmojiIds,
+	): array
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"custom_emoji_ids" => $customEmojiIds,
+			],
+		);
+
+		return array_map(static fn(array $item): Objects\Sticker => new Objects\Sticker($item), $response->getData());
+	}
+
 }
