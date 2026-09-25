@@ -106,4 +106,28 @@ trait ChatInvites
 		)->isSuccess();
 	}
 
+	/**
+	 * Показываем пользователю Mini App перед решением по запросу на вступление.
+	 * Для завершения запроса после взаимодействия с Mini App используем answerChatJoinRequestQuery.
+	 *
+	 * @param string $chatJoinRequestQueryId Уникальный идентификатор запроса на вступление.
+	 * @param string $webAppUrl HTTPS-адрес Mini App, открываемого с дополнительными данными.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#sendchatjoinrequestwebapp
+	 */
+	public function sendChatJoinRequestWebApp(
+		string $chatJoinRequestQueryId,
+		string $webAppUrl,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_join_request_query_id" => $chatJoinRequestQueryId,
+				"web_app_url" => $webAppUrl,
+			],
+		)->isSuccess();
+	}
+
 }
