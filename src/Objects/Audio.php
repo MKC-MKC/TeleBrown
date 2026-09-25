@@ -25,7 +25,7 @@ class Audio extends ResponseWrapper
 
 	public function getDuration(): int
 	{
-		return (int)$this->getData("file_unique_id");
+		return (int)$this->getData("duration");
 	}
 
 	public function getPerformer(): string
