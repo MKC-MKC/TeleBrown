@@ -35,7 +35,7 @@ class PollOption extends ResponseWrapper
 	 */
 	public function getTextEntities(): array
 	{
-		$data = $this->getData("text_entities");
+		$data = (array)$this->getData("text_entities", []);
 		return array_map(fn(array $item): MessageEntity => new MessageEntity($item), $data);
 	}
 
@@ -48,6 +48,64 @@ class PollOption extends ResponseWrapper
 	public function getVoterCount(): int
 	{
 		return (int)$this->getData("voter_count");
+	}
+
+	/**
+	 * Уникальный идентификатор варианта, сохраняющийся при добавлении и удалении вариантов.
+	 *
+	 * @return string
+	 * @see https://core.telegram.org/bots/api#polloption
+	 */
+	public function getPersistentId(): string
+	{
+		return (string)$this->getData("persistent_id");
+	}
+
+	/**
+	 * Необязательно. Медиа, добавленное к варианту ответа.
+	 *
+	 * @return PollMedia|null
+	 * @see https://core.telegram.org/bots/api#polloption
+	 */
+	public function getMedia(): PollMedia|null
+	{
+		$data = $this->getData("media");
+		return $data === null ? null : new PollMedia($data);
+	}
+
+	/**
+	 * Необязательно. Пользователь, добавивший вариант после создания опроса.
+	 *
+	 * @return User|null
+	 * @see https://core.telegram.org/bots/api#polloption
+	 */
+	public function getAddedByUser(): User|null
+	{
+		$data = $this->getData("added_by_user");
+		return $data === null ? null : new User($data);
+	}
+
+	/**
+	 * Необязательно. Чат, добавивший вариант после создания опроса.
+	 *
+	 * @return Chat|null
+	 * @see https://core.telegram.org/bots/api#polloption
+	 */
+	public function getAddedByChat(): Chat|null
+	{
+		$data = $this->getData("added_by_chat");
+		return $data === null ? null : new Chat($data);
+	}
+
+	/**
+	 * Необязательно. Время добавления варианта в Unix-формате; отсутствует у исходных вариантов опроса.
+	 *
+	 * @return int|null
+	 * @see https://core.telegram.org/bots/api#polloption
+	 */
+	public function getAdditionDate(): int|null
+	{
+		return $this->getData("addition_date");
 	}
 
 }
