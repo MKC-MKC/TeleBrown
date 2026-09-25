@@ -41,6 +41,18 @@ final class TeleBrownServerBotSettingsTest extends TestCase
 		self::assertSame([], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
 	}
 
+	public function testCommandsAreHydratedAndEmptyResultIsAllowed(): void
+	{
+		$history = [];
+		$commands = $this->createServer($history, [["command" => "start", "description" => "Начать", "is_ephemeral" => true]])->getMyCommands(new Objects\BotCommandScope(["type" => "chat_member", "chat_id" => -100123, "user_id" => 456]), "");
+		self::assertSame("start", $commands[0]->getCommand());
+		self::assertSame("Начать", $commands[0]->getDescription());
+		self::assertTrue($commands[0]->isEphemeral());
+		self::assertSame(["scope" => ["type" => "chat_member", "chat_id" => -100123, "user_id" => 456], "language_code" => ""], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+		$history = [];
+		self::assertSame([], $this->createServer($history, [])->getMyCommands());
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);

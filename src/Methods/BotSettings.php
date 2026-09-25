@@ -316,4 +316,29 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Получаем команды бота для указанной области и языка. Если команды не заданы, возвращаем пустой список.
+	 *
+	 * @param Objects\BotCommandScope|null $scope Область действия команд. По умолчанию BotCommandScopeDefault.
+	 * @param string|null $languageCode Двухбуквенный код языка ISO 639-1, например ru. Пустая строка задаёт значение для остальных языков.
+	 * @return Objects\BotCommand[]
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getmycommands
+	 */
+	public function getMyCommands(
+		Objects\BotCommandScope|null $scope = null,
+		string|null $languageCode = null,
+	): array
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"scope" => $scope?->getAsArray(),
+				"language_code" => $languageCode,
+			],
+		);
+
+		return array_map(static fn(array $item): Objects\BotCommand => new Objects\BotCommand($item), $response->getData());
+	}
+
 }
