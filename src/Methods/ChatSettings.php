@@ -155,4 +155,35 @@ trait ChatSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Закрепляем сообщение в чате.
+	 * В группах требуется право can_pin_messages, в каналах - can_edit_messages.
+	 * В личных чатах и чатах личных сообщений канала можно закреплять несервисные сообщения.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param int $messageId Идентификатор сообщения, например 42.
+	 * @param string|null $businessConnectionId Идентификатор бизнес-подключения, от имени которого выполняется действие.
+	 * @param bool|null $disableNotification true, чтобы не уведомлять участников. В каналах и личных чатах уведомления всегда отключены.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#pinchatmessage
+	 */
+	public function pinChatMessage(
+		int|string  $chatId,
+		int         $messageId,
+		string|null $businessConnectionId = null,
+		bool|null   $disableNotification = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"message_id" => $messageId,
+				"business_connection_id" => $businessConnectionId,
+				"disable_notification" => $disableNotification,
+			],
+		)->isSuccess();
+	}
+
 }
