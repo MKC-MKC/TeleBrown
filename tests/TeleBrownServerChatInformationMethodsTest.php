@@ -28,6 +28,30 @@ final class TeleBrownServerChatInformationMethodsTest extends TestCase
 		self::assertSame(["chat_id" => "@example"], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
 	}
 
+	public function testChatMemberUsesStatusToSelectModel(): void
+	{
+		$classes = [
+			"creator" => Objects\ChatMember\ChatMemberOwner::class,
+			"administrator" => Objects\ChatMember\ChatMemberAdministrator::class,
+			"member" => Objects\ChatMember\ChatMemberMember::class,
+			"restricted" => Objects\ChatMember\ChatMemberRestricted::class,
+			"left" => Objects\ChatMember\ChatMemberLeft::class,
+			"kicked" => Objects\ChatMember\ChatMemberBanned::class,
+		];
+		foreach ($classes as $status => $class) {
+			$history = [];
+			$data = ["status" => $status, "user" => ["id" => 42, "is_bot" => false, "first_name" => "User"]];
+			$server = $this->createServer($history, $data);
+
+			$result = $server->getChatMember(-1001234567890, 42);
+
+			self::assertInstanceOf($class, $result);
+			self::assertSame($data, $result->getAsArray());
+			self::assertSame("/bot123:TOKEN/getChatMember", $history[0]["request"]->getUri()->getPath());
+			self::assertSame(["chat_id" => -1001234567890, "user_id" => 42], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+		}
+	}
+
 	private function createServer(array &$history, array $result): TeleBrownServer
 	{
 		$mock = new MockHandler([
