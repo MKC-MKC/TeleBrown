@@ -41,4 +41,30 @@ trait UserProfiles
 		return $response->isSuccess();
 	}
 
+	/**
+	 * Используйте этот метод, чтобы получить сообщения из чата, указанного в профиле пользователя.
+	 * Возвращается массив объектов Message.
+	 *
+	 * @param int $userId Уникальный идентификатор пользователя.
+	 * @param int $limit Максимальное количество возвращаемых объектов.
+	 * @return Objects\Message[]
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getuserpersonalchatmessages
+	 */
+	public function getUserPersonalChatMessages(
+		int $userId,
+		int $limit,
+	): array
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"limit" => $limit,
+			],
+		);
+
+		return array_map(static fn(array $item): Objects\Message => new Objects\Message($item), $response->getData());
+	}
+
 }
