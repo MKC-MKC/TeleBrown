@@ -164,4 +164,42 @@ trait InlineQueries
 		return new Objects\SentGuestMessage($response->getData());
 	}
 
+	/**
+	 * Сохраняет сообщение, которое пользователь может отправить из Mini App.
+	 * Возвращается объект PreparedInlineMessage.
+	 *
+	 * @param int $userId Уникальный идентификатор пользователя.
+	 * @param array $result Объект InlineQueryResult, например ["type" => "article", "id" => "1", "title" => "Ответ", "input_message_content" => ["message_text" => "Текст"]].
+	 * @param bool|null $allowUserChats Передайте True, чтобы разрешить отправку в личные чаты с пользователями.
+	 * @param bool|null $allowBotChats Передайте True, чтобы разрешить отправку в личные чаты с ботами.
+	 * @param bool|null $allowGroupChats Передайте True, чтобы разрешить отправку в группы и супергруппы.
+	 * @param bool|null $allowChannelChats Передайте True, чтобы разрешить отправку в каналы.
+	 * @return Objects\PreparedInlineMessage
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#savepreparedinlinemessage
+	 */
+	public function savePreparedInlineMessage(
+		int       $userId,
+		array     $result,
+		bool|null $allowUserChats = null,
+		bool|null $allowBotChats = null,
+		bool|null $allowGroupChats = null,
+		bool|null $allowChannelChats = null,
+	): Objects\PreparedInlineMessage
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"result" => $result,
+				"allow_user_chats" => $allowUserChats,
+				"allow_bot_chats" => $allowBotChats,
+				"allow_group_chats" => $allowGroupChats,
+				"allow_channel_chats" => $allowChannelChats,
+			],
+		);
+
+		return new Objects\PreparedInlineMessage($response->getData());
+	}
+
 }
