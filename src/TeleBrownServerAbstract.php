@@ -1117,7 +1117,6 @@ abstract class TeleBrownServerAbstract
 	 *
 	 * @param int|string $chatId
 	 * @param int $senderChatId
-	 * @param int|null $untilDate
 	 * @return bool
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#banchatsenderchat
@@ -1125,7 +1124,6 @@ abstract class TeleBrownServerAbstract
 	public function banChatSenderChat(
 		int|string $chatId,
 		int        $senderChatId,
-		?int       $untilDate = null,
 	): bool
 	{
 		return $this->sendRequest(
@@ -1133,7 +1131,6 @@ abstract class TeleBrownServerAbstract
 			params: [
 				"chat_id" => $chatId,
 				"sender_chat_id" => $senderChatId,
-				"until_date" => $untilDate,
 			]
 		)->isSuccess();
 	}

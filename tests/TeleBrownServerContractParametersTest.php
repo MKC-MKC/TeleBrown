@@ -31,24 +31,6 @@ final class TeleBrownServerContractParametersTest extends TestCase
 		self::assertSame(["url" => "https://bot.example.test/hook", "allowed_updates" => []], $this->requestBody($history, 3));
 	}
 
-	public function testBanSenderChatSendsOptionalUntilDate(): void
-	{
-		$history = [];
-		$server = $this->createServer($history, 2);
-
-		$server->banChatSenderChat(-1000000000042, -1000000000073);
-		$server->banChatSenderChat(-1000000000042, -1000000000073, 1788960000);
-
-		self::assertSame(
-			["chat_id" => -1000000000042, "sender_chat_id" => -1000000000073],
-			$this->requestBody($history, 0),
-		);
-		self::assertSame(
-			["chat_id" => -1000000000042, "sender_chat_id" => -1000000000073, "until_date" => 1788960000],
-			$this->requestBody($history, 1),
-		);
-	}
-
 	public function testMessageReactionAcceptsEmojiAndCustomEmojiObjects(): void
 	{
 		$history = [];
