@@ -60,6 +60,16 @@ final class TeleBrownServerStickersTest extends TestCase
 		self::assertMatchesRegularExpression('/name="needs_repainting"\r\n(?:[^\r\n]+\r\n)*\r\nfalse\r\n/', $body);
 	}
 
+	public function testMaskPositionCanBeChangedAndRemoved(): void
+	{
+		$history = [];
+		self::assertTrue($this->createServer($history, true)->setStickerMaskPosition("file-id", new Objects\MaskPosition(["point" => "eyes", "x_shift" => 0.0, "y_shift" => 0.0, "scale" => 1.0])));
+		self::assertSame(["sticker" => "file-id", "mask_position" => ["point" => "eyes", "x_shift" => 0, "y_shift" => 0, "scale" => 1]], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+		$history = [];
+		self::assertTrue($this->createServer($history, true)->setStickerMaskPosition("file-id"));
+		self::assertSame(["sticker" => "file-id"], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);

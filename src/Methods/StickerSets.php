@@ -218,4 +218,27 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем положение маски для стикера из набора, созданного ботом.
+	 *
+	 * @param string $sticker Идентификатор файла стикера.
+	 * @param Objects\MaskPosition|null $maskPosition Положение маски на лице. Если не указано, положение маски удаляется.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setstickermaskposition
+	 */
+	public function setStickerMaskPosition(
+		string                    $sticker,
+		Objects\MaskPosition|null $maskPosition = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"sticker" => $sticker,
+				"mask_position" => $maskPosition?->getAsArray(),
+			],
+		)->isSuccess();
+	}
+
 }
