@@ -123,4 +123,26 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Получаем текущее краткое описание бота для указанного языка.
+	 *
+	 * @param string|null $languageCode Двухбуквенный код языка ISO 639-1, например ru. Пустая строка задаёт значение для остальных языков.
+	 * @return Objects\BotShortDescription
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getmyshortdescription
+	 */
+	public function getMyShortDescription(
+		string|null $languageCode = null,
+	): Objects\BotShortDescription
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"language_code" => $languageCode,
+			],
+		);
+
+		return new Objects\BotShortDescription($response->getData());
+	}
+
 }
