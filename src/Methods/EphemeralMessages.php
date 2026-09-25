@@ -124,4 +124,48 @@ trait EphemeralMessages
 		return $response->isSuccess();
 	}
 
+	/**
+	 * Изменяем подпись эфемерного сообщения.
+	 * Доставка события изменения пользователю не гарантируется, особенно если он не в сети.
+	 *
+	 * @param int|string $chatId Идентификатор целевого чата или @username супергруппы.
+	 * @param int $receiverUserId Идентификатор пользователя, получившего сообщение.
+	 * @param int $ephemeralMessageId Идентификатор эфемерного сообщения.
+	 * @param string|null $caption Новая подпись, от 0 до 1024 символов после разбора сущностей.
+	 * @param Enums\ParseModeEnum|null $parseMode Режим разбора сущностей текста или подписи.
+	 * @param Objects\MessageEntity[]|array|null $captionEntities Сущности подписи, которые можно указать вместо parse_mode.
+	 * @param bool|null $showCaptionAboveMedia True, чтобы показать подпись над медиа. Только для анимаций, фотографий и видео.
+	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup Новая inline-клавиатура сообщения.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#editephemeralmessagecaption
+	 */
+	public function editEphemeralMessageCaption(
+		int|string                        $chatId,
+		int                               $receiverUserId,
+		int                               $ephemeralMessageId,
+		string|null                       $caption = null,
+		Enums\ParseModeEnum|null $parseMode = null,
+		array|null                        $captionEntities = null,
+		bool|null                         $showCaptionAboveMedia = null,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): bool
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"receiver_user_id" => $receiverUserId,
+				"ephemeral_message_id" => $ephemeralMessageId,
+				"caption" => $caption,
+				"parse_mode" => $parseMode?->value,
+				"caption_entities" => $captionEntities,
+				"show_caption_above_media" => $showCaptionAboveMedia,
+				"reply_markup" => $replyMarkup?->getAsArray(),
+			],
+		);
+
+		return $response->isSuccess();
+	}
+
 }

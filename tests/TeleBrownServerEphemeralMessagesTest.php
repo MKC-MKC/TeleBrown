@@ -65,6 +65,24 @@ final class TeleBrownServerEphemeralMessagesTest extends TestCase
 		}
 	}
 
+	public function testCaptionEditingPreservesEmptyCaptionAndFalse(): void
+	{
+		$history = [];
+		$server = $this->createServer($history, true);
+
+		self::assertTrue($server->editEphemeralMessageCaption(17, 123, 42, "", captionEntities: [], showCaptionAboveMedia: false));
+
+		self::assertSame("/bot123:TOKEN/editEphemeralMessageCaption", $history[0]["request"]->getUri()->getPath());
+		self::assertSame([
+			"chat_id" => 17, "receiver_user_id" => 123, "ephemeral_message_id" => 42,
+			"caption" => "", "caption_entities" => [], "show_caption_above_media" => false,
+		], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+
+		$history = [];
+		self::assertTrue($this->createServer($history, true)->editEphemeralMessageCaption(17, 123, 42, "<b>Caption</b>", parseMode: Enums\ParseModeEnum::HTML));
+		self::assertSame("HTML", json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR)["parse_mode"]);
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
