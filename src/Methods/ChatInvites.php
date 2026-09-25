@@ -190,4 +190,33 @@ trait ChatInvites
 		return new Objects\ChatInviteLink($response->getData());
 	}
 
+	/**
+	 * Изменяем созданную ботом пригласительную ссылку с подпиской.
+	 * Боту требуется право администратора can_invite_users.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param string $inviteLink Пригласительная ссылка чата, например https://t.me/+example.
+	 * @param string|null $name Название пригласительной ссылки, от 0 до 32 символов.
+	 * @return Objects\ChatInviteLink
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#editchatsubscriptioninvitelink
+	 */
+	public function editChatSubscriptionInviteLink(
+		int|string  $chatId,
+		string      $inviteLink,
+		string|null $name = null,
+	): Objects\ChatInviteLink
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"invite_link" => $inviteLink,
+				"name" => $name,
+			],
+		);
+
+		return new Objects\ChatInviteLink($response->getData());
+	}
+
 }
