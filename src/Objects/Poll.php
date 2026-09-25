@@ -46,7 +46,7 @@ class Poll extends ResponseWrapper
 	 */
 	public function getQuestionEntities(): array
 	{
-		$data = $this->getData("question_entities");
+		$data = (array)$this->getData("question_entities", []);
 		return array_map(fn(array $item): MessageEntity => new MessageEntity($item), $data);
 	}
 
@@ -117,21 +117,6 @@ class Poll extends ResponseWrapper
 		return (bool)$this->getData("allows_multiple_answers");
 	}
 
-	/**
-	 * Опционально. 0-идентификатор правильного варианта ответа.
-	 * Доступно только для опросов в режиме викторины, которые закрыты
-	 * или были отправлены (не пересланы) ботом или в личный чат с ботом.
-	 *
-	 * Optional. 0-based identifier of the correct answer option.
-	 * Available only for polls in the quiz mode, which are closed,
-	 * or was sent (not forwarded) by the bot or to the private chat with the bot.
-	 *
-	 * @return int
-	 */
-	public function getCorrectOptionId(): int
-	{
-		return (int)$this->getData("correct_option_id");
-	}
 
 	/**
 	 * Текст, который отображается, когда пользователь выбирает неправильный ответ
@@ -155,7 +140,7 @@ class Poll extends ResponseWrapper
 	 */
 	public function getExplanationEntities(): array
 	{
-		$data = $this->getData("explanation_entities");
+		$data = (array)$this->getData("explanation_entities", []);
 		return array_map(fn(array $item): MessageEntity => new MessageEntity($item), $data);
 	}
 
@@ -179,6 +164,96 @@ class Poll extends ResponseWrapper
 	public function getCloseDate(): int
 	{
 		return (int)$this->getData("close_date");
+	}
+
+	/**
+	 * True, если опрос разрешает менять выбранные варианты ответа.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#poll
+	 */
+	public function allowsRevoting(): bool
+	{
+		return (bool)$this->getData("allows_revoting");
+	}
+
+	/**
+	 * True, если голосовать могут только пользователи, состоящие в исходном чате более 24 часов.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#poll
+	 */
+	public function isMembersOnly(): bool
+	{
+		return (bool)$this->getData("members_only");
+	}
+
+	/**
+	 * Необязательно. Двухбуквенные коды стран ISO 3166-1 alpha-2, из которых разрешено голосовать; FT обозначает анонимные номера.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#poll
+	 */
+	public function getCountryCodes(): array
+	{
+		return (array)$this->getData("country_codes", []);
+	}
+
+	/**
+	 * Необязательно. Идентификаторы правильных вариантов ответа, начиная с нуля; доступны для викторин, закрытых или отправленных ботом либо в личный чат с ботом.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#poll
+	 */
+	public function getCorrectOptionIds(): array
+	{
+		return (array)$this->getData("correct_option_ids", []);
+	}
+
+	/**
+	 * Необязательно. Описание опроса; только для опросов внутри объекта Message.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#poll
+	 */
+	public function getDescription(): string|null
+	{
+		return $this->getData("description");
+	}
+
+	/**
+	 * Необязательно. Специальные сущности в описании опроса.
+	 *
+	 * @return MessageEntity[]
+	 * @see https://core.telegram.org/bots/api#poll
+	 */
+	public function getDescriptionEntities(): array
+	{
+		return array_map(static fn(array $item): MessageEntity => new MessageEntity($item), (array)$this->getData("description_entities", []));
+	}
+
+	/**
+	 * Необязательно. Медиа в описании опроса; только для опросов внутри объекта Message.
+	 *
+	 * @return PollMedia|null
+	 * @see https://core.telegram.org/bots/api#poll
+	 */
+	public function getMedia(): PollMedia|null
+	{
+		$data = $this->getData("media");
+		return $data === null ? null : new PollMedia($data);
+	}
+
+	/**
+	 * Необязательно. Медиа, добавленное к объяснению викторины.
+	 *
+	 * @return PollMedia|null
+	 * @see https://core.telegram.org/bots/api#poll
+	 */
+	public function getExplanationMedia(): PollMedia|null
+	{
+		$data = $this->getData("explanation_media");
+		return $data === null ? null : new PollMedia($data);
 	}
 
 }
