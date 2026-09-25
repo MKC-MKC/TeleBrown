@@ -33,5 +33,8 @@ enum UpdateEnum: string
 	case CHAT_BOOST = "chat_boost"; # Увеличение boost чата.
 	case REMOVED_CHAT_BOOST = "removed_chat_boost"; # Удаление boost чата.
 	case STOPPED_MESSAGE_GENERATION = "stopped_message_generation"; # Остановка генерации сообщения пользователем.
+	case GUEST_MESSAGE = "guest_message"; # Новое гостевое сообщение.
+	case MANAGED_BOT = "managed_bot"; # Создание управляемого бота или изменение его токена или владельца.
+	case SUBSCRIPTION = "subscription"; # Изменение платёжной подписки пользователя.
 
 }

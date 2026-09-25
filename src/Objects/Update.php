@@ -202,6 +202,9 @@ class Update extends ResponseWrapper
 			!empty($this->getChatBoost()?->getAsArray()) => UpdateEnum::CHAT_BOOST,
 			!empty($this->getRemovedChatBoost()?->getAsArray()) => UpdateEnum::REMOVED_CHAT_BOOST,
 			!empty($this->getStoppedMessageGeneration()?->getAsArray()) => UpdateEnum::STOPPED_MESSAGE_GENERATION,
+			$this->getData("guest_message") !== null => UpdateEnum::GUEST_MESSAGE,
+			$this->getData("managed_bot") !== null => UpdateEnum::MANAGED_BOT,
+			$this->getData("subscription") !== null => UpdateEnum::SUBSCRIPTION,
 			default => null,
 		};
 	}
@@ -221,6 +224,7 @@ class Update extends ResponseWrapper
 				yield $this->getEditedChannelPost();
 				yield $this->getBusinessMessage();
 				yield $this->getEditedBusinessMessage();
+				yield $this->getGuestMessage();
 				yield $this->getDeletedBusinessMessages();
 				yield $this->getMessageReaction();
 				yield $this->getMessageReactionCount();
@@ -257,8 +261,11 @@ class Update extends ResponseWrapper
 				yield $this->getChannelPost();
 				yield $this->getEditedChannelPost();
 				yield $this->getBusinessConnection();
+				yield $this->getManagedBot();
+				yield $this->getSubscription();
 				yield $this->getBusinessMessage();
 				yield $this->getEditedBusinessMessage();
+				yield $this->getGuestMessage();
 				yield $this->getDeletedBusinessMessages();
 				yield $this->getMessageReaction();
 				yield $this->getMessageReactionCount();
@@ -291,9 +298,9 @@ class Update extends ResponseWrapper
 	/**
 	 * Метод возвращает актуальный объект сообщения.
 	 *
-	 * @return Message|null
+	 * @return Message|InaccessibleMessage|null
 	 */
-	public function getActualMessage(): Message|null
+	public function getActualMessage(): Message|InaccessibleMessage|null
 	{
 		foreach (
 			(function (): Generator {
@@ -303,10 +310,11 @@ class Update extends ResponseWrapper
 				yield $this->getEditedChannelPost();
 				yield $this->getBusinessMessage();
 				yield $this->getEditedBusinessMessage();
+				yield $this->getGuestMessage();
 				yield $this->getCallbackQuery()?->getMessage();
 			})
 			() as $message) {
-			if ($message !== null && method_exists($message, "getId") && !empty($message->getId())) return $message;
+			if ($message !== null && $message->getAsArray()) return $message;
 		}
 
 		return null;
@@ -328,6 +336,7 @@ class Update extends ResponseWrapper
 				yield $this->getBusinessConnection();
 				yield $this->getBusinessMessage();
 				yield $this->getEditedBusinessMessage();
+				yield $this->getGuestMessage();
 				yield $this->getMessageReaction();
 				yield $this->getMessageReactionCount();
 				yield $this->getMyChatMember();
@@ -346,6 +355,42 @@ class Update extends ResponseWrapper
 		}
 
 		return null;
+	}
+
+	/**
+	 * Необязательно. Новое гостевое сообщение; для ответа используйте guest_query_id и answerGuestQuery.
+	 *
+	 * @return Message|null
+	 * @see https://core.telegram.org/bots/api#update
+	 */
+	public function getGuestMessage(): Message|null
+	{
+		$data = $this->getData("guest_message");
+		return $data === null ? null : new Message($data);
+	}
+
+	/**
+	 * Необязательно. Создан управляемый бот либо изменён его токен или владелец.
+	 *
+	 * @return ManagedBotUpdated|null
+	 * @see https://core.telegram.org/bots/api#update
+	 */
+	public function getManagedBot(): ManagedBotUpdated|null
+	{
+		$data = $this->getData("managed_bot");
+		return $data === null ? null : new ManagedBotUpdated($data);
+	}
+
+	/**
+	 * Необязательно. Изменилась платёжная подписка пользователя.
+	 *
+	 * @return BotSubscriptionUpdated|null
+	 * @see https://core.telegram.org/bots/api#update
+	 */
+	public function getSubscription(): BotSubscriptionUpdated|null
+	{
+		$data = $this->getData("subscription");
+		return $data === null ? null : new BotSubscriptionUpdated($data);
 	}
 
 }

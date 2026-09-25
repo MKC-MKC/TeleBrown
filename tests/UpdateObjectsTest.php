@@ -231,4 +231,37 @@ final class UpdateObjectsTest extends TestCase
 		self::assertSame(1788880005, $removed->getDate());
 	}
 
+	public function testInaccessibleAndScheduledMessagesCanBeRetrieved(): void
+	{
+		$update = new Update(["callback_query" => ["id" => "callback", "from" => ["id" => 17], "chat_instance" => "chat", "message" => ["message_id" => 42, "date" => 0, "chat" => ["id" => 73, "type" => "private"]]]]);
+		self::assertInstanceOf(\Haikiri\TeleBrown\Objects\InaccessibleMessage::class, $update->getActualMessage());
+		self::assertSame(42, $update->getActualMessage()->getId());
+		self::assertSame(73, $update->getChat()->getId());
+
+		$scheduled = new Update(["message" => ["message_id" => 0, "date" => 1788960000, "chat" => ["id" => 73, "type" => "private"]]]);
+		self::assertSame(0, $scheduled->getActualMessage()->getId());
+		self::assertNull((new Update([]))->getActualMessage());
+	}
+
+	public function testGuestManagedBotAndSubscriptionUpdates(): void
+	{
+		$user = ["id" => 17, "is_bot" => false, "first_name" => "User"];
+		$guest = new Update(["guest_message" => ["message_id" => 42, "date" => 1788960000, "chat" => ["id" => 73, "type" => "private"], "from" => $user, "guest_query_id" => "query"]]);
+		self::assertSame(UpdateEnum::GUEST_MESSAGE, $guest->getType());
+		self::assertSame(73, $guest->getChat()->getId());
+		self::assertSame(17, $guest->getUser()->getId());
+		self::assertSame(1788960000, $guest->getDate());
+		self::assertSame("query", $guest->getActualMessage()->getGuestQueryId());
+
+		$managed = new Update(["managed_bot" => ["user" => $user, "bot" => ["id" => 91, "is_bot" => true, "first_name" => "Bot"]]]);
+		self::assertSame(UpdateEnum::MANAGED_BOT, $managed->getType());
+		self::assertSame(17, $managed->getUser()->getId());
+		self::assertSame(91, $managed->getManagedBot()->getBot()->getId());
+
+		$subscription = new Update(["subscription" => ["user" => $user, "invoice_payload" => "order", "state" => "canceled"]]);
+		self::assertSame(UpdateEnum::SUBSCRIPTION, $subscription->getType());
+		self::assertSame(17, $subscription->getUser()->getId());
+		self::assertSame("canceled", $subscription->getSubscription()->getState());
+	}
+
 }
