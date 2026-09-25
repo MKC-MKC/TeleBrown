@@ -91,4 +91,37 @@ class ReplyParameters extends ResponseWrapper
 		return (int)$this->getData("quote_position");
 	}
 
+	/**
+	 * Необязательно. Идентификатор входящего эфемерного сообщения, на которое отправляется ответ; обязателен, если message_id не указан.
+	 *
+	 * @return int|null
+	 * @see https://core.telegram.org/bots/api#replyparameters
+	 */
+	public function getEphemeralMessageId(): int|null
+	{
+		return $this->getData("ephemeral_message_id");
+	}
+
+	/**
+	 * Необязательно. Идентификатор задачи списка, на которую отправляется ответ.
+	 *
+	 * @return int|null
+	 * @see https://core.telegram.org/bots/api#replyparameters
+	 */
+	public function getChecklistTaskId(): int|null
+	{
+		return $this->getData("checklist_task_id");
+	}
+
+	/**
+	 * Необязательно. Постоянный идентификатор варианта опроса, на который отправляется ответ.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#replyparameters
+	 */
+	public function getPollOptionId(): string|null
+	{
+		return $this->getData("poll_option_id");
+	}
+
 }
