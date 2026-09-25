@@ -557,7 +557,9 @@ abstract class TeleBrownServerAbstract
 	 * @param mixed|null $suggestedPostParameters
 	 * @param mixed|null $replyParameters
 	 * @param mixed|null $replyMarkup
+	 * @param Objects\EphemeralMessageParameters|null $ephemeralMessageParameters Параметры эфемерного сообщения.
 	 * @return Objects\Message
+	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#senddocument
 	 */
 	public function sendDocument(
@@ -578,6 +580,7 @@ abstract class TeleBrownServerAbstract
 		mixed                $suggestedPostParameters = null,
 		mixed                $replyParameters = null,
 		mixed                $replyMarkup = null,
+		?Objects\EphemeralMessageParameters $ephemeralMessageParameters = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -585,6 +588,7 @@ abstract class TeleBrownServerAbstract
 				method: __FUNCTION__,
 				params: [
 					"chat_id" => $chatId,
+					"ephemeral_message_parameters" => $ephemeralMessageParameters?->getAsArray(),
 					"document" => $document,
 					"business_connection_id" => $businessConnectionId,
 					"message_thread_id" => $messageThreadId,
