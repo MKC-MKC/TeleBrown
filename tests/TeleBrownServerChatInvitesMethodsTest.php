@@ -69,6 +69,20 @@ final class TeleBrownServerChatInvitesMethodsTest extends TestCase
 		self::assertSame(["chat_id" => "@example", "invite_link" => "https://t.me/+example", "name" => ""], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
 	}
 
+	public function testCreateChatInviteLinkReturnsInviteLink(): void
+	{
+		$history = [];
+		$data = ["invite_link" => "https://t.me/+example", "creator" => ["id" => 42, "is_bot" => true, "first_name" => "Bot"], "creates_join_request" => false, "is_primary" => false, "is_revoked" => false];
+		$server = $this->createServer($history, $data);
+
+		$result = $server->createChatInviteLink("@example", "", 1900000000, 10, false);
+
+		self::assertInstanceOf(Objects\ChatInviteLink::class, $result);
+		self::assertSame($data, $result->getAsArray());
+		self::assertSame("/bot123:TOKEN/createChatInviteLink", $history[0]["request"]->getUri()->getPath());
+		self::assertSame(["chat_id" => "@example", "name" => "", "expire_date" => 1900000000, "member_limit" => 10, "creates_join_request" => false], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+	}
+
 	private function createServer(array &$history, array|string $result): TeleBrownServer
 	{
 		$mock = new MockHandler([
