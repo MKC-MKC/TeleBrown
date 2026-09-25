@@ -31,7 +31,8 @@ class InlineKeyboardMarkup extends ResponseWrapper
 	}
 
 	/**
-	 * Необязательно. Параметры принудительного ответа, который будет показан вместе с клавиатурой.
+	 * Необязательно. True, если пользователю нужно показать интерфейс ответа,
+	 * как при выборе сообщения бота и нажатии «Ответить».
 	 *
 	 * @return bool
 	 * @see https://core.telegram.org/bots/api#inlinekeyboardmarkup
