@@ -144,6 +144,24 @@ final class TeleBrownServerAdditionalMediaTest extends TestCase
 		}
 	}
 
+	public function testChecklistPreservesNestedTasksAndEntities(): void
+	{
+		$history = [];
+		$server = $this->createServer($history, ["message_id" => 43]);
+		$entity = new Objects\MessageEntity(["type" => "bold", "offset" => 0, "length" => 4]);
+		$checklist = new Objects\InputChecklist([
+			"title" => "List", "title_entities" => [$entity],
+			"tasks" => [new Objects\InputChecklistTask(["id" => 1, "text" => "Task", "text_entities" => [$entity]])],
+			"others_can_add_tasks" => false,
+		]);
+		self::assertSame(43, $server->sendChecklist("business", 17, $checklist, disableNotification: false)->getId());
+		$body = json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR);
+		self::assertSame("business", $body["business_connection_id"]);
+		self::assertSame($checklist->getAsArray(), $body["checklist"]);
+		self::assertFalse($body["disable_notification"]);
+		self::assertSame("bold", $body["checklist"]["tasks"][0]["text_entities"][0]["type"]);
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];

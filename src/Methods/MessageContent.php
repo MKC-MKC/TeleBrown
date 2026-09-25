@@ -147,4 +147,48 @@ trait MessageContent
 		return new Objects\Message($response->getData());
 	}
 
+	/**
+	 * Отправляет список задач от имени подключённого бизнес-аккаунта.
+	 * Возвращается отправленное сообщение Message.
+	 *
+	 * @param string $businessConnectionId Идентификатор бизнес-подключения, от имени которого отправляется сообщение.
+	 * @param int|string $chatId Идентификатор целевого чата или его @username.
+	 * @param Objects\InputChecklist $checklist Список задач для отправки.
+	 * @param bool|null $disableNotification Отправка без звука уведомления.
+	 * @param bool|null $protectContent Защищает содержимое от пересылки и сохранения.
+	 * @param string|null $messageEffectId Идентификатор эффекта сообщения; только для личных чатов.
+	 * @param Objects\ReplyParameters|null $replyParameters Описание сообщения, на которое отправляется ответ.
+	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup Inline-клавиатура, клавиатура ответа, её удаление или запрос ответа.
+	 * @return Objects\Message
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#sendchecklist
+	 */
+	public function sendChecklist(
+		string                            $businessConnectionId,
+		int|string                        $chatId,
+		Objects\InputChecklist            $checklist,
+		bool|null                         $disableNotification = null,
+		bool|null                         $protectContent = null,
+		string|null                       $messageEffectId = null,
+		Objects\ReplyParameters|null      $replyParameters = null,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): Objects\Message
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+				"chat_id" => $chatId,
+				"checklist" => $checklist->getAsArray(),
+				"disable_notification" => $disableNotification,
+				"protect_content" => $protectContent,
+				"message_effect_id" => $messageEffectId,
+				"reply_parameters" => $replyParameters?->getAsArray(),
+				"reply_markup" => $replyMarkup?->getAsArray(),
+			],
+		);
+
+		return new Objects\Message($response->getData());
+	}
+
 }
