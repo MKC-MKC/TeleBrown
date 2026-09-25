@@ -465,10 +465,9 @@ abstract class TeleBrownServerAbstract
 	/**
 	 * Используйте этот метод, чтобы отправить фотографии.
 	 * При успешном выполнении возвращается объект отправленного сообщения Message.
-	 * # TODO: Проверить метод
 	 *
 	 * @param int|string $chatId
-	 * @param mixed $photo
+	 * @param mixed $photo file_id, HTTP URL или путь к локальному файлу, например /tmp/photo.jpg.
 	 * @param string|null $businessConnectionId
 	 * @param int|string|null $messageThreadId
 	 * @param int|null $directMessagesTopicId
@@ -484,27 +483,30 @@ abstract class TeleBrownServerAbstract
 	 * @param Objects\SuggestedPostParameters|null $suggestedPostParameters
 	 * @param Objects\ReplyParameters|null $replyParameters
 	 * @param null|Objects\InlineKeyboardMarkup|Objects\ReplyKeyboardMarkup|Objects\ReplyKeyboardRemove|Objects\ForceReply $replyMarkup
+	 * @param Objects\EphemeralMessageParameters|null $ephemeralMessageParameters Параметры сообщения, видимого получателю.
 	 * @return Objects\Message
+	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#sendphoto
 	 */
 	public function sendPhoto(
-		int|string               $chatId,
-		mixed                    $photo,
-		string|null              $businessConnectionId = null,
-		int|string|null          $messageThreadId = null,
-		int|null                 $directMessagesTopicId = null,
-		string|null              $caption = null,
-		Enums\ParseModeEnum|null $parseMode = null,
-		array|null               $captionEntities = null,
-		bool|null                $showCaptionAboveMedia = null,
-		bool|null                $hasSpoiler = null,
-		bool|null                $disableNotification = null,
-		bool|null                $protectContent = null,
-		bool|null                $allowPaidBroadcast = null,
-		string|null              $messageEffectId = null,
-		mixed                    $suggestedPostParameters = null,
-		mixed                    $replyParameters = null,
-		mixed                    $replyMarkup = null,
+		int|string                          $chatId,
+		mixed                               $photo,
+		string|null                         $businessConnectionId = null,
+		int|string|null                     $messageThreadId = null,
+		int|null                            $directMessagesTopicId = null,
+		string|null                         $caption = null,
+		Enums\ParseModeEnum|null            $parseMode = null,
+		array|null                          $captionEntities = null,
+		bool|null                           $showCaptionAboveMedia = null,
+		bool|null                           $hasSpoiler = null,
+		bool|null                           $disableNotification = null,
+		bool|null                           $protectContent = null,
+		bool|null                           $allowPaidBroadcast = null,
+		string|null                         $messageEffectId = null,
+		mixed                               $suggestedPostParameters = null,
+		mixed                               $replyParameters = null,
+		mixed                               $replyMarkup = null,
+		?Objects\EphemeralMessageParameters $ephemeralMessageParameters = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -513,6 +515,7 @@ abstract class TeleBrownServerAbstract
 				params: [
 					"chat_id" => $chatId,
 					"photo" => $photo,
+					"ephemeral_message_parameters" => $ephemeralMessageParameters?->getAsArray(),
 					"business_connection_id" => $businessConnectionId,
 					"message_thread_id" => $messageThreadId,
 					"direct_messages_topic_id" => $directMessagesTopicId,
@@ -620,7 +623,7 @@ abstract class TeleBrownServerAbstract
 	 * Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
 	 *
 	 * @param int|string $chatId
-	 * @param mixed $video
+	 * @param mixed $video file_id, HTTP URL или путь к локальному файлу, например /tmp/video.mp4.
 	 * @param string|null $businessConnectionId
 	 * @param int|string|null $messageThreadId
 	 * @param int|null $directMessagesTopicId
@@ -643,34 +646,37 @@ abstract class TeleBrownServerAbstract
 	 * @param mixed|null $suggestedPostParameters
 	 * @param mixed|null $replyParameters
 	 * @param mixed|null $replyMarkup
+	 * @param Objects\EphemeralMessageParameters|null $ephemeralMessageParameters Параметры сообщения, видимого получателю.
 	 * @return Objects\Message
+	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#sendvideo
 	 */
 	public function sendVideo(
-		int|string           $chatId,
-		mixed                $video,
-		?string              $businessConnectionId = null,
-		int|string|null      $messageThreadId = null,
-		?int                 $directMessagesTopicId = null,
-		?int                 $duration = null,
-		?int                 $width = null,
-		?int                 $height = null,
-		mixed                $thumbnail = null,
-		mixed                $cover = null,
-		?int                 $startTimestamp = null,
-		?string              $caption = null,
-		?Enums\ParseModeEnum $parseMode = null,
-		?array               $captionEntities = null,
-		?bool                $showCaptionAboveMedia = null,
-		?bool                $hasSpoiler = null,
-		?bool                $supportsStreaming = null,
-		?bool                $disableNotification = null,
-		?bool                $protectContent = null,
-		?bool                $allowPaidBroadcast = null,
-		?string              $messageEffectId = null,
-		mixed                $suggestedPostParameters = null,
-		mixed                $replyParameters = null,
-		mixed                $replyMarkup = null,
+		int|string                          $chatId,
+		mixed                               $video,
+		?string                             $businessConnectionId = null,
+		int|string|null                     $messageThreadId = null,
+		?int                                $directMessagesTopicId = null,
+		?int                                $duration = null,
+		?int                                $width = null,
+		?int                                $height = null,
+		mixed                               $thumbnail = null,
+		mixed                               $cover = null,
+		?int                                $startTimestamp = null,
+		?string                             $caption = null,
+		?Enums\ParseModeEnum                $parseMode = null,
+		?array                              $captionEntities = null,
+		?bool                               $showCaptionAboveMedia = null,
+		?bool                               $hasSpoiler = null,
+		?bool                               $supportsStreaming = null,
+		?bool                               $disableNotification = null,
+		?bool                               $protectContent = null,
+		?bool                               $allowPaidBroadcast = null,
+		?string                             $messageEffectId = null,
+		mixed                               $suggestedPostParameters = null,
+		mixed                               $replyParameters = null,
+		mixed                               $replyMarkup = null,
+		?Objects\EphemeralMessageParameters $ephemeralMessageParameters = null,
 	): Objects\Message
 	{
 		return new Objects\Message(
@@ -679,6 +685,7 @@ abstract class TeleBrownServerAbstract
 				params: [
 					"chat_id" => $chatId,
 					"video" => $video,
+					"ephemeral_message_parameters" => $ephemeralMessageParameters?->getAsArray(),
 					"business_connection_id" => $businessConnectionId,
 					"message_thread_id" => $messageThreadId,
 					"direct_messages_topic_id" => $directMessagesTopicId,
