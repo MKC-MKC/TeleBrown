@@ -246,4 +246,28 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем права администратора, запрашиваемые ботом по умолчанию при добавлении в группы или каналы.
+	 * Пользователь может изменить предложенные права перед добавлением бота.
+	 *
+	 * @param Objects\ChatAdministratorRights|null $rights Новые права администратора по умолчанию. Если не указаны, права по умолчанию будут очищены.
+	 * @param bool|null $forChannels True для каналов. Иначе используются группы и супергруппы.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setmydefaultadministratorrights
+	 */
+	public function setMyDefaultAdministratorRights(
+		Objects\ChatAdministratorRights|null $rights = null,
+		bool|null $forChannels = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"rights" => $rights?->getAsArray(),
+				"for_channels" => $forChannels,
+			],
+		)->isSuccess();
+	}
+
 }

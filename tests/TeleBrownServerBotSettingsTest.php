@@ -31,6 +31,16 @@ final class TeleBrownServerBotSettingsTest extends TestCase
 		self::assertFalse((new Objects\BotAccessSettings(["is_access_restricted" => false]))->isAccessRestricted());
 	}
 
+	public function testAdministratorRightsSerializeFalseAndCanBeCleared(): void
+	{
+		$history = [];
+		self::assertTrue($this->createServer($history, true)->setMyDefaultAdministratorRights(new Objects\ChatAdministratorRights(["is_anonymous" => false, "can_manage_chat" => true]), false));
+		self::assertSame(["rights" => ["is_anonymous" => false, "can_manage_chat" => true], "for_channels" => false], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+		$history = [];
+		self::assertTrue($this->createServer($history, true)->setMyDefaultAdministratorRights());
+		self::assertSame([], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);
