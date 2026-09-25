@@ -170,4 +170,28 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем список эмодзи обычного стикера или пользовательского эмодзи.
+	 * Стикер должен принадлежать набору, созданному ботом.
+	 *
+	 * @param string $sticker Идентификатор файла стикера.
+	 * @param string[] $emojiList От 1 до 20 эмодзи, связанных со стикером.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setstickeremojilist
+	 */
+	public function setStickerEmojiList(
+		string $sticker,
+		array  $emojiList,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"sticker" => $sticker,
+				"emoji_list" => $emojiList,
+			],
+		)->isSuccess();
+	}
+
 }
