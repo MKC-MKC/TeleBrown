@@ -152,4 +152,26 @@ class User extends ResponseWrapper
 		return (bool)$this->getData("has_main_web_app", false);
 	}
 
+	/**
+	 * Проверяем, включены ли темы в личных чатах с ботом. Поле возвращается методом getMe.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#user
+	 */
+	public function hasTopicsEnabled(): bool
+	{
+		return (bool)$this->getData("has_topics_enabled", false);
+	}
+
+	/**
+	 * Проверяем, разрешено ли пользователям создавать и удалять темы в личном чате с ботом.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#user
+	 */
+	public function allowsUsersToCreateTopics(): bool
+	{
+		return (bool)$this->getData("allows_users_to_create_topics", false);
+	}
+
 }

@@ -7,6 +7,8 @@ use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 abstract class TeleBrownServerAbstract
 {
 
+	use Methods\ForumTopics;
+
 	# Brown
 	protected string $url = "https://api.telegram.org";
 	protected string $token = "";

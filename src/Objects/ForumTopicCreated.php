@@ -28,4 +28,15 @@ class ForumTopicCreated extends ResponseWrapper
 		return (string)$this->getData("icon_custom_emoji_id");
 	}
 
+	/**
+	 * Проверяем, было ли название темы выбрано автоматически и требует ли оно изменения ботом.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#forumtopiccreated
+	 */
+	public function isNameImplicit(): bool
+	{
+		return (bool)$this->getData("is_name_implicit", false);
+	}
+
 }

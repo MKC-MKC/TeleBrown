@@ -18,9 +18,15 @@ class ForumTopicEdited extends ResponseWrapper
 		return (string)$this->getData("name");
 	}
 
+	/**
+	 * Получаем новый значок темы: null при отсутствии изменения, пустую строку при удалении.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#forumtopicedited
+	 */
 	public function getIconCustomEmojiId(): ?string
 	{
-		return (string)$this->getData("icon_custom_emoji_id");
+		return $this->getData("icon_custom_emoji_id");
 	}
 
 }
