@@ -68,4 +68,32 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Добавляем стикер в созданный ботом набор.
+	 * Наборы эмодзи могут содержать до 200 стикеров, остальные наборы до 120.
+	 *
+	 * @param int $userId Идентификатор владельца набора стикеров.
+	 * @param string $name Имя набора стикеров.
+	 * @param Objects\InputSticker $sticker Добавляемый стикер. Если точно такой же стикер уже есть в наборе, набор не изменяется.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#addstickertoset
+	 */
+	public function addStickerToSet(
+		int                  $userId,
+		string               $name,
+		Objects\InputSticker $sticker,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"name" => $name,
+				"sticker" => $sticker->getAsArray(),
+			],
+			headers: ["Content-Type" => "multipart/form-data"],
+		)->isSuccess();
+	}
+
 }
