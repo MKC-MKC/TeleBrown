@@ -241,4 +241,27 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем заголовок созданного набора стикеров.
+	 *
+	 * @param string $name Имя набора стикеров.
+	 * @param string $title Заголовок набора, 1-64 символа.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setstickersettitle
+	 */
+	public function setStickerSetTitle(
+		string $name,
+		string $title,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"name" => $name,
+				"title" => $title,
+			],
+		)->isSuccess();
+	}
+
 }
