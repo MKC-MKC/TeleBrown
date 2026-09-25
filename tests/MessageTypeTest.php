@@ -20,4 +20,19 @@ final class MessageTypeTest extends TestCase
 		self::assertNull((new Message([]))->getType());
 	}
 
+	public function testSpecificMediaTakesPriorityOverTelegramCompanionFields(): void
+	{
+		self::assertSame(MessageTypesEnum::ANIMATION, (new Message(["animation" => ["file_id" => "a"], "document" => ["file_id" => "a"]]))->getType());
+		self::assertSame(MessageTypesEnum::VENUE, (new Message(["venue" => ["title" => "Cafe"], "location" => ["latitude" => 1, "longitude" => 2]]))->getType());
+		self::assertSame(MessageTypesEnum::LIVE_PHOTO, (new Message(["live_photo" => ["file_id" => "v"], "photo" => [["file_id" => "p"]]]))->getType());
+	}
+
+	public function testEmptyServiceObjectsAreRecognized(): void
+	{
+		foreach (["video_chat_started", "write_access_allowed", "giveaway_created"] as $field) {
+			$message = new Message(json_decode('{"' . $field . '":{}}', true, 512, JSON_THROW_ON_ERROR));
+			self::assertSame($field, $message->getType()?->value);
+		}
+	}
+
 }

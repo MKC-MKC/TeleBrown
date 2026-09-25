@@ -24,46 +24,82 @@ class Message extends MaybeInaccessibleMessage
 	{
 		return match (true) {
 			$this->getData("text") !== null => MessageTypesEnum::TEXT,
-			!empty($this->getAudio()) => MessageTypesEnum::AUDIO,
-			!empty($this->getDocument()) => MessageTypesEnum::DOCUMENT,
-			!empty($this->getAnimation()) => MessageTypesEnum::ANIMATION,
-			!empty($this->getGame()) => MessageTypesEnum::GAME,
-			!empty($this->getPhoto()) => MessageTypesEnum::PHOTO,
-			!empty($this->getSticker()) => MessageTypesEnum::STICKER,
-			!empty($this->getVideo()) => MessageTypesEnum::VIDEO,
-			!empty($this->getVoice()) => MessageTypesEnum::VOICE,
-			!empty($this->getVideoNote()) => MessageTypesEnum::VIDEO_NOTE,
+			$this->getData("audio") !== null => MessageTypesEnum::AUDIO,
+			$this->getData("animation") !== null => MessageTypesEnum::ANIMATION,
+			$this->getData("document") !== null => MessageTypesEnum::DOCUMENT,
+			$this->getData("game") !== null => MessageTypesEnum::GAME,
+			$this->getData("live_photo") !== null => MessageTypesEnum::LIVE_PHOTO,
+			$this->getData("photo") !== null => MessageTypesEnum::PHOTO,
+			$this->getData("sticker") !== null => MessageTypesEnum::STICKER,
+			$this->getData("video") !== null => MessageTypesEnum::VIDEO,
+			$this->getData("voice") !== null => MessageTypesEnum::VOICE,
+			$this->getData("video_note") !== null => MessageTypesEnum::VIDEO_NOTE,
 			$this->getData("contact") !== null => MessageTypesEnum::CONTACT,
-			!empty($this->getLocation()) => MessageTypesEnum::LOCATION,
-			!empty($this->getVenue()) => MessageTypesEnum::VENUE,
-			!empty($this->getPoll()) => MessageTypesEnum::POLL,
-			!empty($this->getDice()) => MessageTypesEnum::DICE,
-			!empty($this->getNewChatMembers()) => MessageTypesEnum::NEW_CHAT_MEMBERS,
+			$this->getData("venue") !== null => MessageTypesEnum::VENUE,
+			$this->getData("location") !== null => MessageTypesEnum::LOCATION,
+			$this->getData("poll") !== null => MessageTypesEnum::POLL,
+			$this->getData("dice") !== null => MessageTypesEnum::DICE,
+			$this->getData("new_chat_members") !== null => MessageTypesEnum::NEW_CHAT_MEMBERS,
 			$this->getData("left_chat_member") !== null => MessageTypesEnum::LEFT_CHAT_MEMBER,
-			!empty($this->getNewChatTitle()) => MessageTypesEnum::NEW_CHAT_TITLE,
-			!empty($this->getNewChatPhoto()) => MessageTypesEnum::NEW_CHAT_PHOTO,
-			!empty($this->getMessageAutoDeleteTimerChanged()) => MessageTypesEnum::AUTO_DELETE_TIMER_CHANGED,
-			!empty($this->getPinnedMessage()) => MessageTypesEnum::PINNED_MESSAGE,
-			!empty($this->getInvoice()) => MessageTypesEnum::INVOICE,
-			!empty($this->getSuccessfulPayment()) => MessageTypesEnum::SUCCESSFUL_PAYMENT,
-			!empty($this->getUsersShared()) => MessageTypesEnum::USERS_SHARED,
-			!empty($this->getChatShared()) => MessageTypesEnum::CHAT_SHARED,
-			!empty($this->getConnectedWebsite()) => MessageTypesEnum::CONNECTED_WEBSITE,
-			!empty($this->getWriteAccessAllowed()) => MessageTypesEnum::WRITE_ACCESS_ALLOWED,
-			!empty($this->getPassportData()) => MessageTypesEnum::PASSPORT_DATA,
-			!empty($this->getProximityAlertTriggered()) => MessageTypesEnum::PROXIMITY_ALERT_TRIGGERED,
+			$this->getData("new_chat_title") !== null => MessageTypesEnum::NEW_CHAT_TITLE,
+			$this->getData("new_chat_photo") !== null => MessageTypesEnum::NEW_CHAT_PHOTO,
+			$this->getData("message_auto_delete_timer_changed") !== null => MessageTypesEnum::AUTO_DELETE_TIMER_CHANGED,
+			$this->getData("pinned_message") !== null => MessageTypesEnum::PINNED_MESSAGE,
+			$this->getData("invoice") !== null => MessageTypesEnum::INVOICE,
+			$this->getData("successful_payment") !== null => MessageTypesEnum::SUCCESSFUL_PAYMENT,
+			$this->getData("users_shared") !== null => MessageTypesEnum::USERS_SHARED,
+			$this->getData("chat_shared") !== null => MessageTypesEnum::CHAT_SHARED,
+			$this->getData("connected_website") !== null => MessageTypesEnum::CONNECTED_WEBSITE,
+			$this->getData("write_access_allowed") !== null => MessageTypesEnum::WRITE_ACCESS_ALLOWED,
+			$this->getData("passport_data") !== null => MessageTypesEnum::PASSPORT_DATA,
+			$this->getData("proximity_alert_triggered") !== null => MessageTypesEnum::PROXIMITY_ALERT_TRIGGERED,
 			$this->getData("forum_topic_created") !== null => MessageTypesEnum::FORUM_TOPIC_CREATED,
 			$this->getData("forum_topic_edited") !== null => MessageTypesEnum::FORUM_TOPIC_EDITED,
 			$this->getData("forum_topic_closed") !== null => MessageTypesEnum::FORUM_TOPIC_CLOSED,
 			$this->getData("forum_topic_reopened") !== null => MessageTypesEnum::FORUM_TOPIC_REOPENED,
 			$this->getData("general_forum_topic_hidden") !== null => MessageTypesEnum::GENERAL_FORUM_TOPIC_HIDDEN,
 			$this->getData("general_forum_topic_unhidden") !== null => MessageTypesEnum::GENERAL_FORUM_TOPIC_UNHIDDEN,
-			!empty($this->getGiveaway()) => MessageTypesEnum::GIVEAWAY,
-			!empty($this->getGiveawayWinners()) => MessageTypesEnum::GIVEAWAY_WINNERS,
-			!empty($this->getVideoChatScheduled()) => MessageTypesEnum::VIDEO_CHAT_SCHEDULED,
-			!empty($this->getVideoChatStarted()) => MessageTypesEnum::VIDEO_CHAT_STARTED,
-			!empty($this->getVideoChatEnded()) => MessageTypesEnum::VIDEO_CHAT_ENDED,
-			!empty($this->getVideoChatParticipantsInvited()) => MessageTypesEnum::VIDEO_CHAT_PARTICIPANTS_INVITED,
+			$this->getData("giveaway") !== null => MessageTypesEnum::GIVEAWAY,
+			$this->getData("giveaway_winners") !== null => MessageTypesEnum::GIVEAWAY_WINNERS,
+			$this->getData("video_chat_scheduled") !== null => MessageTypesEnum::VIDEO_CHAT_SCHEDULED,
+			$this->getData("video_chat_started") !== null => MessageTypesEnum::VIDEO_CHAT_STARTED,
+			$this->getData("video_chat_ended") !== null => MessageTypesEnum::VIDEO_CHAT_ENDED,
+			$this->getData("video_chat_participants_invited") !== null => MessageTypesEnum::VIDEO_CHAT_PARTICIPANTS_INVITED,
+			$this->getData("rich_message") !== null => MessageTypesEnum::RICH_MESSAGE,
+			$this->getData("checklist") !== null => MessageTypesEnum::CHECKLIST,
+			$this->getData("paid_media") !== null => MessageTypesEnum::PAID_MEDIA,
+			$this->getData("story") !== null => MessageTypesEnum::STORY,
+			$this->getData("delete_chat_photo") !== null => MessageTypesEnum::DELETE_CHAT_PHOTO,
+			$this->getData("group_chat_created") !== null => MessageTypesEnum::GROUP_CHAT_CREATED,
+			$this->getData("supergroup_chat_created") !== null => MessageTypesEnum::SUPERGROUP_CHAT_CREATED,
+			$this->getData("channel_chat_created") !== null => MessageTypesEnum::CHANNEL_CHAT_CREATED,
+			$this->getData("migrate_to_chat_id") !== null => MessageTypesEnum::MIGRATE_TO_CHAT_ID,
+			$this->getData("migrate_from_chat_id") !== null => MessageTypesEnum::MIGRATE_FROM_CHAT_ID,
+			$this->getData("refunded_payment") !== null => MessageTypesEnum::REFUNDED_PAYMENT,
+			$this->getData("gift") !== null => MessageTypesEnum::GIFT,
+			$this->getData("unique_gift") !== null => MessageTypesEnum::UNIQUE_GIFT,
+			$this->getData("gift_upgrade_sent") !== null => MessageTypesEnum::GIFT_UPGRADE_SENT,
+			$this->getData("chat_owner_left") !== null => MessageTypesEnum::CHAT_OWNER_LEFT,
+			$this->getData("chat_owner_changed") !== null => MessageTypesEnum::CHAT_OWNER_CHANGED,
+			$this->getData("checklist_tasks_done") !== null => MessageTypesEnum::CHECKLIST_TASKS_DONE,
+			$this->getData("checklist_tasks_added") !== null => MessageTypesEnum::CHECKLIST_TASKS_ADDED,
+			$this->getData("community_chat_added") !== null => MessageTypesEnum::COMMUNITY_CHAT_ADDED,
+			$this->getData("community_chat_joined") !== null => MessageTypesEnum::COMMUNITY_CHAT_JOINED,
+			$this->getData("community_chat_removed") !== null => MessageTypesEnum::COMMUNITY_CHAT_REMOVED,
+			$this->getData("direct_message_price_changed") !== null => MessageTypesEnum::DIRECT_MESSAGE_PRICE_CHANGED,
+			$this->getData("managed_bot_created") !== null => MessageTypesEnum::MANAGED_BOT_CREATED,
+			$this->getData("poll_option_added") !== null => MessageTypesEnum::POLL_OPTION_ADDED,
+			$this->getData("poll_option_deleted") !== null => MessageTypesEnum::POLL_OPTION_DELETED,
+			$this->getData("suggested_post_approved") !== null => MessageTypesEnum::SUGGESTED_POST_APPROVED,
+			$this->getData("suggested_post_approval_failed") !== null => MessageTypesEnum::SUGGESTED_POST_APPROVAL_FAILED,
+			$this->getData("suggested_post_declined") !== null => MessageTypesEnum::SUGGESTED_POST_DECLINED,
+			$this->getData("suggested_post_paid") !== null => MessageTypesEnum::SUGGESTED_POST_PAID,
+			$this->getData("suggested_post_refunded") !== null => MessageTypesEnum::SUGGESTED_POST_REFUNDED,
+			$this->getData("boost_added") !== null => MessageTypesEnum::BOOST_ADDED,
+			$this->getData("chat_background_set") !== null => MessageTypesEnum::CHAT_BACKGROUND_SET,
+			$this->getData("giveaway_created") !== null => MessageTypesEnum::GIVEAWAY_CREATED,
+			$this->getData("giveaway_completed") !== null => MessageTypesEnum::GIVEAWAY_COMPLETED,
+			$this->getData("web_app_data") !== null => MessageTypesEnum::WEB_APP_DATA,
 			default => null
 		};
 	}
@@ -1005,6 +1041,352 @@ class Message extends MaybeInaccessibleMessage
 	public function getReplyMarkup(): array
 	{
 		return (array)$this->getData("reply_markup");
+	}
+
+	/**
+	 * Необязательно. Сведения о теме личных сообщений канала, содержащей сообщение.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getDirectMessagesTopic(): array
+	{
+		return (array)$this->getData("direct_messages_topic", []);
+	}
+
+	/**
+	 * Необязательно. Метка или должность отправителя; только для супергрупп.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getSenderTag(): string|null
+	{
+		return $this->getData("sender_tag");
+	}
+
+	/**
+	 * Необязательно. Пользователь, получивший эфемерное сообщение.
+	 *
+	 * @return User|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getReceiverUser(): User|null
+	{
+		$data = $this->getData("receiver_user");
+		return $data === null ? null : new User($data);
+	}
+
+	/**
+	 * Необязательно. Идентификатор эфемерного сообщения внутри чата; может использоваться повторно после удаления или истечения срока сообщения.
+	 *
+	 * @return int|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getEphemeralMessageId(): int|null
+	{
+		return $this->getData("ephemeral_message_id");
+	}
+
+	/**
+	 * Необязательно. Уникальный идентификатор гостевого запроса для ответа через answerGuestQuery.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getGuestQueryId(): string|null
+	{
+		return $this->getData("guest_query_id");
+	}
+
+	/**
+	 * Необязательно. Идентификатор задачи списка, на которую отправлен ответ.
+	 *
+	 * @return int|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getReplyToChecklistTaskId(): int|null
+	{
+		return $this->getData("reply_to_checklist_task_id");
+	}
+
+	/**
+	 * Необязательно. Постоянный идентификатор варианта опроса, на который отправлен ответ.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getReplyToPollOptionId(): string|null
+	{
+		return $this->getData("reply_to_poll_option_id");
+	}
+
+	/**
+	 * Необязательно. Пользователь, чьё сообщение вызвало ответ гостевого бота.
+	 *
+	 * @return User|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getGuestBotCallerUser(): User|null
+	{
+		$data = $this->getData("guest_bot_caller_user");
+		return $data === null ? null : new User($data);
+	}
+
+	/**
+	 * Необязательно. Чат, чьё сообщение вызвало ответ гостевого бота.
+	 *
+	 * @return Chat|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getGuestBotCallerChat(): Chat|null
+	{
+		$data = $this->getData("guest_bot_caller_chat");
+		return $data === null ? null : new Chat($data);
+	}
+
+	/**
+	 * Необязательно. True, если сообщение является платной публикацией; её нельзя редактировать или удалять в течение 24 часов для получения оплаты.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function isPaidPost(): bool
+	{
+		return (bool)$this->getData("is_paid_post");
+	}
+
+	/**
+	 * Необязательно. Параметры предложенной публикации в личных сообщениях канала.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getSuggestedPostInfo(): array
+	{
+		return (array)$this->getData("suggested_post_info", []);
+	}
+
+	/**
+	 * Необязательно. Сообщение с расширенным форматированием.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getRichMessage(): array
+	{
+		return (array)$this->getData("rich_message", []);
+	}
+
+	/**
+	 * Необязательно. Живая фотография. При наличии этого поля также заполняется поле photo.
+	 *
+	 * @return LivePhoto|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getLivePhoto(): LivePhoto|null
+	{
+		$data = $this->getData("live_photo");
+		return $data === null ? null : new LivePhoto($data);
+	}
+
+	/**
+	 * Необязательно. Список задач.
+	 *
+	 * @return Checklist|null
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getChecklist(): Checklist|null
+	{
+		$data = $this->getData("checklist");
+		return $data === null ? null : new Checklist($data);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: владелец покинул чат.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getChatOwnerLeft(): array
+	{
+		return (array)$this->getData("chat_owner_left", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: владелец чата изменился.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getChatOwnerChanged(): array
+	{
+		return (array)$this->getData("chat_owner_changed", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: улучшение подарка куплено после его отправки.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getGiftUpgradeSent(): array
+	{
+		return (array)$this->getData("gift_upgrade_sent", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: задачи отмечены выполненными или невыполненными.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getChecklistTasksDone(): array
+	{
+		return (array)$this->getData("checklist_tasks_done", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: в список добавлены задачи.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getChecklistTasksAdded(): array
+	{
+		return (array)$this->getData("checklist_tasks_added", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: чат или бот добавлен в сообщество.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getCommunityChatAdded(): array
+	{
+		return (array)$this->getData("community_chat_added", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: пользователь из сообщества вступил в чат.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getCommunityChatJoined(): array
+	{
+		return (array)$this->getData("community_chat_joined", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: чат или бот удалён из сообщества.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getCommunityChatRemoved(): array
+	{
+		return (array)$this->getData("community_chat_removed", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: изменена цена сообщений в личном чате канала.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getDirectMessagePriceChanged(): array
+	{
+		return (array)$this->getData("direct_message_price_changed", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: пользователь создал бота под управлением текущего бота.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getManagedBotCreated(): array
+	{
+		return (array)$this->getData("managed_bot_created", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: добавлен вариант ответа в опрос.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getPollOptionAdded(): array
+	{
+		return (array)$this->getData("poll_option_added", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: удалён вариант ответа из опроса.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getPollOptionDeleted(): array
+	{
+		return (array)$this->getData("poll_option_deleted", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: предложенная публикация одобрена.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getSuggestedPostApproved(): array
+	{
+		return (array)$this->getData("suggested_post_approved", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: одобрение предложенной публикации не удалось.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getSuggestedPostApprovalFailed(): array
+	{
+		return (array)$this->getData("suggested_post_approval_failed", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: предложенная публикация отклонена.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getSuggestedPostDeclined(): array
+	{
+		return (array)$this->getData("suggested_post_declined", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: получена оплата за предложенную публикацию.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getSuggestedPostPaid(): array
+	{
+		return (array)$this->getData("suggested_post_paid", []);
+	}
+
+	/**
+	 * Необязательно. Служебное сообщение: оплата предложенной публикации возвращена.
+	 *
+	 * @return array
+	 * @see https://core.telegram.org/bots/api#message
+	 */
+	public function getSuggestedPostRefunded(): array
+	{
+		return (array)$this->getData("suggested_post_refunded", []);
 	}
 
 }
