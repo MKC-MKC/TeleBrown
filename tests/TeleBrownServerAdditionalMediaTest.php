@@ -162,6 +162,25 @@ final class TeleBrownServerAdditionalMediaTest extends TestCase
 		self::assertSame("bold", $body["checklist"]["tasks"][0]["text_entities"][0]["type"]);
 	}
 
+	public function testLivePhotoUploadsBothParts(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-live-");
+		file_put_contents($path, "live-photo");
+		try {
+			$history = [];
+			$server = $this->createServer($history, ["message_id" => 44]);
+			self::assertSame(44, $server->sendLivePhoto(17, $path, $path, caption: $path, hasSpoiler: false)->getId());
+			$parts = $this->requestParts($history);
+			self::assertSame("live-photo", $parts["live_photo"]["contents"]);
+			self::assertSame("live-photo", $parts["photo"]["contents"]);
+			self::assertSame($path, $parts["caption"]["contents"]);
+			self::assertNull($parts["caption"]["filename"]);
+			self::assertSame("false", $parts["has_spoiler"]["contents"]);
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
