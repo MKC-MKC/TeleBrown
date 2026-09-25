@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Methods;
 
+use Haikiri\TeleBrown\Enums;
 use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 use Haikiri\TeleBrown\Objects;
 
@@ -45,6 +46,41 @@ trait InlineQueries
 				"next_offset" => $nextOffset,
 				"button" => $button?->getAsArray(),
 			]
+		);
+
+		return $response->isSuccess();
+	}
+
+	/**
+	 * Используйте этот метод, чтобы отправить ответ на запрос от inline-клавиатуры.
+	 * При успешном выполнении возвращается True.
+	 *
+	 * @param string $callbackQueryId Уникальный идентификатор запроса, на который отправляется ответ.
+	 * @param string|null $text Текст уведомления, от 0 до 200 символов.
+	 * @param bool|null $showAlert Передайте True, чтобы показать предупреждение вместо уведомления.
+	 * @param string|null $url URL, который будет открыт клиентом пользователя.
+	 * @param int|null $cacheTime Максимальное время кеширования ответа в секундах. По умолчанию 0.
+	 * @return bool
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#answercallbackquery
+	 */
+	public function answerCallbackQuery(
+		string      $callbackQueryId,
+		string|null $text = null,
+		bool|null   $showAlert = null,
+		string|null $url = null,
+		int|null    $cacheTime = null,
+	): bool
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"callback_query_id" => $callbackQueryId,
+				"text" => $text,
+				"show_alert" => $showAlert,
+				"url" => $url,
+				"cache_time" => $cacheTime,
+			],
 		);
 
 		return $response->isSuccess();
