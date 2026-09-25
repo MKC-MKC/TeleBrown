@@ -23,7 +23,7 @@ class Message extends MaybeInaccessibleMessage
 	public function getType(): ?MessageTypesEnum
 	{
 		return match (true) {
-			!empty($this->getText()) => MessageTypesEnum::TEXT,
+			$this->getData("text") !== null => MessageTypesEnum::TEXT,
 			!empty($this->getAudio()) => MessageTypesEnum::AUDIO,
 			!empty($this->getDocument()) => MessageTypesEnum::DOCUMENT,
 			!empty($this->getAnimation()) => MessageTypesEnum::ANIMATION,
