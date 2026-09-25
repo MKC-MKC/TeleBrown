@@ -55,4 +55,27 @@ trait BotSettings
 		return new Objects\BotName($response->getData());
 	}
 
+	/**
+	 * Изменяем описание бота, отображаемое в пустом чате с ботом.
+	 *
+	 * @param string|null $description Новое описание бота, 0-512 символов. Пустая строка удаляет описание для указанного языка.
+	 * @param string|null $languageCode Двухбуквенный код языка ISO 639-1, например ru. Пустая строка задаёт значение для остальных языков.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setmydescription
+	 */
+	public function setMyDescription(
+		string|null $description = null,
+		string|null $languageCode = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"description" => $description,
+				"language_code" => $languageCode,
+			],
+		)->isSuccess();
+	}
+
 }
