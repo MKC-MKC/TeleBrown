@@ -264,4 +264,35 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Изменяем миниатюру набора обычных стикеров или масок.
+	 * Формат миниатюры должен совпадать с форматом стикеров набора.
+	 *
+	 * @param string $name Имя набора стикеров.
+	 * @param int $userId Идентификатор владельца набора стикеров.
+	 * @param string $format Формат миниатюры: static для WEBP или PNG, animated для TGS, video для WEBM.
+	 * @param string|null $thumbnail Миниатюра: file_id, HTTP URL или путь к локальному файлу. WEBP/PNG до 128 кБ, ровно 100×100; TGS/WEBM до 32 кБ. TGS/WEBM нельзя передать по URL. Если не указана, используется первый стикер.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setstickersetthumbnail
+	 */
+	public function setStickerSetThumbnail(
+		string      $name,
+		int         $userId,
+		string      $format,
+		string|null $thumbnail = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"name" => $name,
+				"user_id" => $userId,
+				"format" => $format,
+				"thumbnail" => $thumbnail,
+			],
+			headers: ["Content-Type" => "multipart/form-data"],
+		)->isSuccess();
+	}
+
 }
