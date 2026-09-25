@@ -33,4 +33,15 @@ class AcceptedGiftTypes extends ResponseWrapper
 		return (bool)$this->getData("premium_subscription");
 	}
 
+	/**
+	 * True, если принимаются подарки от каналов.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#acceptedgifttypes
+	 */
+	public function isGiftsFromChannels(): bool
+	{
+		return (bool)$this->getData("gifts_from_channels");
+	}
+
 }
