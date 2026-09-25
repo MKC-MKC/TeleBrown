@@ -168,4 +168,36 @@ trait EphemeralMessages
 		return $response->isSuccess();
 	}
 
+	/**
+	 * Изменяем только inline-клавиатуру эфемерного сообщения.
+	 * Доставка события изменения пользователю не гарантируется, особенно если он не в сети.
+	 *
+	 * @param int|string $chatId Идентификатор целевого чата или @username супергруппы.
+	 * @param int $receiverUserId Идентификатор пользователя, получившего сообщение.
+	 * @param int $ephemeralMessageId Идентификатор эфемерного сообщения.
+	 * @param Objects\InlineKeyboardMarkup|null $replyMarkup Новая inline-клавиатура сообщения.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#editephemeralmessagereplymarkup
+	 */
+	public function editEphemeralMessageReplyMarkup(
+		int|string                        $chatId,
+		int                               $receiverUserId,
+		int                               $ephemeralMessageId,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): bool
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"receiver_user_id" => $receiverUserId,
+				"ephemeral_message_id" => $ephemeralMessageId,
+				"reply_markup" => $replyMarkup?->getAsArray(),
+			],
+		);
+
+		return $response->isSuccess();
+	}
+
 }

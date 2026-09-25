@@ -84,6 +84,23 @@ final class TeleBrownServerEphemeralMessagesTest extends TestCase
 		self::assertSame("HTML", json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR)["parse_mode"]);
 	}
 
+	public function testReplyMarkupEditingSerializesButtonsAndAllowsRemoval(): void
+	{
+		foreach ([null, new Objects\InlineKeyboardMarkup(["inline_keyboard" => [[new Objects\InlineKeyboardButton(["text" => "Open", "url" => "https://example.com"])] ]])] as $markup) {
+			$history = [];
+			$server = $this->createServer($history, true);
+
+			self::assertTrue($server->editEphemeralMessageReplyMarkup(17, 123, 42, $markup));
+
+			$expected = ["chat_id" => 17, "receiver_user_id" => 123, "ephemeral_message_id" => 42];
+			if ($markup !== null) {
+				$expected["reply_markup"] = ["inline_keyboard" => [[["text" => "Open", "url" => "https://example.com"]]]];
+			}
+			self::assertSame("/bot123:TOKEN/editEphemeralMessageReplyMarkup", $history[0]["request"]->getUri()->getPath());
+			self::assertSame($expected, json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
