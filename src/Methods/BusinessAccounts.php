@@ -156,4 +156,26 @@ trait BusinessAccounts
 		)->isSuccess();
 	}
 
+	/**
+	 * Получаем информацию о подключении бота к бизнес-аккаунту.
+	 *
+	 * @param string $businessConnectionId Уникальный идентификатор бизнес-подключения.
+	 * @return Objects\BusinessConnection
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getbusinessconnection
+	 */
+	public function getBusinessConnection(
+		string $businessConnectionId,
+	): Objects\BusinessConnection
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"business_connection_id" => $businessConnectionId,
+			],
+		);
+
+		return new Objects\BusinessConnection($response->getData());
+	}
+
 }
