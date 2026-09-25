@@ -20,16 +20,6 @@ class ChatBoostUpdated extends ResponseWrapper
 	}
 
 	/**
-	 * Метод возвращает сведения о boost.
-	 *
-	 * @return ChatBoost
-	 */
-	public function getBoost(): ChatBoost
-	{
-		return new ChatBoost((array)$this->getData("boost", []));
-	}
-
-	/**
 	 * Метод возвращает время добавления boost в Unix-формате.
 	 *
 	 * @return int
@@ -37,6 +27,16 @@ class ChatBoostUpdated extends ResponseWrapper
 	public function getDate(): int
 	{
 		return $this->getBoost()->getAddDate();
+	}
+
+	/**
+	 * Метод возвращает сведения о boost.
+	 *
+	 * @return ChatBoost
+	 */
+	public function getBoost(): ChatBoost
+	{
+		return new ChatBoost((array)$this->getData("boost", []));
 	}
 
 	/**

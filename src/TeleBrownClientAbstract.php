@@ -5,8 +5,8 @@ namespace Haikiri\TeleBrown;
 abstract class TeleBrownClientAbstract
 {
 
-	protected array $response = [];
 	protected static bool $debug;
+	protected array $response = [];
 
 	public function __construct($debug = false)
 	{
@@ -21,21 +21,21 @@ abstract class TeleBrownClientAbstract
 	abstract public function setUpdates(array $update): void;
 
 	/**
-	 * Метод возвращает данные из входящего запроса.
-	 * @return array
-	 */
-	public function getUpdates(): array
-	{
-		return $this->response ?? [];
-	}
-
-	/**
 	 * Метод возвращает объект обновления.
 	 * @return Objects\Update
 	 */
 	public function getUpdate(): object
 	{
 		return new Objects\Update(response: $this->getUpdates());
+	}
+
+	/**
+	 * Метод возвращает данные из входящего запроса.
+	 * @return array
+	 */
+	public function getUpdates(): array
+	{
+		return $this->response ?? [];
 	}
 
 }

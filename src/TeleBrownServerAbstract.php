@@ -32,9 +32,9 @@ abstract class TeleBrownServerAbstract
 	use Methods\ChatInformation;
 
 	# Brown
+	protected static bool $debug;
 	protected string $url = "https://api.telegram.org";
 	protected string $token = "";
-	protected static bool $debug;
 	protected int|null $connectTimeout = 120;
 
 	public function __construct(string $url, string $token, protected string|null $proxy = null, $debug = false)
@@ -42,6 +42,11 @@ abstract class TeleBrownServerAbstract
 		$this->url = $url !== "" ? $url : $this->url;
 		$this->token = $token;
 		self::$debug = filter_var($debug, FILTER_VALIDATE_BOOLEAN);
+	}
+
+	public function getConnectTimeout(): ?int
+	{
+		return $this->connectTimeout;
 	}
 
 	/**
@@ -54,9 +59,14 @@ abstract class TeleBrownServerAbstract
 		$this->connectTimeout = $connectTimeout;
 	}
 
-	public function getConnectTimeout(): ?int
+	/**
+	 * Используй метод для получения URL-адреса API.
+	 *
+	 * @return string
+	 */
+	public function getUrl(): string
 	{
-		return $this->connectTimeout;
+		return $this->url;
 	}
 
 	/**
@@ -71,24 +81,13 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
-	 * Используй метод для получения URL-адреса API.
+	 * Используй метод для получения ID твоего бота.
 	 *
 	 * @return string
 	 */
-	public function getUrl(): string
+	public function getBotId(): string
 	{
-		return $this->url;
-	}
-
-	/**
-	 * Используй метод для записи токена.
-	 *
-	 * @param string $token
-	 * @return void
-	 */
-	public function setToken(string $token): void
-	{
-		$this->token = $token;
+		return strtok(string: $this->getToken(), token: ":") ?: "";
 	}
 
 	/**
@@ -102,13 +101,14 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
-	 * Используй метод для получения ID твоего бота.
+	 * Используй метод для записи токена.
 	 *
-	 * @return string
+	 * @param string $token
+	 * @return void
 	 */
-	public function getBotId(): string
+	public function setToken(string $token): void
 	{
-		return strtok(string: $this->getToken(), token: ":") ?: "";
+		$this->token = $token;
 	}
 
 	/**
@@ -453,13 +453,13 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#forwardmessages
 	 */
 	public function forwardMessages(
-		int|string                       $chatId,
-		int|string                       $fromChatId,
-		array                            $messageIds,
-		int|string|null                  $messageThreadId = null,
-		?bool                            $disableNotification = null,
-		?bool                            $protectContent = null,
-		?int                             $directMessagesTopicId = null,
+		int|string      $chatId,
+		int|string      $fromChatId,
+		array           $messageIds,
+		int|string|null $messageThreadId = null,
+		?bool           $disableNotification = null,
+		?bool           $protectContent = null,
+		?int            $directMessagesTopicId = null,
 	): array
 	{
 		$response = $this->sendRequest(
@@ -585,23 +585,23 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#senddocument
 	 */
 	public function sendDocument(
-		int|string           $chatId,
-		mixed                $document,
-		?string              $businessConnectionId = null,
-		int|string|null      $messageThreadId = null,
-		?int                 $directMessagesTopicId = null,
-		mixed                $thumbnail = null,
-		?string              $caption = null,
-		?Enums\ParseModeEnum $parseMode = null,
-		?array               $captionEntities = null,
-		?bool                $disableContentTypeDetection = null,
-		?bool                $disableNotification = null,
-		?bool                $protectContent = null,
-		?bool                $allowPaidBroadcast = null,
-		?string              $messageEffectId = null,
-		mixed                $suggestedPostParameters = null,
-		mixed                $replyParameters = null,
-		mixed                $replyMarkup = null,
+		int|string                          $chatId,
+		mixed                               $document,
+		?string                             $businessConnectionId = null,
+		int|string|null                     $messageThreadId = null,
+		?int                                $directMessagesTopicId = null,
+		mixed                               $thumbnail = null,
+		?string                             $caption = null,
+		?Enums\ParseModeEnum                $parseMode = null,
+		?array                              $captionEntities = null,
+		?bool                               $disableContentTypeDetection = null,
+		?bool                               $disableNotification = null,
+		?bool                               $protectContent = null,
+		?bool                               $allowPaidBroadcast = null,
+		?string                             $messageEffectId = null,
+		mixed                               $suggestedPostParameters = null,
+		mixed                               $replyParameters = null,
+		mixed                               $replyMarkup = null,
 		?Objects\EphemeralMessageParameters $ephemeralMessageParameters = null,
 	): Objects\Message
 	{
@@ -759,21 +759,21 @@ abstract class TeleBrownServerAbstract
 	 * @see https://core.telegram.org/bots/api#sendcontact
 	 */
 	public function sendContact(
-		int|string                       $chatId,
-		string                           $phoneNumber,
-		string                           $firstName,
-		?string                          $lastName = null,
-		?string                          $vcard = null,
-		int|string|null                  $messageThreadId = null,
-		?bool                            $disableNotification = null,
-		?bool                            $protectContent = null,
-		?bool                            $allowPaidBroadcast = null,
-		?string                          $messageEffectId = null,
-		?Objects\ReplyParameters         $replyParameters = null,
-		mixed                            $replyMarkup = null,
-		?string                          $businessConnectionId = null,
-		?int                             $directMessagesTopicId = null,
-		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
+		int|string                          $chatId,
+		string                              $phoneNumber,
+		string                              $firstName,
+		?string                             $lastName = null,
+		?string                             $vcard = null,
+		int|string|null                     $messageThreadId = null,
+		?bool                               $disableNotification = null,
+		?bool                               $protectContent = null,
+		?bool                               $allowPaidBroadcast = null,
+		?string                             $messageEffectId = null,
+		?Objects\ReplyParameters            $replyParameters = null,
+		mixed                               $replyMarkup = null,
+		?string                             $businessConnectionId = null,
+		?int                                $directMessagesTopicId = null,
+		?Objects\SuggestedPostParameters    $suggestedPostParameters = null,
 		?Objects\EphemeralMessageParameters $ephemeralMessageParameters = null,
 	): Objects\Message
 	{
@@ -885,6 +885,31 @@ abstract class TeleBrownServerAbstract
 	}
 
 	/**
+	 * Неофициальный метод для кика пользователя из чата. Банит пользователя на 30 секунд, чтобы выполнить кик из чата.
+	 * Метод не является частью официального API Telegram.
+	 *
+	 * @param int|string $chatId
+	 * @param int $userId
+	 * @param bool|null $revokeMessages
+	 * @return bool
+	 * @throws TelegramMainException
+	 * @see self::banChatMember()
+	 */
+	public function kickChatMember(
+		int|string $chatId,
+		int        $userId,
+		?bool      $revokeMessages = null,
+	): bool
+	{
+		return $this->banChatMember(
+			chatId: $chatId,
+			userId: $userId,
+			untilDate: time() + 30,
+			revokeMessages: $revokeMessages
+		);
+	}
+
+	/**
 	 * Используйте этот метод, чтобы запретить пользователю в группе, супергруппе или канале.
 	 * В случае супергрупп и каналов пользователь не сможет вернуться в чат самостоятельно, используя приглашения, и т.д., если его не разблокировать сначала.
 	 * Бот должен быть администратором в чате, чтобы это работало, и должен иметь соответствующие права администратора.
@@ -919,31 +944,6 @@ abstract class TeleBrownServerAbstract
 				"revoke_messages" => $revokeMessages,
 			]
 		)->isSuccess();
-	}
-
-	/**
-	 * Неофициальный метод для кика пользователя из чата. Банит пользователя на 30 секунд, чтобы выполнить кик из чата.
-	 * Метод не является частью официального API Telegram.
-	 *
-	 * @param int|string $chatId
-	 * @param int $userId
-	 * @param bool|null $revokeMessages
-	 * @return bool
-	 * @throws TelegramMainException
-	 * @see self::banChatMember()
-	 */
-	public function kickChatMember(
-		int|string $chatId,
-		int        $userId,
-		?bool      $revokeMessages = null,
-	): bool
-	{
-		return $this->banChatMember(
-			chatId: $chatId,
-			userId: $userId,
-			untilDate: time() + 30,
-			revokeMessages: $revokeMessages
-		);
 	}
 
 	/**
@@ -1282,7 +1282,7 @@ abstract class TeleBrownServerAbstract
 		?array                      $entities = null,
 		?Objects\LinkPreviewOptions $linkPreviewOptions = null,
 		mixed                       $replyMarkup = null,
-		?Objects\InputRichMessage  $richMessage = null,
+		?Objects\InputRichMessage   $richMessage = null,
 	): Objects\Message|bool
 	{
 		$result = $this->sendRequest(
@@ -1303,6 +1303,24 @@ abstract class TeleBrownServerAbstract
 		)->getData();
 
 		return is_bool($result) ? $result : new Objects\Message($result);
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public function stopPool(
+		int|string                        $chatId,
+		int                               $messageId,
+		?string                           $businessConnectionId = null,
+		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
+	): Objects\Poll
+	{
+		return $this->stopPoll(
+			chatId: $chatId,
+			messageId: $messageId,
+			businessConnectionId: $businessConnectionId,
+			replyMarkup: $replyMarkup,
+		);
 	}
 
 	/**
@@ -1337,24 +1355,6 @@ abstract class TeleBrownServerAbstract
 		);
 
 		return new Objects\Poll($response->getData());
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public function stopPool(
-		int|string                        $chatId,
-		int                               $messageId,
-		?string                           $businessConnectionId = null,
-		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
-	): Objects\Poll
-	{
-		return $this->stopPoll(
-			chatId: $chatId,
-			messageId: $messageId,
-			businessConnectionId: $businessConnectionId,
-			replyMarkup: $replyMarkup,
-		);
 	}
 
 	/**

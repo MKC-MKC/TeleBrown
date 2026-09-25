@@ -28,11 +28,11 @@ trait MessageEditing
 	 * @see https://core.telegram.org/bots/api#editmessagereplymarkup
 	 */
 	public function editMessageReplyMarkup(
-		int|string|null                    $chatId = null,
-		?int                               $messageId = null,
-		?Objects\InlineKeyboardMarkup      $replyMarkup = null,
-		?string                            $inlineMessageId = null,
-		?string                            $businessConnectionId = null,
+		int|string|null               $chatId = null,
+		?int                          $messageId = null,
+		?Objects\InlineKeyboardMarkup $replyMarkup = null,
+		?string                       $inlineMessageId = null,
+		?string                       $businessConnectionId = null,
 	): Objects\Message|bool
 	{
 		$result = $this->sendRequest(

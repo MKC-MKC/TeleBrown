@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Methods;
 
-use Haikiri\TeleBrown\Enums;
 use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 use Haikiri\TeleBrown\Objects;
 
@@ -28,11 +27,11 @@ trait InlineQueries
 	 * @see https://core.telegram.org/bots/api#inputmessagecontent
 	 */
 	public function answerInlineQuery(
-		string                               $inlineQueryId,
-		array                                $results,
-		int|null                             $cacheTime = null,
-		bool|null                            $isPersonal = null,
-		string|null                          $nextOffset = null,
+		string                                $inlineQueryId,
+		array                                 $results,
+		int|null                              $cacheTime = null,
+		bool|null                             $isPersonal = null,
+		string|null                           $nextOffset = null,
 		Objects\InlineQueryResultsButton|null $button = null,
 	): bool
 	{

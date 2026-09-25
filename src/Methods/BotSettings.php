@@ -169,7 +169,7 @@ trait BotSettings
 	 * @see https://core.telegram.org/bots/api#verifyuser
 	 */
 	public function verifyUser(
-		int $userId,
+		int         $userId,
 		string|null $customDescription = null,
 	): bool
 	{
@@ -193,7 +193,7 @@ trait BotSettings
 	 * @see https://core.telegram.org/bots/api#verifychat
 	 */
 	public function verifyChat(
-		int|string $chatId,
+		int|string  $chatId,
 		string|null $customDescription = null,
 	): bool
 	{
@@ -258,7 +258,7 @@ trait BotSettings
 	 */
 	public function setMyDefaultAdministratorRights(
 		Objects\ChatAdministratorRights|null $rights = null,
-		bool|null $forChannels = null,
+		bool|null                            $forChannels = null,
 	): bool
 	{
 		return $this->sendRequest(
@@ -304,7 +304,7 @@ trait BotSettings
 	 */
 	public function deleteMyCommands(
 		Objects\BotCommandScope|null $scope = null,
-		string|null $languageCode = null,
+		string|null                  $languageCode = null,
 	): bool
 	{
 		return $this->sendRequest(
@@ -327,7 +327,7 @@ trait BotSettings
 	 */
 	public function getMyCommands(
 		Objects\BotCommandScope|null $scope = null,
-		string|null $languageCode = null,
+		string|null                  $languageCode = null,
 	): array
 	{
 		$response = $this->sendRequest(
@@ -352,9 +352,9 @@ trait BotSettings
 	 * @see https://core.telegram.org/bots/api#setmycommands
 	 */
 	public function setMyCommands(
-		array $commands,
+		array                        $commands,
 		Objects\BotCommandScope|null $scope = null,
-		string|null $languageCode = null,
+		string|null                  $languageCode = null,
 	): bool
 	{
 		return $this->sendRequest(
@@ -399,7 +399,7 @@ trait BotSettings
 	 * @see https://core.telegram.org/bots/api#setchatmenubutton
 	 */
 	public function setChatMenuButton(
-		int|null $chatId = null,
+		int|null                $chatId = null,
 		Objects\MenuButton|null $menuButton = null,
 	): bool
 	{

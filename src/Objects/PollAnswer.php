@@ -24,11 +24,9 @@ class PollAnswer extends ResponseWrapper
 	 *
 	 * @return Chat|null
 	 */
-	public function getVoterChat(): Chat|null
+	public function getChat(): Chat|null
 	{
-		$data = $this->getData("voter_chat");
-
-		return is_array($data) ? new Chat($data) : null;
+		return $this->getVoterChat();
 	}
 
 	/**
@@ -36,9 +34,11 @@ class PollAnswer extends ResponseWrapper
 	 *
 	 * @return Chat|null
 	 */
-	public function getChat(): Chat|null
+	public function getVoterChat(): Chat|null
 	{
-		return $this->getVoterChat();
+		$data = $this->getData("voter_chat");
+
+		return is_array($data) ? new Chat($data) : null;
 	}
 
 	/**

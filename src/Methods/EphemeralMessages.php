@@ -48,7 +48,7 @@ trait EphemeralMessages
 	 * @param int $receiverUserId Идентификатор пользователя, получившего сообщение.
 	 * @param int $ephemeralMessageId Идентификатор эфемерного сообщения.
 	 * @param string|null $text Новый текст, от 1 до 4096 символов после разбора сущностей. Обязателен, если rich_message не указан.
-	 * @param Enums\ParseModeEnum|null         $parseMode Режим разбора сущностей текста или подписи.
+	 * @param Enums\ParseModeEnum|null $parseMode Режим разбора сущностей текста или подписи.
 	 * @param Objects\MessageEntity[]|array|null $entities Сущности текста, которые можно указать вместо parse_mode.
 	 * @param Objects\InputRichMessage|null $richMessage Новое rich-содержимое сообщения. Обязательно, если text не указан.
 	 * @param Objects\LinkPreviewOptions|null $linkPreviewOptions Параметры предпросмотра ссылок в сообщении.
@@ -62,7 +62,7 @@ trait EphemeralMessages
 		int                               $receiverUserId,
 		int                               $ephemeralMessageId,
 		string|null                       $text = null,
-		Enums\ParseModeEnum|null         $parseMode = null,
+		Enums\ParseModeEnum|null          $parseMode = null,
 		array|null                        $entities = null,
 		Objects\InputRichMessage|null     $richMessage = null,
 		Objects\LinkPreviewOptions|null   $linkPreviewOptions = null,
@@ -145,7 +145,7 @@ trait EphemeralMessages
 		int                               $receiverUserId,
 		int                               $ephemeralMessageId,
 		string|null                       $caption = null,
-		Enums\ParseModeEnum|null $parseMode = null,
+		Enums\ParseModeEnum|null          $parseMode = null,
 		array|null                        $captionEntities = null,
 		bool|null                         $showCaptionAboveMedia = null,
 		Objects\InlineKeyboardMarkup|null $replyMarkup = null,

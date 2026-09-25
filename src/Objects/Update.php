@@ -15,15 +15,43 @@ use Haikiri\TeleBrown\ResponseWrapper;
 class Update extends ResponseWrapper
 {
 
-	/** @deprecated Use getUpdateId() instead. */
-	public function getId(): int
+	/**
+	 * Метод для получения типа обновления.
+	 *
+	 * @return UpdateEnum|null
+	 */
+	public function getType(): UpdateEnum|null
 	{
-		return $this->getUpdateId();
-	}
-
-	public function getUpdateId(): int
-	{
-		return (int)$this->getData("update_id");
+		return match (true) {
+			!empty($this->getMessage()?->getAsArray()) => UpdateEnum::MESSAGE,
+			!empty($this->getEditedMessage()?->getAsArray()) => UpdateEnum::EDITED_MESSAGE,
+			!empty($this->getChannelPost()?->getAsArray()) => UpdateEnum::CHANNEL_POST,
+			!empty($this->getEditedChannelPost()?->getAsArray()) => UpdateEnum::EDITED_CHANNEL_POST,
+			!empty($this->getBusinessConnection()?->getAsArray()) => UpdateEnum::BUSINESS_CONNECTION,
+			!empty($this->getBusinessMessage()?->getAsArray()) => UpdateEnum::BUSINESS_MESSAGE,
+			!empty($this->getEditedBusinessMessage()?->getAsArray()) => UpdateEnum::EDITED_BUSINESS_MESSAGE,
+			!empty($this->getDeletedBusinessMessages()?->getAsArray()) => UpdateEnum::DELETED_BUSINESS_MESSAGES,
+			!empty($this->getMessageReaction()?->getAsArray()) => UpdateEnum::MESSAGE_REACTION,
+			!empty($this->getMessageReactionCount()?->getAsArray()) => UpdateEnum::MESSAGE_REACTION_COUNT,
+			!empty($this->getInlineQuery()?->getAsArray()) => UpdateEnum::INLINE_QUERY,
+			!empty($this->getChosenInlineResult()?->getAsArray()) => UpdateEnum::CHOSEN_INLINE_RESULT,
+			!empty($this->getCallbackQuery()?->getAsArray()) => UpdateEnum::CALLBACK_QUERY,
+			!empty($this->getShippingQuery()?->getAsArray()) => UpdateEnum::SHIPPING_QUERY,
+			!empty($this->getPreCheckoutQuery()?->getAsArray()) => UpdateEnum::PRE_CHECKOUT_QUERY,
+			!empty($this->getPurchasedPaidMedia()?->getAsArray()) => UpdateEnum::PURCHASED_PAID_MEDIA,
+			!empty($this->getPoll()?->getAsArray()) => UpdateEnum::POLL,
+			!empty($this->getPollAnswer()?->getAsArray()) => UpdateEnum::POLL_ANSWER,
+			!empty($this->getMyChatMember()?->getAsArray()) => UpdateEnum::MY_CHAT_MEMBER,
+			!empty($this->getChatMember()?->getAsArray()) => UpdateEnum::CHAT_MEMBER,
+			!empty($this->getChatJoinRequest()?->getAsArray()) => UpdateEnum::CHAT_JOIN_REQUEST,
+			!empty($this->getChatBoost()?->getAsArray()) => UpdateEnum::CHAT_BOOST,
+			!empty($this->getRemovedChatBoost()?->getAsArray()) => UpdateEnum::REMOVED_CHAT_BOOST,
+			!empty($this->getStoppedMessageGeneration()?->getAsArray()) => UpdateEnum::STOPPED_MESSAGE_GENERATION,
+			$this->getData("guest_message") !== null => UpdateEnum::GUEST_MESSAGE,
+			$this->getData("managed_bot") !== null => UpdateEnum::MANAGED_BOT,
+			$this->getData("subscription") !== null => UpdateEnum::SUBSCRIPTION,
+			default => null,
+		};
 	}
 
 	public function getMessage(): Message
@@ -171,45 +199,6 @@ class Update extends ResponseWrapper
 	}
 
 	/**
-	 * Метод для получения типа обновления.
-	 *
-	 * @return UpdateEnum|null
-	 */
-	public function getType(): UpdateEnum|null
-	{
-		return match (true) {
-			!empty($this->getMessage()?->getAsArray()) => UpdateEnum::MESSAGE,
-			!empty($this->getEditedMessage()?->getAsArray()) => UpdateEnum::EDITED_MESSAGE,
-			!empty($this->getChannelPost()?->getAsArray()) => UpdateEnum::CHANNEL_POST,
-			!empty($this->getEditedChannelPost()?->getAsArray()) => UpdateEnum::EDITED_CHANNEL_POST,
-			!empty($this->getBusinessConnection()?->getAsArray()) => UpdateEnum::BUSINESS_CONNECTION,
-			!empty($this->getBusinessMessage()?->getAsArray()) => UpdateEnum::BUSINESS_MESSAGE,
-			!empty($this->getEditedBusinessMessage()?->getAsArray()) => UpdateEnum::EDITED_BUSINESS_MESSAGE,
-			!empty($this->getDeletedBusinessMessages()?->getAsArray()) => UpdateEnum::DELETED_BUSINESS_MESSAGES,
-			!empty($this->getMessageReaction()?->getAsArray()) => UpdateEnum::MESSAGE_REACTION,
-			!empty($this->getMessageReactionCount()?->getAsArray()) => UpdateEnum::MESSAGE_REACTION_COUNT,
-			!empty($this->getInlineQuery()?->getAsArray()) => UpdateEnum::INLINE_QUERY,
-			!empty($this->getChosenInlineResult()?->getAsArray()) => UpdateEnum::CHOSEN_INLINE_RESULT,
-			!empty($this->getCallbackQuery()?->getAsArray()) => UpdateEnum::CALLBACK_QUERY,
-			!empty($this->getShippingQuery()?->getAsArray()) => UpdateEnum::SHIPPING_QUERY,
-			!empty($this->getPreCheckoutQuery()?->getAsArray()) => UpdateEnum::PRE_CHECKOUT_QUERY,
-			!empty($this->getPurchasedPaidMedia()?->getAsArray()) => UpdateEnum::PURCHASED_PAID_MEDIA,
-			!empty($this->getPoll()?->getAsArray()) => UpdateEnum::POLL,
-			!empty($this->getPollAnswer()?->getAsArray()) => UpdateEnum::POLL_ANSWER,
-			!empty($this->getMyChatMember()?->getAsArray()) => UpdateEnum::MY_CHAT_MEMBER,
-			!empty($this->getChatMember()?->getAsArray()) => UpdateEnum::CHAT_MEMBER,
-			!empty($this->getChatJoinRequest()?->getAsArray()) => UpdateEnum::CHAT_JOIN_REQUEST,
-			!empty($this->getChatBoost()?->getAsArray()) => UpdateEnum::CHAT_BOOST,
-			!empty($this->getRemovedChatBoost()?->getAsArray()) => UpdateEnum::REMOVED_CHAT_BOOST,
-			!empty($this->getStoppedMessageGeneration()?->getAsArray()) => UpdateEnum::STOPPED_MESSAGE_GENERATION,
-			$this->getData("guest_message") !== null => UpdateEnum::GUEST_MESSAGE,
-			$this->getData("managed_bot") !== null => UpdateEnum::MANAGED_BOT,
-			$this->getData("subscription") !== null => UpdateEnum::SUBSCRIPTION,
-			default => null,
-		};
-	}
-
-	/**
 	 * Метод возвращает актуальный объект чата.
 	 *
 	 * @return Chat|null
@@ -245,6 +234,29 @@ class Update extends ResponseWrapper
 		}
 
 		return null;
+	}
+
+	/**
+	 * Необязательно. Новое гостевое сообщение; для ответа используйте guest_query_id и answerGuestQuery.
+	 *
+	 * @return Message|null
+	 * @see https://core.telegram.org/bots/api#update
+	 */
+	public function getGuestMessage(): Message|null
+	{
+		$data = $this->getData("guest_message");
+		return $data === null ? null : new Message($data);
+	}
+
+	/** @deprecated Use getUpdateId() instead. */
+	public function getId(): int
+	{
+		return $this->getUpdateId();
+	}
+
+	public function getUpdateId(): int
+	{
+		return (int)$this->getData("update_id");
 	}
 
 	/**
@@ -293,6 +305,30 @@ class Update extends ResponseWrapper
 		}
 
 		return null;
+	}
+
+	/**
+	 * Необязательно. Создан управляемый бот либо изменён его токен или владелец.
+	 *
+	 * @return ManagedBotUpdated|null
+	 * @see https://core.telegram.org/bots/api#update
+	 */
+	public function getManagedBot(): ManagedBotUpdated|null
+	{
+		$data = $this->getData("managed_bot");
+		return $data === null ? null : new ManagedBotUpdated($data);
+	}
+
+	/**
+	 * Необязательно. Изменилась платёжная подписка пользователя.
+	 *
+	 * @return BotSubscriptionUpdated|null
+	 * @see https://core.telegram.org/bots/api#update
+	 */
+	public function getSubscription(): BotSubscriptionUpdated|null
+	{
+		$data = $this->getData("subscription");
+		return $data === null ? null : new BotSubscriptionUpdated($data);
 	}
 
 	/**
@@ -355,42 +391,6 @@ class Update extends ResponseWrapper
 		}
 
 		return null;
-	}
-
-	/**
-	 * Необязательно. Новое гостевое сообщение; для ответа используйте guest_query_id и answerGuestQuery.
-	 *
-	 * @return Message|null
-	 * @see https://core.telegram.org/bots/api#update
-	 */
-	public function getGuestMessage(): Message|null
-	{
-		$data = $this->getData("guest_message");
-		return $data === null ? null : new Message($data);
-	}
-
-	/**
-	 * Необязательно. Создан управляемый бот либо изменён его токен или владелец.
-	 *
-	 * @return ManagedBotUpdated|null
-	 * @see https://core.telegram.org/bots/api#update
-	 */
-	public function getManagedBot(): ManagedBotUpdated|null
-	{
-		$data = $this->getData("managed_bot");
-		return $data === null ? null : new ManagedBotUpdated($data);
-	}
-
-	/**
-	 * Необязательно. Изменилась платёжная подписка пользователя.
-	 *
-	 * @return BotSubscriptionUpdated|null
-	 * @see https://core.telegram.org/bots/api#update
-	 */
-	public function getSubscription(): BotSubscriptionUpdated|null
-	{
-		$data = $this->getData("subscription");
-		return $data === null ? null : new BotSubscriptionUpdated($data);
 	}
 
 }

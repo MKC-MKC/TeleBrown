@@ -30,16 +30,6 @@ class ChatBoostRemoved extends ResponseWrapper
 	}
 
 	/**
-	 * Метод возвращает время удаления boost в Unix-формате.
-	 *
-	 * @return int
-	 */
-	public function getRemoveDate(): int
-	{
-		return (int)$this->getData("remove_date");
-	}
-
-	/**
 	 * Метод возвращает время события в Unix-формате.
 	 *
 	 * @return int
@@ -50,13 +40,13 @@ class ChatBoostRemoved extends ResponseWrapper
 	}
 
 	/**
-	 * Метод возвращает источник удалённого boost.
+	 * Метод возвращает время удаления boost в Unix-формате.
 	 *
-	 * @return ChatBoostSource
+	 * @return int
 	 */
-	public function getSource(): ChatBoostSource
+	public function getRemoveDate(): int
 	{
-		return new ChatBoostSource((array)$this->getData("source", []));
+		return (int)$this->getData("remove_date");
 	}
 
 	/**
@@ -67,6 +57,16 @@ class ChatBoostRemoved extends ResponseWrapper
 	public function getUser(): User|null
 	{
 		return $this->getSource()->getUser();
+	}
+
+	/**
+	 * Метод возвращает источник удалённого boost.
+	 *
+	 * @return ChatBoostSource
+	 */
+	public function getSource(): ChatBoostSource
+	{
+		return new ChatBoostSource((array)$this->getData("source", []));
 	}
 
 }

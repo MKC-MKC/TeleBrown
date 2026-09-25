@@ -14,16 +14,6 @@ class ChatPermissions extends ResponseWrapper
 {
 
 	/**
-	 * Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
-	 *
-	 * @return bool
-	 */
-	public function canSendMessages(): bool
-	{
-		return (bool)$this->getData("can_send_messages");
-	}
-
-	/**
 	 * Optional. True, if the user is allowed to send audios
 	 *
 	 * @return bool
@@ -126,6 +116,16 @@ class ChatPermissions extends ResponseWrapper
 	}
 
 	/**
+	 * Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
+	 *
+	 * @return bool
+	 */
+	public function canSendMessages(): bool
+	{
+		return (bool)$this->getData("can_send_messages");
+	}
+
+	/**
 	 * Необязательно. True, если пользователю разрешено изменять свой тег.
 	 * Если не указано, по умолчанию используется значение can_pin_messages.
 	 *
@@ -135,6 +135,16 @@ class ChatPermissions extends ResponseWrapper
 	public function canEditTag(): bool
 	{
 		return (bool)$this->getData("can_edit_tag", $this->canPinMessages());
+	}
+
+	/**
+	 * Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
+	 *
+	 * @return bool
+	 */
+	public function canPinMessages(): bool
+	{
+		return (bool)$this->getData("can_pin_messages");
 	}
 
 	/**
@@ -155,16 +165,6 @@ class ChatPermissions extends ResponseWrapper
 	public function canInviteUsers(): bool
 	{
 		return (bool)$this->getData("can_invite_users");
-	}
-
-	/**
-	 * Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
-	 *
-	 * @return bool
-	 */
-	public function canPinMessages(): bool
-	{
-		return (bool)$this->getData("can_pin_messages");
 	}
 
 	/**

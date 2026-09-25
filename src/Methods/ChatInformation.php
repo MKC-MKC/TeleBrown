@@ -34,32 +34,6 @@ trait ChatInformation
 	}
 
 	/**
-	 * Получаем информацию об участнике чата.
-	 * Работа метода для других пользователей гарантируется, только если бот является администратором.
-	 *
-	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
-	 * @param int $userId Уникальный идентификатор пользователя, например 123456789.
-	 * @return Objects\ChatMember
-	 * @throws TelegramMainException
-	 * @see https://core.telegram.org/bots/api#getchatmember
-	 */
-	public function getChatMember(
-		int|string $chatId,
-		int        $userId,
-	): Objects\ChatMember
-	{
-		$response = $this->sendRequest(
-			method: __FUNCTION__,
-			params: [
-				"chat_id" => $chatId,
-				"user_id" => $userId,
-			],
-		);
-
-		return Objects\ChatMember::getChatMember($response->getData());
-	}
-
-	/**
 	 * Получаем список администраторов чата.
 	 * Возвращается массив объектов ChatMember.
 	 *
@@ -83,6 +57,32 @@ trait ChatInformation
 		);
 
 		return array_map(static fn(array $item): Objects\ChatMember => Objects\ChatMember::getChatMember($item), $response->getData());
+	}
+
+	/**
+	 * Получаем информацию об участнике чата.
+	 * Работа метода для других пользователей гарантируется, только если бот является администратором.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param int $userId Уникальный идентификатор пользователя, например 123456789.
+	 * @return Objects\ChatMember
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getchatmember
+	 */
+	public function getChatMember(
+		int|string $chatId,
+		int        $userId,
+	): Objects\ChatMember
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"user_id" => $userId,
+			],
+		);
+
+		return Objects\ChatMember::getChatMember($response->getData());
 	}
 
 }

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Methods;
 
-use Haikiri\TeleBrown\Enums;
 use Haikiri\TeleBrown\Exceptions\TelegramMainException;
-use Haikiri\TeleBrown\Objects;
 
 trait BotSession
 {
@@ -22,8 +20,7 @@ trait BotSession
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#logout
 	 */
-	public function logOut(
-	): bool
+	public function logOut(): bool
 	{
 		$response = $this->sendRequest(
 			method: __FUNCTION__,
@@ -44,8 +41,7 @@ trait BotSession
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#close
 	 */
-	public function close(
-	): bool
+	public function close(): bool
 	{
 		$response = $this->sendRequest(
 			method: __FUNCTION__,

@@ -23,8 +23,8 @@ trait BusinessAccounts
 	 */
 	public function readBusinessMessage(
 		string $businessConnectionId,
-		int $chatId,
-		int $messageId,
+		int    $chatId,
+		int    $messageId,
 	): bool
 	{
 		return $this->sendRequest(
@@ -49,7 +49,7 @@ trait BusinessAccounts
 	 */
 	public function deleteBusinessMessages(
 		string $businessConnectionId,
-		array $messageIds,
+		array  $messageIds,
 	): bool
 	{
 		return $this->sendRequest(
@@ -72,8 +72,8 @@ trait BusinessAccounts
 	 * @see https://core.telegram.org/bots/api#setbusinessaccountname
 	 */
 	public function setBusinessAccountName(
-		string $businessConnectionId,
-		string $firstName,
+		string      $businessConnectionId,
+		string      $firstName,
 		string|null $lastName = null,
 	): bool
 	{
@@ -97,7 +97,7 @@ trait BusinessAccounts
 	 * @see https://core.telegram.org/bots/api#setbusinessaccountusername
 	 */
 	public function setBusinessAccountUsername(
-		string $businessConnectionId,
+		string      $businessConnectionId,
 		string|null $username = null,
 	): bool
 	{
@@ -120,7 +120,7 @@ trait BusinessAccounts
 	 * @see https://core.telegram.org/bots/api#setbusinessaccountbio
 	 */
 	public function setBusinessAccountBio(
-		string $businessConnectionId,
+		string      $businessConnectionId,
 		string|null $bio = null,
 	): bool
 	{
@@ -143,7 +143,7 @@ trait BusinessAccounts
 	 * @see https://core.telegram.org/bots/api#removebusinessaccountprofilephoto
 	 */
 	public function removeBusinessAccountProfilePhoto(
-		string $businessConnectionId,
+		string    $businessConnectionId,
 		bool|null $isPublic = null,
 	): bool
 	{

@@ -65,8 +65,8 @@ trait ManagedBots
 	 * @see https://core.telegram.org/bots/api#setmanagedbotaccesssettings
 	 */
 	public function setManagedBotAccessSettings(
-		int $userId,
-		bool $isAccessRestricted,
+		int        $userId,
+		bool       $isAccessRestricted,
 		array|null $addedUserIds = null,
 	): bool
 	{

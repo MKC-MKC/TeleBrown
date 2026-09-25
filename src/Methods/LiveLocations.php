@@ -33,16 +33,16 @@ trait LiveLocations
 	 * @see https://core.telegram.org/bots/api#editmessagelivelocation
 	 */
 	public function editMessageLiveLocation(
-		float                              $latitude,
-		float                              $longitude,
-		int|string|null                    $chatId = null,
-		int|null                           $messageId = null,
-		string|null                        $inlineMessageId = null,
-		string|null                        $businessConnectionId = null,
-		int|null                           $livePeriod = null,
-		float|null                         $horizontalAccuracy = null,
-		int|null                           $heading = null,
-		int|null                           $proximityAlertRadius = null,
+		float                             $latitude,
+		float                             $longitude,
+		int|string|null                   $chatId = null,
+		int|null                          $messageId = null,
+		string|null                       $inlineMessageId = null,
+		string|null                       $businessConnectionId = null,
+		int|null                          $livePeriod = null,
+		float|null                        $horizontalAccuracy = null,
+		int|null                          $heading = null,
+		int|null                          $proximityAlertRadius = null,
 		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
 	): Objects\Message|bool
 	{
@@ -82,10 +82,10 @@ trait LiveLocations
 	 * @see https://core.telegram.org/bots/api#stopmessagelivelocation
 	 */
 	public function stopMessageLiveLocation(
-		int|string|null                    $chatId = null,
-		int|null                           $messageId = null,
-		string|null                        $inlineMessageId = null,
-		string|null                        $businessConnectionId = null,
+		int|string|null                   $chatId = null,
+		int|null                          $messageId = null,
+		string|null                       $inlineMessageId = null,
+		string|null                       $businessConnectionId = null,
 		Objects\InlineKeyboardMarkup|null $replyMarkup = null,
 	): Objects\Message|bool
 	{

@@ -80,6 +80,59 @@ class TeleBrownServer extends TeleBrownServerAbstract
 	}
 
 	/**
+	 * Сборка и нормализация request url.
+	 * @param string $method
+	 * @return string
+	 */
+	protected function buildRequestUrl(string $method): string
+	{
+		$url = rtrim($this->getUrl(), "/");
+		$segments = explode("/", $url);
+		$lastSegment = end($segments);
+
+		if (is_string($lastSegment) && count($segments) > 3 && str_starts_with($lastSegment, "bot")) {
+			# Срезаем переданный в URL (bot+токен).
+			array_pop($segments);
+
+			# Убираем file-префикс, если передан.
+			if (end($segments) === "file") array_pop($segments);
+			$url = implode("/", $segments);
+		}
+
+		return $url . "/bot" . $this->getToken() . "/" . $method;
+	}
+
+	/**
+	 * Метод создаёт HTTP-клиент с указанными настройками.
+	 *
+	 * @param array $options
+	 * @return Client
+	 */
+	protected function createClient(array $options): Client
+	{
+		return new Client($options);
+	}
+
+	/**
+	 * Метод валидации ответа JSON.
+	 *
+	 * @param mixed $json
+	 * @param bool|null $asArray
+	 * @param int $depth
+	 * @param int $flags
+	 * @return object|array
+	 * @throws TelegramMainException
+	 */
+	public static function validate(mixed $json, ?bool $asArray = null, int $depth = 512, int $flags = 0): object|array
+	{
+		if (!is_string($json)) throw new TelegramMainException("Invalid response from the server: \$json is not a string");
+		$result = json_decode($json, $asArray, $depth, $flags);
+		if (self::$debug) error_log(PHP_EOL . "<<<<<<<<<<" . PHP_EOL . var_export($result, true));
+		if (json_last_error() !== JSON_ERROR_NONE) throw new TelegramMainException(json_last_error_msg(), json_last_error());
+		return $result;
+	}
+
+	/**
 	 * Метод загружает файл Telegram в указанный путь.
 	 *
 	 * @param string $fileId
@@ -135,40 +188,6 @@ class TeleBrownServer extends TeleBrownServerAbstract
 	}
 
 	/**
-	 * Метод создаёт HTTP-клиент с указанными настройками.
-	 *
-	 * @param array $options
-	 * @return Client
-	 */
-	protected function createClient(array $options): Client
-	{
-		return new Client($options);
-	}
-
-	/**
-	 * Сборка и нормализация request url.
-	 * @param string $method
-	 * @return string
-	 */
-	protected function buildRequestUrl(string $method): string
-	{
-		$url = rtrim($this->getUrl(), "/");
-		$segments = explode("/", $url);
-		$lastSegment = end($segments);
-
-		if (is_string($lastSegment) && count($segments) > 3 && str_starts_with($lastSegment, "bot")) {
-			# Срезаем переданный в URL (bot+токен).
-			array_pop($segments);
-
-			# Убираем file-префикс, если передан.
-			if (end($segments) === "file") array_pop($segments);
-			$url = implode("/", $segments);
-		}
-
-		return $url . "/bot" . $this->getToken() . "/" . $method;
-	}
-
-	/**
 	 * Метод собирает и нормализует URL для загрузки файла.
 	 *
 	 * @param string $filePath
@@ -193,25 +212,6 @@ class TeleBrownServer extends TeleBrownServerAbstract
 		$filePath = implode("/", array_map("rawurlencode", explode("/", ltrim($filePath, "/"))));
 
 		return $url . "/file/bot" . $this->getToken() . "/" . $filePath;
-	}
-
-	/**
-	 * Метод валидации ответа JSON.
-	 *
-	 * @param mixed $json
-	 * @param bool|null $asArray
-	 * @param int $depth
-	 * @param int $flags
-	 * @return object|array
-	 * @throws TelegramMainException
-	 */
-	public static function validate(mixed $json, ?bool $asArray = null, int $depth = 512, int $flags = 0): object|array
-	{
-		if (!is_string($json)) throw new TelegramMainException("Invalid response from the server: \$json is not a string");
-		$result = json_decode($json, $asArray, $depth, $flags);
-		if (self::$debug) error_log(PHP_EOL . "<<<<<<<<<<" . PHP_EOL . var_export($result, true));
-		if (json_last_error() !== JSON_ERROR_NONE) throw new TelegramMainException(json_last_error_msg(), json_last_error());
-		return $result;
 	}
 
 }

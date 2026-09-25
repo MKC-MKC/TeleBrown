@@ -11,11 +11,6 @@ abstract class ResponseWrapper
 	{
 	}
 
-	public function getAsArray(): array|null
-	{
-		return $this->response === null ? null : ModelNormalizer::normalize($this->response);
-	}
-
 	/**
 	 * Извлечение и фильтрация данных.
 	 * @param string|null $key
@@ -35,6 +30,11 @@ abstract class ResponseWrapper
 		}
 
 		return $data;
+	}
+
+	public function getAsArray(): array|null
+	{
+		return $this->response === null ? null : ModelNormalizer::normalize($this->response);
 	}
 
 }

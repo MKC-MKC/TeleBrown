@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Haikiri\TeleBrown\Methods;
 
-use Haikiri\TeleBrown\Enums;
 use Haikiri\TeleBrown\Exceptions\TelegramMainException;
 use Haikiri\TeleBrown\Objects;
 
