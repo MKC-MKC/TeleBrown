@@ -44,4 +44,15 @@ class ReplyKeyboardMarkup extends ResponseWrapper
 		return (string)$this->getData("input_field_placeholder");
 	}
 
+	/**
+	 * Необязательно. Параметры принудительного ответа, который будет показан вместе с клавиатурой.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#replykeyboardmarkup
+	 */
+	public function isForceReply(): bool
+	{
+		return (bool)$this->getData("force_reply");
+	}
+
 }
