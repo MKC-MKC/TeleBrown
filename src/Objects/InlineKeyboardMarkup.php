@@ -30,4 +30,15 @@ class InlineKeyboardMarkup extends ResponseWrapper
 		return (array)$this->getData("inline_keyboard");
 	}
 
+	/**
+	 * Необязательно. Параметры принудительного ответа, который будет показан вместе с клавиатурой.
+	 *
+	 * @return bool
+	 * @see https://core.telegram.org/bots/api#inlinekeyboardmarkup
+	 */
+	public function isForceReply(): bool
+	{
+		return (bool)$this->getData("force_reply");
+	}
+
 }
