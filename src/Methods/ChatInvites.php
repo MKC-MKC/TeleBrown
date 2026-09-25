@@ -157,4 +157,37 @@ trait ChatInvites
 		return new Objects\ChatInviteLink($response->getData());
 	}
 
+	/**
+	 * Создаём пригласительную ссылку с платной подпиской на канал.
+	 * Боту требуется право администратора can_invite_users.
+	 * Ссылку можно изменить через editChatSubscriptionInviteLink или отозвать через revokeChatInviteLink.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param int $subscriptionPeriod Период подписки в секундах. Сейчас допускается только 2592000 (30 дней).
+	 * @param int $subscriptionPrice Стоимость подписки в Telegram Stars за каждый период, от 1 до 10000.
+	 * @param string|null $name Название пригласительной ссылки, от 0 до 32 символов.
+	 * @return Objects\ChatInviteLink
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#createchatsubscriptioninvitelink
+	 */
+	public function createChatSubscriptionInviteLink(
+		int|string  $chatId,
+		int         $subscriptionPeriod,
+		int         $subscriptionPrice,
+		string|null $name = null,
+	): Objects\ChatInviteLink
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"subscription_period" => $subscriptionPeriod,
+				"subscription_price" => $subscriptionPrice,
+				"name" => $name,
+			],
+		);
+
+		return new Objects\ChatInviteLink($response->getData());
+	}
+
 }
