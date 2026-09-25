@@ -426,8 +426,6 @@ abstract class TeleBrownServerAbstract
 	 * @param bool|null $disableNotification
 	 * @param bool|null $protectContent
 	 * @param int|null $directMessagesTopicId
-	 * @param string|null $messageEffectId
-	 * @param Objects\SuggestedPostParameters|null $suggestedPostParameters
 	 * @return Objects\MessageId[]
 	 * @throws TelegramMainException
 	 * @see https://core.telegram.org/bots/api#forwardmessages
@@ -440,8 +438,6 @@ abstract class TeleBrownServerAbstract
 		?bool                            $disableNotification = null,
 		?bool                            $protectContent = null,
 		?int                             $directMessagesTopicId = null,
-		?string                          $messageEffectId = null,
-		?Objects\SuggestedPostParameters $suggestedPostParameters = null,
 	): array
 	{
 		$response = $this->sendRequest(
@@ -454,8 +450,6 @@ abstract class TeleBrownServerAbstract
 				"message_ids" => $messageIds,
 				"disable_notification" => $disableNotification,
 				"protect_content" => $protectContent,
-				"message_effect_id" => $messageEffectId,
-				"suggested_post_parameters" => $suggestedPostParameters?->getAsArray(),
 			]
 		);
 
