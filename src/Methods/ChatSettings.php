@@ -78,4 +78,31 @@ trait ChatSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Задаём метку обычному участнику группы или супергруппы.
+	 * Боту требуется право администратора can_manage_tags.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param int $userId Уникальный идентификатор пользователя, например 123456789.
+	 * @param string|null $tag Метка участника, от 0 до 16 символов, без эмодзи.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setchatmembertag
+	 */
+	public function setChatMemberTag(
+		int|string  $chatId,
+		int         $userId,
+		string|null $tag = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"user_id" => $userId,
+				"tag" => $tag,
+			],
+		)->isSuccess();
+	}
+
 }
