@@ -52,4 +52,38 @@ class KeyboardButton extends ResponseWrapper
 		return (array)$this->getData("web_app");
 	}
 
+	/**
+	 * Необязательно. Идентификатор эмодзи, отображаемого перед текстом кнопки.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#keyboardbutton
+	 */
+	public function getIconCustomEmojiId(): string|null
+	{
+		return $this->getData("icon_custom_emoji_id");
+	}
+
+	/**
+	 * Необязательно. Стиль кнопки: danger, success или primary.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#keyboardbutton
+	 */
+	public function getStyle(): string|null
+	{
+		return $this->getData("style");
+	}
+
+	/**
+	 * Необязательно. Параметры запроса создания управляемого бота.
+	 *
+	 * @return KeyboardButtonRequestManagedBot|null
+	 * @see https://core.telegram.org/bots/api#keyboardbutton
+	 */
+	public function getRequestManagedBot(): KeyboardButtonRequestManagedBot|null
+	{
+		$data = $this->getData("request_managed_bot");
+		return $data === null ? null : new KeyboardButtonRequestManagedBot($data);
+	}
+
 }
