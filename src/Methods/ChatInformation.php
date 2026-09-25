@@ -59,4 +59,30 @@ trait ChatInformation
 		return Objects\ChatMember::getChatMember($response->getData());
 	}
 
+	/**
+	 * Получаем список администраторов чата.
+	 * Возвращается массив объектов ChatMember.
+	 *
+	 * @param int|string $chatId ID чата, например -1001234567890, или имя @username.
+	 * @param bool|null $returnBots true, чтобы включить всех ботов-администраторов. По умолчанию другие боты исключаются.
+	 * @return Objects\ChatMember[]
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getchatadministrators
+	 */
+	public function getChatAdministrators(
+		int|string $chatId,
+		bool|null  $returnBots = null,
+	): array
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"return_bots" => $returnBots,
+			],
+		);
+
+		return array_map(static fn(array $item): Objects\ChatMember => Objects\ChatMember::getChatMember($item), $response->getData());
+	}
+
 }

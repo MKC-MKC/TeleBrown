@@ -52,6 +52,32 @@ final class TeleBrownServerChatInformationMethodsTest extends TestCase
 		}
 	}
 
+	public function testAdministratorsReturnTypedMembersAndPreserveFalse(): void
+	{
+		foreach ([null, false, true] as $returnBots) {
+			$history = [];
+			$data = [
+				["status" => "creator", "user" => ["id" => 42, "is_bot" => false, "first_name" => "Owner"]],
+				["status" => "administrator", "user" => ["id" => 43, "is_bot" => true, "first_name" => "Bot"]],
+			];
+			$server = $this->createServer($history, $data);
+
+			$result = $server->getChatAdministrators("@example", $returnBots);
+
+			self::assertInstanceOf(Objects\ChatMember\ChatMemberOwner::class, $result[0]);
+			self::assertInstanceOf(Objects\ChatMember\ChatMemberAdministrator::class, $result[1]);
+			self::assertSame($data, array_map(static fn(Objects\ChatMember $member): array => $member->getAsArray(), $result));
+			$expected = ["chat_id" => "@example"];
+			if ($returnBots !== null) {
+				$expected["return_bots"] = $returnBots;
+			}
+			self::assertSame("/bot123:TOKEN/getChatAdministrators", $history[0]["request"]->getUri()->getPath());
+			self::assertSame($expected, json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+		}
+		$history = [];
+		self::assertSame([], $this->createServer($history, [])->getChatAdministrators(42));
+	}
+
 	private function createServer(array &$history, array $result): TeleBrownServer
 	{
 		$mock = new MockHandler([
