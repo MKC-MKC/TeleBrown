@@ -96,4 +96,27 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Перемещаем стикер в созданном ботом наборе на указанную позицию.
+	 *
+	 * @param string $sticker Идентификатор файла стикера.
+	 * @param int $position Новая позиция стикера в наборе, начиная с нуля.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setstickerpositioninset
+	 */
+	public function setStickerPositionInSet(
+		string $sticker,
+		int    $position,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"sticker" => $sticker,
+				"position" => $position,
+			],
+		)->isSuccess();
+	}
+
 }
