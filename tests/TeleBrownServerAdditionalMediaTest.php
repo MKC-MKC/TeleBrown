@@ -105,6 +105,25 @@ final class TeleBrownServerAdditionalMediaTest extends TestCase
 		}
 	}
 
+	public function testsetMyProfilePhotoUploadsAnimatedProfile(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-profile-");
+		file_put_contents($path, "profile-video");
+		try {
+			$history = [];
+			$server = $this->createServer($history, true);
+			$photo = new Objects\InputProfilePhoto(["type" => "animated", "animation" => $path, "main_frame_timestamp" => 0.0]);
+			self::assertTrue($server->setMyProfilePhoto($photo));
+			$parts = $this->requestParts($history);
+			self::assertSame("profile-video", $parts["photo_animation"]["contents"]);
+			self::assertSame(["type" => "animated", "animation" => "attach://photo_animation", "main_frame_timestamp" => 0], json_decode($parts["photo"]["contents"], true, 512, JSON_THROW_ON_ERROR));
+			self::assertSame($path, $photo->getAnimation());
+
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
