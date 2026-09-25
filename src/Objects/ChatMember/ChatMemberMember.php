@@ -31,4 +31,15 @@ class ChatMemberMember extends ChatMember
 		return (int)$this->getData("until_date", 0);
 	}
 
+	/**
+	 * Необязательно. Метка участника.
+	 *
+	 * @return string|null
+	 * @see https://core.telegram.org/bots/api#chatmembermember
+	 */
+	public function getTag(): string|null
+	{
+		return $this->getData("tag");
+	}
+
 }
