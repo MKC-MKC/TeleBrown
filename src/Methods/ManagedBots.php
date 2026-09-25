@@ -80,4 +80,26 @@ trait ManagedBots
 		)->isSuccess();
 	}
 
+	/**
+	 * Получаем настройки доступа к управляемому боту.
+	 *
+	 * @param int $userId Идентификатор управляемого бота.
+	 * @return Objects\BotAccessSettings
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#getmanagedbotaccesssettings
+	 */
+	public function getManagedBotAccessSettings(
+		int $userId,
+	): Objects\BotAccessSettings
+	{
+		$response = $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+			],
+		);
+
+		return new Objects\BotAccessSettings($response->getData());
+	}
+
 }

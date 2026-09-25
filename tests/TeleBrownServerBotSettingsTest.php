@@ -21,6 +21,16 @@ final class TeleBrownServerBotSettingsTest extends TestCase
 		self::assertSame(["user_id" => 456, "is_access_restricted" => false, "added_user_ids" => []], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
 	}
 
+	public function testManagedAccessHydratesUsersAndPreservesEmptyList(): void
+	{
+		$history = [];
+		$settings = $this->createServer($history, ["is_access_restricted" => true, "added_users" => [["id" => 123, "is_bot" => false, "first_name" => "Иван"]]])->getManagedBotAccessSettings(456);
+		self::assertTrue($settings->isAccessRestricted());
+		self::assertSame(123, $settings->getAddedUsers()[0]->getId());
+		self::assertSame([], (new Objects\BotAccessSettings(["is_access_restricted" => false]))->getAddedUsers());
+		self::assertFalse((new Objects\BotAccessSettings(["is_access_restricted" => false]))->isAccessRestricted());
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);
