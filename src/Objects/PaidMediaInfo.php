@@ -25,11 +25,10 @@ class PaidMediaInfo extends ResponseWrapper
 	/**
 	 * Information about the paid media
 	 * @return PaidMedia[]
-	 * @deprecated todo
 	 */
 	public function getPaidMedia(): array
 	{
-		$data = $this->getData("paid_media");
+		$data = (array)$this->getData("paid_media", []);
 		return array_map(fn(array $item): PaidMedia => new PaidMedia($item), $data);
 	}
 
