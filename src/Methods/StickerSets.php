@@ -139,4 +139,35 @@ trait StickerSets
 		)->isSuccess();
 	}
 
+	/**
+	 * Заменяем существующий стикер в наборе новым.
+	 * Равнозначно последовательному вызову deleteStickerFromSet, addStickerToSet и setStickerPositionInSet.
+	 *
+	 * @param int $userId Идентификатор владельца набора стикеров.
+	 * @param string $name Имя набора стикеров.
+	 * @param string $oldSticker Идентификатор файла заменяемого стикера.
+	 * @param Objects\InputSticker $sticker Добавляемый стикер. Если точно такой же стикер уже есть в наборе, набор не изменяется.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#replacestickerinset
+	 */
+	public function replaceStickerInSet(
+		int                  $userId,
+		string               $name,
+		string               $oldSticker,
+		Objects\InputSticker $sticker,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+				"name" => $name,
+				"old_sticker" => $oldSticker,
+				"sticker" => $sticker->getAsArray(),
+			],
+			headers: ["Content-Type" => "multipart/form-data"],
+		)->isSuccess();
+	}
+
 }
