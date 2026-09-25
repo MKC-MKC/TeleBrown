@@ -72,6 +72,13 @@ final class TeleBrownServerBotSettingsTest extends TestCase
 		self::assertNull($default->getWebApp());
 	}
 
+	public function testMenuButtonSerializesNestedWebApp(): void
+	{
+		$history = [];
+		self::assertTrue($this->createServer($history, true)->setChatMenuButton(menuButton: new Objects\MenuButton(["type" => "web_app", "text" => "Открыть", "web_app" => new Objects\WebAppInfo(["url" => "https://example.com/app"])])));
+		self::assertSame(["menu_button" => ["type" => "web_app", "text" => "Открыть", "web_app" => ["url" => "https://example.com/app"]]], json_decode((string)$history[0]["request"]->getBody(), true, 512, JSON_THROW_ON_ERROR));
+	}
+
 	private function createServer(array &$history, mixed $result): TeleBrownServer
 	{
 		$mock = new MockHandler([new GuzzleResponse(200, [], json_encode(["ok" => true, "result" => $result], JSON_THROW_ON_ERROR))]);

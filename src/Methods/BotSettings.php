@@ -389,4 +389,27 @@ trait BotSettings
 		return new Objects\MenuButton($response->getData());
 	}
 
+	/**
+	 * Изменяем кнопку меню бота в личном чате или кнопку меню по умолчанию.
+	 *
+	 * @param int|null $chatId Идентификатор личного чата. Если не указан, используется кнопка меню по умолчанию.
+	 * @param Objects\MenuButton|null $menuButton Новая кнопка меню. По умолчанию MenuButtonDefault.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#setchatmenubutton
+	 */
+	public function setChatMenuButton(
+		int|null $chatId = null,
+		Objects\MenuButton|null $menuButton = null,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"chat_id" => $chatId,
+				"menu_button" => $menuButton?->getAsArray(),
+			],
+		)->isSuccess();
+	}
+
 }
