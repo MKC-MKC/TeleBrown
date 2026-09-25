@@ -27,7 +27,7 @@ class MessageOriginChannel extends MessageOrigin
 
 	public function getSenderUser(): Chat
 	{
-		$data = (array)$this->getData("sender_chat", []);
+		$data = (array)$this->getData("chat", []);
 		return new Chat($data);
 	}
 
