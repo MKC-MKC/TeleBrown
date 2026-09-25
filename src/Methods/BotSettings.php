@@ -206,4 +206,24 @@ trait BotSettings
 		)->isSuccess();
 	}
 
+	/**
+	 * Снимаем подтверждение пользователя от имени организации, которую представляет бот.
+	 *
+	 * @param int $userId Уникальный идентификатор пользователя.
+	 * @return bool true при успешном выполнении.
+	 * @throws TelegramMainException
+	 * @see https://core.telegram.org/bots/api#removeuserverification
+	 */
+	public function removeUserVerification(
+		int $userId,
+	): bool
+	{
+		return $this->sendRequest(
+			method: __FUNCTION__,
+			params: [
+				"user_id" => $userId,
+			],
+		)->isSuccess();
+	}
+
 }
