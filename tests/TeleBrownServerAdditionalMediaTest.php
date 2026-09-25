@@ -38,6 +38,29 @@ final class TeleBrownServerAdditionalMediaTest extends TestCase
 		}
 	}
 
+	public function testsendAudioUploadsFileAndPreservesFalse(): void
+	{
+		$path = tempnam(sys_get_temp_dir(), "telebrown-media-");
+		file_put_contents($path, "media-contents");
+		try {
+			$history = [];
+			$server = $this->createServer($history, ["message_id" => 42]);
+			$message = $server->sendAudio(17, $path, duration: 0, disableNotification: false, caption: $path, parseMode: ParseModeEnum::HTML);
+			$parts = $this->requestParts($history);
+			self::assertSame(42, $message->getId());
+			self::assertSame("/bot123:TOKEN/sendAudio", $history[0]["request"]->getUri()->getPath());
+			self::assertSame("media-contents", $parts["audio"]["contents"]);
+			self::assertSame(basename($path), $parts["audio"]["filename"]);
+			self::assertSame("0", $parts["duration"]["contents"]);
+			self::assertSame("false", $parts["disable_notification"]["contents"]);
+			self::assertSame($path, $parts["caption"]["contents"]);
+			self::assertNull($parts["caption"]["filename"]);
+			self::assertSame("HTML", $parts["parse_mode"]["contents"]);
+		} finally {
+			unlink($path);
+		}
+	}
+
 	private function requestParts(array $history): array
 	{
 		$request = $history[0]["request"];
